@@ -78,6 +78,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.kie.modules</groupId>
+            <artifactId>javax-validation-api-main</artifactId>
+            <version>6.5.0.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
@@ -89,6 +95,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.22</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.kenai.nbpwr</groupId>
+            <artifactId>javax-persistence</artifactId>
+            <version>1.0-201003141300</version>
         </dependency>
 
 
@@ -113,5 +124,15 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

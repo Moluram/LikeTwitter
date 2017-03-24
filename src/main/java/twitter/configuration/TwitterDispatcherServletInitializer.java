@@ -1,7 +1,6 @@
 package twitter.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import twitter.configuration.web.TwitterWebConfiguration;
 
 /**
  * Class responsible for routing the request through all the other components.

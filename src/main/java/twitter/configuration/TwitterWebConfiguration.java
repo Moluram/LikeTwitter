@@ -1,4 +1,4 @@
-package twitter.configuration.web;
+package twitter.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "twitter.controller")
+@ComponentScan(basePackages = "twitter")
 @Import(TwitterSecurityConfiguration.class)
 public class TwitterWebConfiguration extends WebMvcConfigurerAdapter {
 
@@ -33,4 +33,6 @@ public class TwitterWebConfiguration extends WebMvcConfigurerAdapter {
 	public void configureDefaultServletHandling( DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
+
+
 }
