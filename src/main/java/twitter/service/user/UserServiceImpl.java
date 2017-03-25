@@ -2,8 +2,10 @@ package twitter.service.user;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import twitter.beans.Privilege;
 import twitter.beans.User;
+import twitter.web.dto.UserDto;
 
 import java.util.List;
 
@@ -26,6 +28,11 @@ public class UserServiceImpl implements UserService{
   }
 
   public User findByName(String name) {
+    return null;
+  }
+
+  @Override
+  public User registerNewUserAccount(UserDto accountDto) {
     return null;
   }
 }

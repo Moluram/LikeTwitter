@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import twitter.beans.Privilege;
 import twitter.beans.User;
+import twitter.web.dto.UserDto;
 
 import java.util.List;
 
@@ -34,4 +35,6 @@ public interface UserService {
   void removeUser(Integer id);
 
   User findByName(String name);
+
+  User registerNewUserAccount(UserDto accountDto);
 }
