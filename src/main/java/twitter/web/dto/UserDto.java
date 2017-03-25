@@ -1,6 +1,7 @@
 package twitter.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import twitter.validators.PasswordMatches;
 import twitter.validators.ValidEmail;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * Represent a class to  transfer user from the view to the application
  * @author Aliaksei Chorny
  */
+@PasswordMatches
 public class UserDto {
   @NotNull
   @NotEmpty
