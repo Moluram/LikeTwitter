@@ -1,6 +1,7 @@
 package twitter.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import twitter.validators.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +21,7 @@ public class UserDto {
 
   @NotNull
   @NotEmpty
+  @ValidEmail
   private String email;
 
   public String getUsername() {
