@@ -21,32 +21,18 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by moluram on 24.3.17.
+ * Service serve for set user creating user details
+ * @author Aliaksei Chorny
  */
 @Service("userDetailService")
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
   private UserService userService;
 
-  private RoleService roleService;
-
-  private MessageSource messageSource;
-
   @Autowired
   @Qualifier("userService")
   public void setUserService(UserService userService) {
     this.userService = userService;
-  }
-
-  @Autowired
-  @Qualifier("roleService")
-  public void setRoleService(RoleService roleService) {
-    this.roleService = roleService;
-  }
-
-  @Autowired
-  public void setMessageSource(MessageSource messageSource) {
-    this.messageSource = messageSource;
   }
 
   public UserDetails loadUserByUsername(String username) throws

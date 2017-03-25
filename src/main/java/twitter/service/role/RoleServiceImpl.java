@@ -6,9 +6,6 @@ import twitter.beans.Role;
 
 import java.util.List;
 
-/**
- * Created by moluram on 24.3.17.
- */
 @Service("roleService")
 @Scope("singleton")
 public class RoleServiceImpl implements RoleService {

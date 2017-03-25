@@ -7,7 +7,7 @@ import twitter.beans.Privilege;
 import java.util.List;
 
 /**
- * Created by moluram on 24.3.17.
+ * Service serve for give access to the privileges
  */
 @Service
 @Scope("singleton")

@@ -1,7 +1,9 @@
 package twitter.exceptions;
 
 /**
- * Created by moluram on 25.3.17.
+ * Exception represent a case in which username already exist in the
+ * application
+ * @author Aliaksei Chorny
  */
 public class UsernameExistsException extends RuntimeException {
 }

@@ -6,9 +6,7 @@ import twitter.beans.Privilege;
 
 import java.util.List;
 
-/**
- * Created by moluram on 24.3.17.
- */
+
 @Service("privilegeService")
 @Scope("singleton")
 public class PrivilegeServiceImpl implements PrivilegeService {

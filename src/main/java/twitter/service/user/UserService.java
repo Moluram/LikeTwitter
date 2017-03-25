@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * Represents an interface to work with users in app
- * @author Aliaksei Chorny
  */
 @Service
 @Scope("singleton")

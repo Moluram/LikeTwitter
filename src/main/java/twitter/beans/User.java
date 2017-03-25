@@ -41,12 +41,12 @@ public class User {
   private Collection<Role> roles;
 
   public User(String username, String password, String email,
-               Collection<Role> roles, boolean enabled) {
+               Collection<Role> roles) {
     this.username = username;
     this.password = password;
     this.email = email;
-    this.enabled = enabled;
     this.roles = roles;
+    this.enabled = false;
   }
 
   public boolean isEnabled() {

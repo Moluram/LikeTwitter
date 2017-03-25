@@ -6,7 +6,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Created by moluram on 25.3.17.
+ * Class serve for checking is passwords matches
+ * @author Aliaksei Chorny
  */
 public class PasswordMatchesValidator
     implements ConstraintValidator<PasswordMatches, Object> {

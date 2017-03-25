@@ -18,7 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by moluram on 24.3.17.
+ * Load and creates users privileges and roles
+ * @author Aliaksei Chorny
  */
 @Component
 public class InitialDataLoader implements
@@ -75,7 +76,7 @@ public class InitialDataLoader implements
   private void createUser() {
     Role adminRole = roleService.findByName(ROLE_ADMIN);
     User user = new User("moluram", passwordEncoder.encode("123"),
-        "lala@mail.com", Arrays.asList(adminRole), true);
+        "lala@mail.com", Arrays.asList(adminRole));
     userService.addUser(user);
   }
 
