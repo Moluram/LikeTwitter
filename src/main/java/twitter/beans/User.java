@@ -26,7 +26,7 @@ public class User {
   private String email;
 
   @Column(name = "ENABLED")
-  private boolean enabled;
+  private boolean enabled = false;
 
   @Column(name = "TOKENEXPIRED")
   private boolean tokenExpired;
@@ -39,15 +39,6 @@ public class User {
       inverseJoinColumns = @JoinColumn(
           name = "role_id", referencedColumnName = "id"))
   private Collection<Role> roles;
-
-  public User(String username, String password, String email,
-               Collection<Role> roles) {
-    this.username = username;
-    this.password = password;
-    this.email = email;
-    this.roles = roles;
-    this.enabled = false;
-  }
 
   public boolean isEnabled() {
     return enabled;
@@ -99,5 +90,9 @@ public class User {
 
   public Collection<Role> getRoles() {
     return roles;
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
   }
 }

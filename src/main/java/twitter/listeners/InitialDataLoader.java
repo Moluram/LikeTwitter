@@ -75,8 +75,11 @@ public class InitialDataLoader implements
 
   private void createUser() {
     Role adminRole = roleService.findByName(ROLE_ADMIN);
-    User user = new User("moluram", passwordEncoder.encode("123"),
-        "lala@mail.com", Arrays.asList(adminRole));
+    User user = new User();
+    user.setUsername("moluram");
+    user.setPassword(passwordEncoder.encode("123"));
+    user.setEmail("lala@mail.com");
+    user.setRoles(Arrays.asList(adminRole));
     userService.addUser(user);
   }
 

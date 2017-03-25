@@ -2,9 +2,8 @@ package twitter.service.user;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import twitter.beans.Privilege;
 import twitter.beans.User;
+import twitter.beans.VerificationToken;
 import twitter.web.dto.UserDto;
 
 import java.util.List;
@@ -34,5 +33,20 @@ public class UserServiceImpl implements UserService{
   @Override
   public User registerNewUserAccount(UserDto accountDto) {
     return null;
+  }
+
+  @Override
+  public void createVerificationToken(User user, String token) {
+    // new VerificationToken(user, token, VerificationToken.EXPIRATION);
+  }
+
+  @Override
+  public VerificationToken getVerificationToken(String token) {
+    return null; // null if not found pls
+  }
+
+  @Override
+  public void saveRegisteredUser(User user) {
+
   }
 }

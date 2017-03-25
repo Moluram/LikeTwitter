@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 public class VerificationToken {
-  private static final int EXPIRATION = 60 * 24;
+  public static final int EXPIRATION = 60 * 24;
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +24,12 @@ public class VerificationToken {
   private User user;
 
   private Date expiryDate;
+
+  public VerificationToken(User user, String token, int expiration) {
+    this.user = user;
+    this.token = token;
+    this.expiryDate = calculateExpiryDate(expiration);
+  }
 
   private Date calculateExpiryDate(int expiryTimeInMinutes) {
     Calendar calendar = Calendar.getInstance();

@@ -3,8 +3,8 @@ package twitter.service.user;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import twitter.beans.Privilege;
 import twitter.beans.User;
+import twitter.beans.VerificationToken;
 import twitter.exceptions.EmailExistsException;
 import twitter.exceptions.UsernameExistsException;
 import twitter.web.dto.UserDto;
@@ -41,4 +41,10 @@ public interface UserService {
   @Transactional
   User registerNewUserAccount(UserDto accountDto)
       throws UsernameExistsException, EmailExistsException;
+
+  void createVerificationToken(User user, String token);
+
+  VerificationToken getVerificationToken(String token);
+
+  void saveRegisteredUser(User user);
 }
