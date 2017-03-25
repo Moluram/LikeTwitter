@@ -53,7 +53,8 @@ public class MyUserDetailsService implements UserDetailsService {
       UsernameNotFoundException {
     User user = userService.findByName(username);
     if (user == null) {
-      throw new UsernameNotFoundException("Username does not exist!");
+      throw new UsernameNotFoundException(
+          "Username does not exist: " + username);
     }
     return new org.springframework.security.core.userdetails.User(
         user.getUsername(), user.getPassword(), user.isEnabled(),

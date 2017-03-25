@@ -1,4 +1,4 @@
-package twitter.validators;
+package twitter.web.validators;
 
 import javax.validation.Constraint;
 import java.lang.annotation.*;

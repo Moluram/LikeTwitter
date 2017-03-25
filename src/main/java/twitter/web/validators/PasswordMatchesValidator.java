@@ -1,10 +1,9 @@
-package twitter.validators;
+package twitter.web.validators;
 
 import twitter.web.dto.UserDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Objects;
 
 /**
  * Created by moluram on 25.3.17.

@@ -1,8 +1,8 @@
 package twitter.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import twitter.validators.PasswordMatches;
-import twitter.validators.ValidEmail;
+import twitter.web.validators.PasswordMatches;
+import twitter.web.validators.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 
