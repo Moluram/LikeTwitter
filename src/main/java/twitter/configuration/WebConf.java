@@ -14,8 +14,8 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "twitter")
-@Import(TwitterSecurityConfiguration.class)
-public class TwitterWebConfiguration extends WebMvcConfigurerAdapter {
+@Import(SecurityConf.class)
+public class WebConf extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public ViewResolver viewResolver() {

@@ -5,16 +5,16 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 /**
  * Class responsible for routing the request through all the other components.
  */
-public class TwitterDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { TwitterRootConfiguration.class };
+		return new Class[] { RootConf.class };
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { TwitterWebConfiguration.class };
+		return new Class[] { WebConf.class };
 	}
 
 	@Override

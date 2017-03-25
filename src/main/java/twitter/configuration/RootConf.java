@@ -8,5 +8,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
         excludeFilters={
                 @ComponentScan.Filter(type= FilterType.ANNOTATION, value=EnableWebMvc.class)
         })
-public class TwitterRootConfiguration {
+public class RootConf {
 }
