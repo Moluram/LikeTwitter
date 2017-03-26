@@ -34,7 +34,7 @@ public class WebConf extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
-	@Bean
+	@Bean("messageSource")
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource =
 				new ReloadableResourceBundleMessageSource();
