@@ -25,7 +25,6 @@ public class CustomAuthenticationFailureHandler extends
     private LocaleResolver localeResolver;
 
     @Autowired
-    @Qualifier("messageSource")
     public void setMessages(MessageSource messages) {
         this.messages = messages;
     }

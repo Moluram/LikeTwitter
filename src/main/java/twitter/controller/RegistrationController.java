@@ -38,7 +38,6 @@ public class RegistrationController {
   private MessageSource messages;
 
   @Autowired
-  @Qualifier("messageSource")
   public void setMessages(MessageSource messages) {
     this.messages = messages;
   }
