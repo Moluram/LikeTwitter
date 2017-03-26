@@ -1,5 +1,6 @@
 package twitter.service.user;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import java.util.List;
  * Represents an interface to work with users in app
  */
 @Service
-@Scope("singleton")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public interface UserService {
   /**
    * Adds user to the app

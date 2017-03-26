@@ -1,5 +1,6 @@
 package twitter.service.privilage;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import twitter.beans.Privilege;
@@ -10,7 +11,7 @@ import java.util.List;
  * Service serve for give access to the privileges
  */
 @Service
-@Scope("singleton")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public interface PrivilegeService {
   /**
    * Adds user to the app

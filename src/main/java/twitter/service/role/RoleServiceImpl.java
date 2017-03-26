@@ -1,5 +1,6 @@
 package twitter.service.role;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import twitter.beans.Role;
@@ -7,7 +8,7 @@ import twitter.beans.Role;
 import java.util.List;
 
 @Service("roleService")
-@Scope("singleton")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class RoleServiceImpl implements RoleService {
   public void addRole(Role role) {
 
