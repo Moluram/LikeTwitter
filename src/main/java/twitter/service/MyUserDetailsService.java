@@ -37,15 +37,19 @@ public class MyUserDetailsService implements UserDetailsService {
 
   public UserDetails loadUserByUsername(String username) throws
       UsernameNotFoundException {
-    User user = userService.findByName(username);
-    if (user == null) {
-      throw new UsernameNotFoundException(
-          "Username does not exist: " + username);
+    try {
+      User user = userService.findByName(username);
+      if (user == null) {
+        throw new UsernameNotFoundException(
+                "Username does not exist: " + username);
+      }
+      return new org.springframework.security.core.userdetails.User(
+              user.getUsername(), user.getPassword(), user.isEnabled(),
+              true, true,
+              true, getAuthorities(user.getRoles()));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    return new org.springframework.security.core.userdetails.User(
-        user.getUsername(), user.getPassword(), user.isEnabled(),
-        true, true,
-        true, getAuthorities(user.getRoles()));
   }
 
   private Collection<? extends GrantedAuthority> getAuthorities
