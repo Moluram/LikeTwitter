@@ -7,6 +7,7 @@
 <title>HelloWorld page</title>
 </head>
 <body>
+jhb
 	Greeting : ${greeting}
 </body>
 </html>
