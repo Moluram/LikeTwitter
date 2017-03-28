@@ -1,4 +1,4 @@
-package twitter.listeners;
+package twitter.web.listeners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,7 +8,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import twitter.beans.User;
-import twitter.events.OnRegistrationCompleteEvent;
+import twitter.web.events.OnRegistrationCompleteEvent;
 import twitter.service.user.UserService;
 
 import java.util.UUID;
@@ -36,7 +36,7 @@ public class RegistrationListener
     String recipientAddress = user.getEmail();
     String subject = "Registration Confirmation";
     String confirmationUrl = event
-        .getAppUrl() + "/registration/confirm.html?token=" + token;
+        .getAppUrl() + "/registration/confirm?token=" + token;
     String message = messages.getMessage("message.regSucc",
         null, event.getLocale());
 

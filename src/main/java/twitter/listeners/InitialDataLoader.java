@@ -57,6 +57,11 @@ public class InitialDataLoader implements
     this.privilegeService = privilegeService;
   }
 
+  @Autowired
+  public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
+  }
+
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     if (alreadySetup) {
       return;
@@ -104,11 +109,5 @@ public class InitialDataLoader implements
     return role;
   }
 
-  public PasswordEncoder getPasswordEncoder() {
-    return passwordEncoder;
-  }
 
-  public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-    this.passwordEncoder = passwordEncoder;
-  }
 }

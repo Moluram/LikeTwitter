@@ -1,4 +1,4 @@
-package twitter.controller;
+package twitter.web.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

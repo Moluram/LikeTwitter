@@ -1,9 +1,11 @@
-package twitter.controller;
+package twitter.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +15,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
-import twitter.events.OnRegistrationCompleteEvent;
+import twitter.web.events.OnRegistrationCompleteEvent;
 import twitter.exceptions.EmailExistsException;
 import twitter.exceptions.UsernameExistsException;
 import twitter.service.user.UserService;
 import twitter.web.dto.UserDto;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Locale;
@@ -36,6 +39,12 @@ public class RegistrationController {
   private UserService userService;
   private ApplicationEventPublisher eventPublisher;
   private MessageSource messages;
+  private MailSender mailSender;
+
+  @Autowired
+  public void setMailSender(MailSender mailSender) {
+    this.mailSender = mailSender;
+  }
 
   @Autowired
   public void setMessages(MessageSource messages) {
@@ -64,11 +73,11 @@ public class RegistrationController {
   public ModelAndView registerUserAccount(
       @ModelAttribute(USER_ATTRIBUTE_NAME) @Valid UserDto userDto,
       BindingResult result, WebRequest request, Errors errors) {
-    User registered = tryRegisterUser(userDto, result);
     if (result.hasErrors()) {
       return new ModelAndView(
           "registration", "user", userDto);
     } else {
+      User registered = tryRegisterUser(userDto, result);
       try {
         trySendMessage(request, registered);
       } catch (Exception me) {
@@ -80,7 +89,33 @@ public class RegistrationController {
     }
   }
 
-  @RequestMapping(value = "/confirm", method = RequestMethod.GET)
+  @RequestMapping(value = "/${username}/resendRegistrationToken", method = RequestMethod.GET)
+  @ResponseBody
+  public GenericResponse resendRegistrationToken(
+          HttpServletRequest request, @RequestParam("token") String existingToken) {
+    VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
+    User user = userService.getUserByToken(newToken.getToken());
+    String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
+    SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, user);
+    mailSender.send(email);
+
+    return new GenericResponse(
+            messages.getMessage("message.resendToken", null, request.getLocale()));
+  }
+
+  private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale, VerificationToken newToken, User user) {
+    String congirmationUrl = contextPath + "/registration/confirm?token=" + newToken.getToken();
+    String message = messages.getMessage("message.resendToken", null, locale);
+    SimpleMailMessage email = new SimpleMailMessage();
+    email.setSubject("Resend Registration Token");
+    email.setText(message + " rn" + congirmationUrl);
+    email.setFrom(env.getProperty("support.email"));
+    email.setTo(user.getEmail());
+    return email;
+  }
+
+
+    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
   public String confirmRegistration(WebRequest request, Model model,
                  @RequestParam("token") String token) {
     Locale locale = request.getLocale();
@@ -101,12 +136,14 @@ public class RegistrationController {
       String messageValue = messages.getMessage("auth.message.expired",
           null, locale);
       model.addAttribute("message", messageValue);
+      model.addAttribute("expired", true);
+      model.addAttribute("token", token);
       return "redirect:/badUser.html?lang=" + locale.getLanguage();
     }
 
     user.setEnabled(true);
     userService.saveRegisteredUser(user);
-
+    model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
     return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
   }
 

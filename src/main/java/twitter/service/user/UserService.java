@@ -48,4 +48,8 @@ public interface UserService {
   VerificationToken getVerificationToken(String token);
 
   void saveRegisteredUser(User user);
+
+    VerificationToken generateNewVerificationToken(String existingToken);
+
+  User getUserByToken(String token);
 }

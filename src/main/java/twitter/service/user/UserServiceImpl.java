@@ -50,4 +50,14 @@ public class UserServiceImpl implements UserService{
   public void saveRegisteredUser(User user) {
 
   }
+
+  @Override
+  public VerificationToken generateNewVerificationToken(String existingToken) {
+    return null;
+  }
+
+  @Override
+  public User getUserByToken(String token) {
+    return null;
+  }
 }

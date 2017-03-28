@@ -1,4 +1,4 @@
-package twitter.events;
+package twitter.web.events;
 
 import org.springframework.context.ApplicationEvent;
 import twitter.beans.User;
