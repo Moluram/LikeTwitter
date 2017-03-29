@@ -1,6 +1,8 @@
 package twitter.beans;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Represent a single user in the application
@@ -11,7 +13,7 @@ public class User {
 
   @Id
   @Column(name = "ID")
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   @Column(name = "USERNAME")
@@ -23,15 +25,35 @@ public class User {
   @Column(name = "EMAIL")
   private String email;
 
-  @Column(name = "ROLE")
-  private String role;
+  @Column(name = "ENABLED")
+  private boolean enabled = false;
 
-  public String getRole() {
-    return role;
+  @Column(name = "TOKENEXPIRED")
+  private boolean tokenExpired;
+
+  @ManyToMany
+  @JoinTable(
+      name = "users_roles",
+      joinColumns = @JoinColumn(
+          name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id"))
+  private Collection<Role> roles;
+
+  public boolean isEnabled() {
+    return enabled;
   }
 
-  public void setRole(String role) {
-    this.role = role;
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public boolean isTokenExpired() {
+    return tokenExpired;
+  }
+
+  public void setTokenExpired(boolean tokenExpired) {
+    this.tokenExpired = tokenExpired;
   }
 
   public Integer getId() {
@@ -64,5 +86,13 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Collection<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
   }
 }
