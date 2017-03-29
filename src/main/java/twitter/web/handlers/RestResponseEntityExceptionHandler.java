@@ -22,6 +22,7 @@ import javax.annotation.Resource;
  */
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+
   private MessageSource messages;
 
   @Autowired
