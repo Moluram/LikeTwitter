@@ -3,6 +3,7 @@ package twitter.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,9 +20,16 @@ import twitter.service.MyUserDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity
-public class SecurityConf
-    extends WebSecurityConfigurerAdapter {
+public class SecurityConf extends WebSecurityConfigurerAdapter {
   private MyUserDetailsService userDetailsService;
+
+  @Bean
+  public DaoAuthenticationProvider authProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setPasswordEncoder(passwordEncoder());
+    return authProvider;
+  }
 
   @Autowired
   public void setUserDetailsService(MyUserDetailsService userDetailsService) {
@@ -30,7 +38,7 @@ public class SecurityConf
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(authProvider);
+    auth.authenticationProvider(authProvider());
   }
 
   @Bean
