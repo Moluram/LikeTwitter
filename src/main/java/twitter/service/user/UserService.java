@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
-import twitter.web.exceptions.EmailExistsException;
-import twitter.web.exceptions.UsernameExistsException;
 import twitter.web.dto.UserDto;
 
 import java.util.List;
+import twitter.web.exceptions.EmailExistsException;
+import twitter.web.exceptions.UsernameExistsException;
 
 /**
  * Represents an interface to work with users in app
@@ -58,4 +58,6 @@ public interface UserService {
   void createPasswordResetTokenForUser(User user, String token);
 
   void changeUserPassword(User user, String password);
+
+  User findByEmail(String email);
 }

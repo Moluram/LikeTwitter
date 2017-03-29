@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: berthold
@@ -20,13 +22,15 @@
             <td><input type='password' name='password' /></td>
         </tr>
         <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
+            <td><input name="submit" type="submit" value="submit" onclick="validate()" /></td>
         </tr>
     </table>
 </form>
 </body>
 
 </html>
+
+
 
 <script type="text/javascript">
   function validate() {
@@ -47,3 +51,16 @@
     }
   }
 </script>
+
+<c:if test="${param.regSucc == true}">
+    <div id="status">
+        <spring:message code="message.regSucc">
+        </spring:message>
+    </div>
+</c:if>
+<c:if test="${param.regError == true}">
+    <div id="error">
+        <spring:message code="message.regError">
+        </spring:message>
+    </div>
+</c:if>

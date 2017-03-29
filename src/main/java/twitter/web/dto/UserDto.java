@@ -1,6 +1,8 @@
 package twitter.web.dto;
 
+import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
+import twitter.beans.Role;
 import twitter.web.validators.PasswordMatches;
 import twitter.web.validators.ValidEmail;
 
@@ -25,6 +27,8 @@ public class UserDto {
   @NotEmpty
   @ValidEmail
   private String email;
+  private boolean enabled;
+  private List<Role> roles;
 
   public String getUsername() {
     return username;
@@ -56,5 +60,13 @@ public class UserDto {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public List<Role> getRoles() {
+    return roles;
   }
 }

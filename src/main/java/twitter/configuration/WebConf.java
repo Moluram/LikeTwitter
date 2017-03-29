@@ -78,7 +78,7 @@ public class WebConf extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public LocaleResolver localResolver() {
+	public LocaleResolver localeResolver() {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
 		resolver.setDefaultLocale(new Locale("en"));
 		resolver.setCookieName("myLocaleCookie");
