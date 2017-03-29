@@ -114,7 +114,7 @@ public class RegistrationController {
 
   private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale,
                                                              VerificationToken newToken, User user) {
-    String confirmationUrl = contextPath + "/registration/confirm?token=" + newToken.getToken();
+    String confirmationUrl = contextPath + "/signup/confirm?token=" + newToken.getToken();
     String message = messages.getMessage("message.resendToken", null, locale);
     SimpleMailMessage email = new SimpleMailMessage();
     email.setSubject("Resend Registration Token");
@@ -129,8 +129,7 @@ public class RegistrationController {
                                     @RequestParam("token") String token) {
     Locale locale = request.getLocale();
 
-    VerificationToken verificationToken = userService
-        .getVerificationToken(token);
+    VerificationToken verificationToken = userService.getVerificationToken(token);
     if (verificationToken == null) {
       String message = messages.getMessage("auth.message.invalidToken",
           null, locale);
