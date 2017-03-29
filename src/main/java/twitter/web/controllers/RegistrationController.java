@@ -162,7 +162,6 @@ public class RegistrationController {
 
   private User tryRegisterUser(UserDto userDto, BindingResult result) {
     User user = new User();
-    if (!result.hasErrors()) {
       try {
         user = userService.registerNewUserAccount(userDto);
       } catch (EmailExistsException e) {
@@ -170,7 +169,7 @@ public class RegistrationController {
       } catch (UsernameExistsException e) {
         result.rejectValue("username", "message.regError");
       }
-    }
+
     return user;
   }
 }
