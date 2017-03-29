@@ -36,6 +36,8 @@ public class UserController {
     this.userService = userService;
   }
 
+  @RequestMapping
+
   @Autowired
   public void setMessages(MessageSource messages) {
     this.messages = messages;

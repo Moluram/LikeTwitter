@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import twitter.dao.PasswordResetDao.PasswordResetRepository;
+import twitter.dao.PasswordResetDao.PasswordResetRepositoryImpl;
 import twitter.service.user.UserService;
 
 @Configuration
@@ -18,5 +20,10 @@ public class RootConf {
   @Autowired
   public void setUserDetailsService(UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
+  }
+
+  @Bean
+  public PasswordResetRepository passwordResetRepository() {
+    return new PasswordResetRepositoryImpl();
   }
 }

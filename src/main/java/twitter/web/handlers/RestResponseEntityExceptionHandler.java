@@ -2,20 +2,13 @@ package twitter.web.handlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailAuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import twitter.exceptions.UserNotFoundException;
-import twitter.web.beans.GenericResponse;
-
-import javax.annotation.Resource;
+import twitter.web.exceptions.UserNotFoundException;
 
 /**
  * Created by Moluram on 3/28/2017.

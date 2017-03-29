@@ -1,4 +1,4 @@
-package twitter.exceptions;
+package twitter.web.exceptions;
 
 /**
  * Exception represent a case in which email already exist in the application

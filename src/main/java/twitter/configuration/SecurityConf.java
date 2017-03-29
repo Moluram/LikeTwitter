@@ -52,11 +52,16 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated()
         .and()
         .formLogin().loginProcessingUrl("/perform_signin")
-        .loginPage("/signin.html")
-        .defaultSuccessUrl("/homepage.html", true)
-        .failureUrl("signin.html/error=true")
+        .loginPage("/signin")
+        .defaultSuccessUrl("/homepage", true)
+        .failureUrl("/signin?error=true")
         .and()
-        .logout().logoutSuccessUrl("/signin.html");
+        .logout().logoutSuccessUrl("/signin");
+
+    httpSecurity.authorizeRequests()
+        .antMatchers("/${username}/updatePassword*",
+            "/${username}/reset-password*")
+        .hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
   }
 
   @Bean

@@ -18,8 +18,8 @@ import twitter.beans.User;
 import twitter.beans.VerificationToken;
 import twitter.web.beans.GenericResponse;
 import twitter.web.events.OnRegistrationCompleteEvent;
-import twitter.exceptions.EmailExistsException;
-import twitter.exceptions.UsernameExistsException;
+import twitter.web.exceptions.EmailExistsException;
+import twitter.web.exceptions.UsernameExistsException;
 import twitter.service.user.UserService;
 import twitter.web.dto.UserDto;
 
@@ -95,7 +95,7 @@ public class RegistrationController {
       } catch (Exception me) {
         return new ModelAndView("emailError", "user", userDto);
       }
-      return new ModelAndView("badUser", "user", userDto);
+      return new ModelAndView("homepage", "username", userDto.getUsername());
     }
   }
 
@@ -118,7 +118,7 @@ public class RegistrationController {
     String message = messages.getMessage("message.resendToken", null, locale);
     SimpleMailMessage email = new SimpleMailMessage();
     email.setSubject("Resend Registration Token");
-    email.setText(message + " rn" + confirmationUrl);
+    email.setText(message + " \r\n" + confirmationUrl);
     email.setFrom(env.getProperty("support.email"));
     email.setTo(user.getEmail());
     return email;
@@ -170,6 +170,7 @@ public class RegistrationController {
     } catch (UsernameExistsException e) {
       result.rejectValue("username", "message.regError");
     }
+
     return user;
   }
 }

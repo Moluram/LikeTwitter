@@ -64,4 +64,19 @@ public class UserServiceImpl implements UserService{
   public User getUserByToken(String token) {
     return null;
   }
+
+  @Override
+  public User getUserByUsername(String username) {
+    return null;
+  }
+
+  @Override
+  public void createPasswordResetTokenForUser(User user, String token) {
+
+  }
+
+  @Override
+  public void changeUserPassword(User user, String password) {
+
+  }
 }

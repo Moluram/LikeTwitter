@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
-import twitter.exceptions.EmailExistsException;
-import twitter.exceptions.UsernameExistsException;
+import twitter.web.exceptions.EmailExistsException;
+import twitter.web.exceptions.UsernameExistsException;
 import twitter.web.dto.UserDto;
 
 import java.util.List;
@@ -52,4 +52,10 @@ public interface UserService {
     VerificationToken generateNewVerificationToken(String existingToken);
 
   User getUserByToken(String token);
+
+  User getUserByUsername(String username);
+
+  void createPasswordResetTokenForUser(User user, String token);
+
+  void changeUserPassword(User user, String password);
 }
