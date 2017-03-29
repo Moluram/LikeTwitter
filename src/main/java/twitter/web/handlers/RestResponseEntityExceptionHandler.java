@@ -10,9 +10,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import twitter.exceptions.UserNotFoundException;
 import twitter.web.beans.GenericResponse;
+
+import javax.annotation.Resource;
 
 /**
  * Created by Moluram on 3/28/2017.
@@ -27,24 +30,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   }
 
   @ExceptionHandler({UserNotFoundException.class})
-  public ResponseEntity<Object> handleUserNotFound(RuntimeException ex, WebRequest request) {
+  public ModelAndView handleUserNotFound(RuntimeException ex, WebRequest request) {
     logger.error("404 Status Code", ex);
-    GenericResponse bodyOfResponse = new GenericResponse(
-        messages.getMessage("message.userNotFound",
-            null, request.getLocale()), "UserNotFound"
-    );
-    return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND,
-        request);
+    ModelAndView mav = new ModelAndView();
+    mav.setViewName("errors/404error");
+    return mav;
   }
 
   @ExceptionHandler({MailAuthenticationException.class})
-  public ResponseEntity<Object> handleMail(RuntimeException ex, WebRequest request) {
+  public ModelAndView handleMail(RuntimeException ex, WebRequest request) {
     logger.error("500 Status Code", ex);
-    GenericResponse bodyOfResponse = new GenericResponse(
-        messages.getMessage(
-            "message.error", null, request.getLocale()), "InternalError");
-
-    return handleExceptionInternal(
-        ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    ModelAndView mav = new ModelAndView();
+    mav.setViewName("badUser");
+    mav.addObject("message", messages.getMessage("error.mailnotfound", null,
+        request.getLocale()));
+    return mav;
   }
 }

@@ -104,7 +104,7 @@ public class RegistrationController {
   public GenericResponse resendRegistrationToken(
       HttpServletRequest request, @RequestParam("token") String existingToken) {
     VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
-    User user = userService.getUserByToken(newToken.getToken());
+    User user = newToken.getUser();
     String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
     SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, user);
     mailSender.send(email);
@@ -152,7 +152,7 @@ public class RegistrationController {
     user.setEnabled(true);
     userService.saveRegisteredUser(user);
     model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
-    return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
+    return "redirect:/signin?lang=" + request.getLocale().getLanguage();
   }
 
   private void trySendMessage(WebRequest request, User registered) {
