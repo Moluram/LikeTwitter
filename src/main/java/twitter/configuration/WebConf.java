@@ -45,7 +45,7 @@ public class WebConf extends WebMvcConfigurerAdapter {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource =
 				new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("/WEB-INF/i18/messages");
+		messageSource.setBasename("WEB-INF/i18/messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
