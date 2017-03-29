@@ -95,7 +95,7 @@ public class RegistrationController {
       } catch (Exception me) {
         return new ModelAndView("emailError", "user", userDto);
       }
-      return new ModelAndView("successRegister", "user", userDto);
+      return new ModelAndView("badUser", "user", userDto);
     }
   }
 

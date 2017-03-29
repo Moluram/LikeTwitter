@@ -39,7 +39,6 @@ public class RegistrationListener
         .getAppUrl() + "/signup/confirm?token=" + token;
     String message = messages.getMessage("message.regSucc",
         null, event.getLocale());
-
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
     email.setSubject(subject);

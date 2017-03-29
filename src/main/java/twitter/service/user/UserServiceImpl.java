@@ -33,7 +33,11 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public User registerNewUserAccount(UserDto accountDto) {
-    return null;
+    User user = new User();
+    user.setEmail(accountDto.getEmail());
+    user.setPassword(accountDto.getPassword());
+    user.setUsername(accountDto.getUsername());
+    return user;
   }
 
   @Override
