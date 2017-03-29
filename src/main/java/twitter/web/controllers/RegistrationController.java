@@ -30,6 +30,7 @@ import java.util.Locale;
 
 /**
  * Serve for control the registration
+ *
  * @author Aliaksei Chorny
  */
 @Controller
@@ -86,14 +87,15 @@ public class RegistrationController {
           "registration", "user", userDto);
     } else {
       User registered = tryRegisterUser(userDto, result);
+      if (registered == null) {
+        return new ModelAndView("registration", "user", userDto);
+      }
       try {
         trySendMessage(request, registered);
       } catch (Exception me) {
-        return new ModelAndView(
-            "emailError", "user", userDto);
+        return new ModelAndView("emailError", "user", userDto);
       }
-      return new ModelAndView(
-          "successRegister", "user", userDto);
+      return new ModelAndView("successRegister", "user", userDto);
     }
   }
 
@@ -124,7 +126,7 @@ public class RegistrationController {
 
   @RequestMapping(value = "/confirm", method = RequestMethod.GET)
   public String confirmRegistration(WebRequest request, Model model,
-                 @RequestParam("token") String token) {
+                                    @RequestParam("token") String token) {
     Locale locale = request.getLocale();
 
     VerificationToken verificationToken = userService
@@ -161,15 +163,13 @@ public class RegistrationController {
   }
 
   private User tryRegisterUser(UserDto userDto, BindingResult result) {
-    User user = new User();
-    if (!result.hasErrors()) {
-      try {
-        user = userService.registerNewUserAccount(userDto);
-      } catch (EmailExistsException e) {
-        result.rejectValue("email", "message.regError");
-      } catch (UsernameExistsException e) {
-        result.rejectValue("username", "message.regError");
-      }
+    User user = null;
+    try {
+      user = userService.registerNewUserAccount(userDto);
+    } catch (EmailExistsException e) {
+      result.rejectValue("email", "message.regError");
+    } catch (UsernameExistsException e) {
+      result.rejectValue("username", "message.regError");
     }
     return user;
   }
