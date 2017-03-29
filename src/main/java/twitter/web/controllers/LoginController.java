@@ -10,9 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class LoginController {
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
+  @RequestMapping(value = "/signin", method = RequestMethod.GET)
   public ModelAndView sayHelloAgain(ModelAndView model) {
-    model.setViewName("login");
+    model.setViewName("signin");
     return model;
   }
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * Service serve for set user creating user details
  * @author Aliaksei Chorny
  */
-@Service("userDetailService")
+@Service
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
   private UserService userService;

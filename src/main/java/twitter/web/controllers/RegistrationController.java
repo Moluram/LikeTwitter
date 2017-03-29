@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
+import twitter.web.beans.GenericResponse;
 import twitter.web.events.OnRegistrationCompleteEvent;
 import twitter.exceptions.EmailExistsException;
 import twitter.exceptions.UsernameExistsException;
@@ -40,10 +42,16 @@ public class RegistrationController {
   private ApplicationEventPublisher eventPublisher;
   private MessageSource messages;
   private MailSender mailSender;
+  private Environment env;
 
   @Autowired
   public void setMailSender(MailSender mailSender) {
     this.mailSender = mailSender;
+  }
+
+  @Autowired
+  public void setEnvironment(Environment environment) {
+    this.env = environment;
   }
 
   @Autowired
@@ -89,33 +97,32 @@ public class RegistrationController {
     }
   }
 
-  @RequestMapping(value = "/${username}/resendRegistrationToken", method = RequestMethod.GET)
+  @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
   @ResponseBody
   public GenericResponse resendRegistrationToken(
-          HttpServletRequest request, @RequestParam("token") String existingToken) {
+      HttpServletRequest request, @RequestParam("token") String existingToken) {
     VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
     User user = userService.getUserByToken(newToken.getToken());
     String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
     SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, user);
     mailSender.send(email);
 
-    return new GenericResponse(
-            messages.getMessage("message.resendToken", null, request.getLocale()));
+    return new GenericResponse(messages.getMessage("message.resendToken", null, request.getLocale()));
   }
 
-  private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale, VerificationToken newToken, User user) {
-    String congirmationUrl = contextPath + "/registration/confirm?token=" + newToken.getToken();
+  private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale,
+                                                             VerificationToken newToken, User user) {
+    String confirmationUrl = contextPath + "/registration/confirm?token=" + newToken.getToken();
     String message = messages.getMessage("message.resendToken", null, locale);
     SimpleMailMessage email = new SimpleMailMessage();
     email.setSubject("Resend Registration Token");
-    email.setText(message + " rn" + congirmationUrl);
+    email.setText(message + " rn" + confirmationUrl);
     email.setFrom(env.getProperty("support.email"));
     email.setTo(user.getEmail());
     return email;
   }
 
-
-    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
+  @RequestMapping(value = "/confirm", method = RequestMethod.GET)
   public String confirmRegistration(WebRequest request, Model model,
                  @RequestParam("token") String token) {
     Locale locale = request.getLocale();
@@ -126,7 +133,7 @@ public class RegistrationController {
       String message = messages.getMessage("auth.message.invalidToken",
           null, locale);
       model.addAttribute("message", message);
-      return "redirect:/badUser.html?lang=" + locale.getLanguage();
+      return "redirect:/badUser.jsp?lang=" + locale.getLanguage();
     }
 
     User user = verificationToken.getUser();
@@ -138,7 +145,7 @@ public class RegistrationController {
       model.addAttribute("message", messageValue);
       model.addAttribute("expired", true);
       model.addAttribute("token", token);
-      return "redirect:/badUser.html?lang=" + locale.getLanguage();
+      return "redirect:/badUser.jsp?lang=" + locale.getLanguage();
     }
 
     user.setEnabled(true);

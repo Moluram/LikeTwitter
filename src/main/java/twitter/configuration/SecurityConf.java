@@ -30,7 +30,7 @@ public class SecurityConf
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService);
+    auth.userDetailsService(authProvider);
   }
 
   @Bean
