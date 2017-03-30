@@ -30,6 +30,10 @@ public class UserDto {
   private boolean enabled;
   private List<Role> roles;
 
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
   public String getUsername() {
     return username;
   }

@@ -16,8 +16,18 @@
 <h1>
     <spring:message code="label.form.title.reset"></spring:message>
 </h1>
-<button type="submit" value="<c:url value="/${username}/reset-password"/>" formmethod="post">
+<button type="submit" value="<c:url value="/${user.username}/reset-password"/>" formmethod="post">
     <spring:message code="label.form.reset"></spring:message>
 </button>
+
+<c:if test="${!user.enabled}">
+    <br>
+    <h1>
+        <spring:message code="label.form.resendRegistrationToken"></spring:message>
+    </h1>
+    <button value="<c:url value="/signup/resendRegistrationToken"/>" formmethod="get">
+        <spring:message code="button.form.resendRegistrationToken"></spring:message>
+    </button>
+</c:if>
 </body>
 </html>

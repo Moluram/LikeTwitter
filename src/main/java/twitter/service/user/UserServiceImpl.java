@@ -79,4 +79,9 @@ public class UserServiceImpl implements UserService{
   public void changeUserPassword(User user, String password) {
 
   }
+
+  @Override
+  public User findByEmail(String email) {
+    return null;
+  }
 }

@@ -79,23 +79,27 @@ public class RegistrationController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public ModelAndView registerUserAccount(
+  public String registerUserAccount(
       @ModelAttribute(USER_ATTRIBUTE_NAME) @Valid UserDto userDto,
-      BindingResult result, WebRequest request, Errors errors) {
+      BindingResult result, WebRequest request, Model model, Errors errors) {
     if (result.hasErrors()) {
-      return new ModelAndView(
-          "registration", "user", userDto);
+      model.addAttribute("user", userDto);
+      return "registration";
     } else {
       User registered = tryRegisterUser(userDto, result);
       if (registered == null) {
-        return new ModelAndView("registration", "user", userDto);
+        model.addAttribute("user", userDto);
+        return "registration";
       }
       try {
         trySendMessage(request, registered);
       } catch (Exception me) {
-        return new ModelAndView("emailError", "user", userDto);
+        model.addAttribute("user", userDto);
+        return "redirect:/emailError?lang?lang=" + request.getLocale().getLanguage();
       }
-      return new ModelAndView("homepage", "username", userDto.getUsername());
+      model.addAttribute("user" ,userDto);
+      return "redirect:/" + userDto.getUsername() + "?lang=" + request.getLocale()
+          .getLanguage();
     }
   }
 
@@ -134,7 +138,7 @@ public class RegistrationController {
       String message = messages.getMessage("auth.message.invalidToken",
           null, locale);
       model.addAttribute("message", message);
-      return "redirect:/badUser.jsp?lang=" + locale.getLanguage();
+      return "redirect:/bad-user?lang=" + locale.getLanguage();
     }
 
     User user = verificationToken.getUser();
@@ -146,7 +150,7 @@ public class RegistrationController {
       model.addAttribute("message", messageValue);
       model.addAttribute("expired", true);
       model.addAttribute("token", token);
-      return "redirect:/badUser.jsp?lang=" + locale.getLanguage();
+      return "redirect:/bad-user?lang=" + locale.getLanguage();
     }
 
     user.setEnabled(true);

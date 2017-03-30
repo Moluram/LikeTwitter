@@ -20,13 +20,6 @@
 <a href="<c:url value="/signup" />"><spring:message
         code="label.form.loginSignUp"></spring:message></a>
 
-<c:if test="${param.expired}">
-    <br>
-    <h1>${label.form.resendRegistrationToken}</h1>
-    <button onclick="location.href = '<c:url value="/signup/resendRegistrationToken"/>' "
-            formmethod="get">
-        <spring:message code="label.form.resendRegistrationToken"></spring:message>
-    </button>
-</c:if>
+
 </body>
 </html>
