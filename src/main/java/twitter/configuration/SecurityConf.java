@@ -43,22 +43,31 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     auth.authenticationProvider(authProvider());
   }
 
-  //TODO: signin.html
   @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity
+  protected void configure(HttpSecurity http) throws Exception {
+
+    http.csrf()
+        .disable()
+        // указываем правила запросов
+        // по которым будет определятся доступ к ресурсам и остальным данным
+        .authorizeRequests()
+        .antMatchers("/resources/**", "/**").permitAll()
+        .anyRequest().permitAll()
+        .and();
+
+    http
         .authorizeRequests()
         .antMatchers("/signin*").anonymous()
         .anyRequest().authenticated()
         .and()
-        .formLogin().loginProcessingUrl("/perform_signin")
+        .formLogin()
         .loginPage("/signin")
         .defaultSuccessUrl("/homepage", true)
         .failureUrl("/signin?error=true")
         .and()
         .logout().logoutSuccessUrl("/signin");
 
-    httpSecurity.authorizeRequests()
+    http.authorizeRequests()
         .antMatchers("/${username}/updatePassword*",
             "/${username}/reset-password*")
         .hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
