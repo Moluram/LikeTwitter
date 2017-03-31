@@ -35,6 +35,7 @@ import java.util.Locale;
  * @author Aliaksei Chorny
  */
 @Controller
+@PreAuthorize("hasRole('IS_AUTHENTICATED_ANONYMOUSLY')")
 @RequestMapping(value = "/signup")
 public class RegistrationController {
   private static final String USER_ATTRIBUTE_NAME = "user";

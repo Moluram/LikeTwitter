@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import java.util.UUID;
  * Created by Moluram on 3/29/2017.
  */
 @Controller
+@PreAuthorize("hasRole('USER, ADMIN')")
 @RequestMapping("/${username}/settings")
 public class SettingsController {
   private UserService userService;

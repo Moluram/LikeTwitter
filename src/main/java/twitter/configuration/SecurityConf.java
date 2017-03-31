@@ -41,24 +41,18 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(authProvider());
+    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
     http.csrf()
-        .disable()
-        // указываем правила запросов
-        // по которым будет определятся доступ к ресурсам и остальным данным
-        .authorizeRequests()
-        .antMatchers("/resources/**", "/**").permitAll()
-        .anyRequest().permitAll()
-        .and();
+        .disable();
 
-    http
-        .authorizeRequests()
-        .antMatchers("/signin*").anonymous()
-        .anyRequest().authenticated()
+    http.authorizeRequests()
+        .antMatchers("/").anonymous()
+        .anyRequest().permitAll()
         .and()
         .formLogin()
         .loginPage("/signin")

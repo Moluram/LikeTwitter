@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import twitter.service.user.UserService;
 
 @Controller
+@PreAuthorize("hasRole('IS_AUTHENTICATED_ANONYMOUSLY')")
 @RequestMapping("/")
 class HomeController {
 
