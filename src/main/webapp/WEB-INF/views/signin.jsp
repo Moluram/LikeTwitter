@@ -18,10 +18,30 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password"/>
             <div class="form-actions">
-                <button type="submit" class="btn">Log in</button>
+                <button type="submit" class="btn" onclick="validate()">Log in</button>
             </div>
         </fieldset>
     </form>
 </div>
 </body>
 </html>
+
+<script type="text/javascript">
+  function validate() {
+    if (document.f.username.value == "" && document.f.password.value == "") {
+      alert("Username and password are required");
+      document.f.username.focus();
+      return false;
+    }
+    if (document.f.username.value == "") {
+      alert("Username is required");
+      document.f.username.focus();
+      return false;
+    }
+    if (document.f.password.value == "") {
+      alert("Password is required");
+      document.f.password.focus();
+      return false;
+    }
+  }
+</script>
