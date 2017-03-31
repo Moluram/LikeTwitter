@@ -17,7 +17,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
-import twitter.web.beans.GenericResponse;
 import twitter.web.events.OnRegistrationCompleteEvent;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
@@ -107,15 +106,17 @@ public class RegistrationController {
 
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
   @ResponseBody
-  public GenericResponse resendRegistrationToken(
+  public String resendRegistrationToken(Model model,@SessionAttribute("username") String username,
       HttpServletRequest request, @RequestParam("token") String existingToken) {
     VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
     User user = newToken.getUser();
     String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
     SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, user);
     mailSender.send(email);
-
-    return new GenericResponse(messages.getMessage("message.resendToken", null, request.getLocale()));
+    model.addAttribute("isResend", true);
+    model.addAttribute("resendMessage", messages.getMessage("message.resendToken", null,
+        request.getLocale()));
+    return "redirect:/" + username + "/?lang=" + request.getLocale().getCountry();
   }
 
   private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale,
