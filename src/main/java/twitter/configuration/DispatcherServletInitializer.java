@@ -12,11 +12,9 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
-
     servletContext
         .addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"))
         .addMappingForUrlPatterns(null,false,"/*");
-
     super.onStartup(servletContext);
   }
 
