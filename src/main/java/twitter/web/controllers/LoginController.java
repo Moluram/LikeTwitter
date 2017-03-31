@@ -1,8 +1,11 @@
 package twitter.web.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -11,8 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
   @RequestMapping(value = "/signin", method = RequestMethod.GET)
-  public ModelAndView sayHelloAgain(ModelAndView model) {
-    model.setViewName("signin");
-    return model;
+  public String login(Model model, String error, String logout) {
+    if (error != null)
+      model.addAttribute("error", "Your username and password is invalid.");
+
+    if (logout != null)
+      model.addAttribute("message", "You have been logged out successfully.");
+
+    return "signin";
+  }
+
+  @RequestMapping(value = "/logout", method = RequestMethod.GET)
+  public String logout(ModelAndView model, WebRequest request) {
+    return "redirect:/?lang=" + request.getLocale().getCountry();
   }
 }

@@ -3,6 +3,7 @@ package twitter.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import twitter.service.MyUserDetailsService;
 
 /**
@@ -38,39 +40,32 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     this.userDetailsService = userDetailsService;
   }
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(authProvider());
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+  }
+
+  @Bean
+  public DaoAuthenticationProvider provider() {
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    provider.setPasswordEncoder(passwordEncoder());
+    provider.setUserDetailsService(userDetailsService);
+    return provider;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-
-    http.csrf()
-        .disable()
-        // указываем правила запросов
-        // по которым будет определятся доступ к ресурсам и остальным данным
-        .authorizeRequests()
-        .antMatchers("/resources/**", "/**").permitAll()
-        .anyRequest().permitAll()
-        .and();
-
     http
         .authorizeRequests()
-        .antMatchers("/signin*").anonymous()
+        .antMatchers("/singin").permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin()
-        .loginPage("/signin")
-        .defaultSuccessUrl("/homepage", true)
-        .failureUrl("/signin?error=true")
+        .loginPage("/signin").loginProcessingUrl("/singin").successForwardUrl("/")
+        .failureForwardUrl("/singup")
         .and()
-        .logout().logoutSuccessUrl("/signin");
-
-    http.authorizeRequests()
-        .antMatchers("/${username}/updatePassword*",
-            "/${username}/reset-password*")
-        .hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
+        .logout()
+        .permitAll();
   }
 
   @Bean
