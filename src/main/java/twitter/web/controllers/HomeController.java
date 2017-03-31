@@ -18,7 +18,7 @@ class HomeController {
 		return model;
 	}
 
-	@PreAuthorize("hasRole('')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "@{username}", method = RequestMethod.GET)
   public ModelAndView userPage(@PathVariable String username,
                                ModelAndView model, UserService service) {
