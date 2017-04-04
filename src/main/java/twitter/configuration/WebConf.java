@@ -26,7 +26,7 @@ import java.util.Properties;
 @EnableWebMvc
 @ComponentScan(basePackages = "twitter.web")
 @PropertySource("classpath:mail.properties")
-@Import(SecurityConf.class)
+@Import({SecurityConf.class,DatabaseConf.class})
 public class WebConf extends WebMvcConfigurerAdapter {
 
 	@Bean
