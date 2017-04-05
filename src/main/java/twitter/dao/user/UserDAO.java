@@ -29,9 +29,9 @@ public interface UserDAO {
 
   /**
    * Removes user from db
-   * @param user - user for delete
+   * @param id - user's id for delete
    */
-  void delete(User user);
+  void delete(Integer id);
 
   /**
    * Returns list of User's from this database
