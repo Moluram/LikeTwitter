@@ -57,17 +57,14 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
         .authorizeRequests().antMatchers("/signin").anonymous()
         .anyRequest().permitAll()
         .and()
+        .authorizeRequests().antMatchers("/homepage").hasRole("USER")
+        .anyRequest().permitAll()
+        .and()
         .formLogin()
         .loginPage("/signin")
-        .defaultSuccessUrl("/homepage", true)
         .failureUrl("/signin?error=true")
         .and()
         .logout().logoutSuccessUrl("/signin");
-
-    http.authorizeRequests()
-        .antMatchers("/${username}/updatePassword*",
-            "/${username}/reset-password*")
-        .hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
   }
 
   @Bean

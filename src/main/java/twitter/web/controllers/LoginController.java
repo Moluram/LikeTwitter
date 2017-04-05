@@ -1,12 +1,14 @@
 package twitter.web.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import sun.misc.Request;
 
 /**
  * Created by moluram on 23.3.17.
@@ -23,6 +25,13 @@ public class LoginController {
 
     return "signin";
   }
+
+  @RequestMapping(value = "/signin", method = RequestMethod.POST)
+  public String performLogin
+      (Model model, WebRequest request, String error, String logout, Authentication auth) {
+    return "redirect:/" + auth.getPrincipal() + "?lang=" + request.getLocale().getCountry();
+  }
+
 
   @PreAuthorize("hasRole('IS_AUTHENTICATED_FULLY')")
   @RequestMapping(value = "/logout", method = RequestMethod.GET)

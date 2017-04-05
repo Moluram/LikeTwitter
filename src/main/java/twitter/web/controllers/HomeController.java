@@ -18,7 +18,7 @@ class HomeController {
 		return model;
 	}
 
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "homepage", method = RequestMethod.GET)
 	public String homepage() {
 		return "homepage";
