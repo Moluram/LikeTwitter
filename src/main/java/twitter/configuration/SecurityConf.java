@@ -20,7 +20,7 @@ import twitter.service.MyUserDetailsService;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConf extends WebSecurityConfigurerAdapter {
 
   private MyUserDetailsService userDetailsService;
@@ -52,6 +52,9 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 
     http.authorizeRequests()
         .antMatchers("/").anonymous()
+        .anyRequest().permitAll()
+        .and()
+        .authorizeRequests().antMatchers("/signin").anonymous()
         .anyRequest().permitAll()
         .and()
         .formLogin()

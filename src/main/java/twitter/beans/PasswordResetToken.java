@@ -1,6 +1,8 @@
 package twitter.beans;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -20,6 +22,19 @@ public class PasswordResetToken {
   private User user;
 
   private Date expiryDate;
+
+  public PasswordResetToken(User user, String token, int expiration) {
+    this.user = user;
+    this.token = token;
+    this.expiryDate = calculateExpiryDate(expiration);
+  }
+
+  private Date calculateExpiryDate(int expiryTimeInMinutes) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+    calendar.add(Calendar.MINUTE, expiryTimeInMinutes);
+    return new Date(calendar.getTime().getTime());
+  }
 
   public User getUser() {
     return user;

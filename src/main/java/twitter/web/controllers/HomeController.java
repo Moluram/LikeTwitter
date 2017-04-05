@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import twitter.service.user.UserService;
 
 @Controller
-@PreAuthorize("hasRole('IS_AUTHENTICATED_ANONYMOUSLY')")
 @RequestMapping("/")
 class HomeController {
 
@@ -20,10 +19,8 @@ class HomeController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "@{username}", method = RequestMethod.GET)
-  public ModelAndView userPage(@PathVariable String username,
-                               ModelAndView model, UserService service) {
-	  model.setViewName("userPage");
-	  return model;
-  }
+	@RequestMapping(value = "homepage", method = RequestMethod.GET)
+	public String homepage() {
+		return "homepage";
+	}
 }

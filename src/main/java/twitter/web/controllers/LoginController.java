@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by moluram on 23.3.17.
  */
 @Controller
-@PreAuthorize("hasRole('IS_AUTHENTICATED_ANONYMOUSLY')")
 public class LoginController {
   @RequestMapping(value = "/signin", method = RequestMethod.GET)
   public String login(Model model, String error, String logout) {
@@ -25,6 +24,7 @@ public class LoginController {
     return "signin";
   }
 
+  @PreAuthorize("hasRole('IS_AUTHENTICATED_FULLY')")
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public String logout(ModelAndView model, WebRequest request) {
     return "redirect:/?lang=" + request.getLocale().getCountry();

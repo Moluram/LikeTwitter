@@ -15,7 +15,7 @@ import twitter.service.user.UserService;
  */
 @Controller
 @PreAuthorize("hasRole({'USER', 'ADMIN'})")
-@RequestMapping("/${username}")
+@RequestMapping("/{username}")
 public class UserController {
   private UserService userService;
   private MessageSource messages;

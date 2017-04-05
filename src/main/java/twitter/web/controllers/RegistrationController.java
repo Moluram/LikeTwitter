@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
 import twitter.web.events.OnRegistrationCompleteEvent;
@@ -34,7 +33,6 @@ import java.util.Locale;
  * @author Aliaksei Chorny
  */
 @Controller
-@PreAuthorize("hasRole('IS_AUTHENTICATED_ANONYMOUSLY')")
 @RequestMapping(value = "/signup")
 public class RegistrationController {
   private static final String USER_ATTRIBUTE_NAME = "user";
@@ -104,6 +102,7 @@ public class RegistrationController {
     }
   }
 
+  @PreAuthorize("hasAuthority('RESEND_REGISTRATION_TOKEN')")
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
   @ResponseBody
   public String resendRegistrationToken(Model model,@SessionAttribute("username") String username,
@@ -119,18 +118,8 @@ public class RegistrationController {
     return "redirect:/" + username + "/?lang=" + request.getLocale().getCountry();
   }
 
-  private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale,
-                                                             VerificationToken newToken, User user) {
-    String confirmationUrl = contextPath + "/signup/confirm?token=" + newToken.getToken();
-    String message = messages.getMessage("message.resendToken", null, locale);
-    SimpleMailMessage email = new SimpleMailMessage();
-    email.setSubject("Resend Registration Token");
-    email.setText(message + " \r\n" + confirmationUrl);
-    email.setFrom(env.getProperty("support.email"));
-    email.setTo(user.getEmail());
-    return email;
-  }
 
+  @PreAuthorize("hasAuthority('RESEND_REGISTRATION_TOKEN')")
   @RequestMapping(value = "/confirm", method = RequestMethod.GET)
   public String confirmRegistration(WebRequest request, Model model,
                                     @RequestParam("token") String token) {
@@ -160,6 +149,18 @@ public class RegistrationController {
     userService.saveRegisteredUser(user);
     model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
     return "redirect:/signin?lang=" + request.getLocale().getLanguage();
+  }
+
+  private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale,
+                                                             VerificationToken newToken, User user) {
+    String confirmationUrl = contextPath + "/signup/confirm?token=" + newToken.getToken();
+    String message = messages.getMessage("message.resendToken", null, locale);
+    SimpleMailMessage email = new SimpleMailMessage();
+    email.setSubject("Resend Registration Token");
+    email.setText(message + " \r\n" + confirmationUrl);
+    email.setFrom(env.getProperty("support.email"));
+    email.setTo(user.getEmail());
+    return email;
   }
 
   private void trySendMessage(WebRequest request, User registered) {
