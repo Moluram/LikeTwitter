@@ -17,23 +17,9 @@ import twitter.service.user.UserService;
 @RequestMapping("/")
 class HomeController {
 
-	private final UserDAO userDAO;
-
-	@Autowired
-	public HomeController(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView sayHello(ModelAndView model) {
 		model.setViewName("welcome");
-		User user=new User();
-		user.setUsername("Yla");
-		user.setPassword("234");
-		user.setEmail("sdfsd@dsfd");
-		user.setEnabled(false);
-		user.setTokenExpired(false);
-		userDAO.create(user);
 		return model;
 	}
 

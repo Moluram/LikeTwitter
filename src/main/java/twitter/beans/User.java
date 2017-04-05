@@ -26,10 +26,10 @@ public class User {
   private String email;
 
   @Column(name = "ENABLED")
-  private boolean enabled = false;
+  private Boolean enabled = false;
 
   @Column(name = "TOKENEXPIRED")
-  private boolean tokenExpired;
+  private Boolean tokenExpired;
 
   @ManyToMany
   @JoinTable(
@@ -40,19 +40,19 @@ public class User {
           name = "role_id", referencedColumnName = "id"))
   private Collection<Role> roles;
 
-  public boolean isEnabled() {
+  public Boolean isEnabled() {
     return enabled;
   }
 
-  public void setEnabled(boolean enabled) {
+  public void setEnabled(Boolean enabled) {
     this.enabled = enabled;
   }
 
-  public boolean isTokenExpired() {
+  public Boolean isTokenExpired() {
     return tokenExpired;
   }
 
-  public void setTokenExpired(boolean tokenExpired) {
+  public void setTokenExpired(Boolean tokenExpired) {
     this.tokenExpired = tokenExpired;
   }
 

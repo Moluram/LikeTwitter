@@ -1,10 +1,12 @@
 package twitter.configuration;
 
-import javax.sql.DataSource;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 /**
  * Created by Nikolay on 03.04.2017.
@@ -12,15 +14,23 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("twitter.dao")
+@PropertySource("classpath:database.properties")
 public class DatabaseConf {
+
+  private final Environment env;
+
+  @Autowired
+  public DatabaseConf(Environment env) {
+    this.env = env;
+  }
 
   @Bean
   BasicDataSource dataSource(){
     BasicDataSource ds = new BasicDataSource();
-    ds.setDriverClassName("com.mysql.jdbc.Driver");
-    ds.setUrl("jdbc:mysql://localhost:3306/twitter_eav?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-    ds.setUsername("root");
-    ds.setPassword("root");
+    ds.setDriverClassName(env.getRequiredProperty("db.jdbc.driver"));
+    ds.setUrl(env.getRequiredProperty("db.url"));
+    ds.setUsername(env.getRequiredProperty("db.user"));
+    ds.setPassword(env.getRequiredProperty("db.password"));
 
     ds.setMinIdle(5);
     ds.setMaxIdle(10);
