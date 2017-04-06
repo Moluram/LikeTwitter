@@ -31,7 +31,7 @@ import java.util.UUID;
  */
 @Controller
 @PreAuthorize("hasRole('USER, ADMIN')")
-@RequestMapping("/${username}/settings")
+@RequestMapping("/{username}/settings")
 public class SettingsController {
   private UserService userService;
   private MailSender mailSender;

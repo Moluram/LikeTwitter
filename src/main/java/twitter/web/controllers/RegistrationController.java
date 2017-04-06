@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -71,7 +72,7 @@ public class RegistrationController {
   }
 
   @RequestMapping(method = RequestMethod.GET)
-  public String showRegistrationForm(WebRequest request, Model model) {
+  public String showRegistrationForm(WebRequest request, Model model, Authentication auth) {
     UserDto userDto = new UserDto();
     model.addAttribute(USER_ATTRIBUTE_NAME, userDto);
     return REGISTRATION_PAGE_NAME;

@@ -41,7 +41,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(authProvider());
-    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
+    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
   }
 
   @Override
@@ -50,17 +50,10 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable();
 
-    http.authorizeRequests()
-        .antMatchers("/").anonymous()
-        .anyRequest().permitAll()
-        .and()
-        .authorizeRequests().antMatchers("/signin").anonymous()
-        .anyRequest().permitAll()
-        .and()
-        .authorizeRequests().antMatchers("/homepage").hasRole("USER")
-        .anyRequest().permitAll()
-        .and()
-        .formLogin()
+    http.authorizeRequests().antMatchers( "/signin","/", "/signup").anonymous()
+        .anyRequest().permitAll();
+
+    http.formLogin()
         .loginPage("/signin")
         .failureUrl("/signin?error=true")
         .and()

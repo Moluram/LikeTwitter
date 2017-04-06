@@ -16,19 +16,19 @@ import sun.misc.Request;
 @Controller
 public class LoginController {
   @RequestMapping(value = "/signin", method = RequestMethod.GET)
-  public String login(Model model, String error, String logout) {
+  public String login(Model model, String error, String logout, Authentication auth) {
     if (error != null)
       model.addAttribute("error", "Your username and password is invalid.");
 
     if (logout != null)
       model.addAttribute("message", "You have been logged out successfully.");
-
     return "signin";
   }
 
   @RequestMapping(value = "/signin", method = RequestMethod.POST)
   public String performLogin
       (Model model, WebRequest request, String error, String logout, Authentication auth) {
+    auth.setAuthenticated(true);
     return "redirect:/" + auth.getPrincipal() + "?lang=" + request.getLocale().getCountry();
   }
 

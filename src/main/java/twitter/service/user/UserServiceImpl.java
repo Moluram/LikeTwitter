@@ -1,7 +1,9 @@
 package twitter.service.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitter.beans.*;
 import twitter.web.dto.PasswordDto;
@@ -44,6 +46,9 @@ public class UserServiceImpl implements UserService{
     return null;
   }
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   @Override
   public User registerNewUserAccount(UserDto accountDto) {
     for (User user: userList) {
@@ -56,12 +61,12 @@ public class UserServiceImpl implements UserService{
     }
     User user = new User();
     user.setEmail(accountDto.getEmail());
-    user.setPassword(accountDto.getPassword());
+    user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     user.setUsername(accountDto.getUsername());
     List<Role> roles = new ArrayList<>();
     List<Privilege> privileges = new ArrayList<>();
     privileges.add(new Privilege("LIVE"));
-    roles.add(new Role("USER", privileges));
+    roles.add(new Role("ROLE_USER", privileges));
     user.setRoles(roles);
     userList.add(user);
     return user;
