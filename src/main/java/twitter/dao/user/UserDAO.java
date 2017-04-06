@@ -38,4 +38,8 @@ public interface UserDAO {
    * @return List<User> - list of User's
    */
   List<User> getAll();
+
+  User findByUsername(String username);
+
+  User findByEmail(String email);
 }

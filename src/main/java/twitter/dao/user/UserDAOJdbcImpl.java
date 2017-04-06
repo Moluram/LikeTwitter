@@ -52,6 +52,10 @@ public class UserDAOJdbcImpl implements UserDAO {
 
   private static final String USER_ID_CONSTREIN=" WHERE obj.entity_id=? LIMIT 1";
 
+  private static final String USERNAME_CONSTREIN=" WHERE username.value=? LIMIT 1";
+
+  private static final String EMAIL_CONSTREIN=" WHERE email.value=? LIMIT 1";
+
   private static final String QUERY_DELETE_USER_OBJECT="DELETE FROM object WHERE entity_id=?";
 
   private static final String QUERY_DELETE_USER_ATTRIBUTES="DELETE FROM attribute_value WHERE entity_id=?";
@@ -166,6 +170,56 @@ public class UserDAOJdbcImpl implements UserDAO {
       e.printStackTrace();
     }
     return userList;
+  }
+
+  @Override
+  public User findByUsername(String username) {
+    User user=null;
+    String query=QUERY_READ_ALL_USERS+USERNAME_CONSTREIN;
+    try (Connection connection = dataSource.getConnection();
+        PreparedStatement st = connection.prepareStatement(query)) {
+      st.setString(1,username);
+      ResultSet rs=st.executeQuery();
+      while(rs.next()){
+        user=new User();
+        user.setId(rs.getInt("id"));
+        user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
+        user.setEmail(rs.getString("email"));
+        Boolean enabled=Boolean.getBoolean(rs.getString("enabled"));
+        user.setEnabled(enabled);
+        Boolean tokenExpired=Boolean.getBoolean((rs.getString("token_expired")));
+        user.setTokenExpired(tokenExpired);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return user;
+  }
+
+  @Override
+  public User findByEmail(String email) {
+    User user=null;
+    String query=QUERY_READ_ALL_USERS+EMAIL_CONSTREIN;
+    try (Connection connection = dataSource.getConnection();
+        PreparedStatement st = connection.prepareStatement(query)) {
+      st.setString(1,email);
+      ResultSet rs=st.executeQuery();
+      while(rs.next()){
+        user=new User();
+        user.setId(rs.getInt("id"));
+        user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
+        user.setEmail(rs.getString("email"));
+        Boolean enabled=Boolean.getBoolean(rs.getString("enabled"));
+        user.setEnabled(enabled);
+        Boolean tokenExpired=Boolean.getBoolean((rs.getString("token_expired")));
+        user.setTokenExpired(tokenExpired);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return user;
   }
 
   private Integer createObjectEntity(PreparedStatement createEntitySt) throws SQLException {
