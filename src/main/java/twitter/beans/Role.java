@@ -28,6 +28,9 @@ public class Role {
           name = "privilege_id", referencedColumnName = "id"))
   private Collection<Privilege> privileges;
 
+  public Role() {
+  }
+
   public Role(String name, List<Privilege> privileges) {
     this.name = name;
     this.privileges = privileges;
@@ -52,5 +55,15 @@ public class Role {
 
   public Collection<Privilege> getPrivileges() {
     return privileges;
+  }
+
+  @Override
+  public String toString() {
+    return "Role{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", users=" + users +
+        ", privileges=" + privileges +
+        '}';
   }
 }
