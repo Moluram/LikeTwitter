@@ -28,14 +28,11 @@ public class UserController {
     this.userService = userService;
   }
 
-  @RequestMapping
-
   @Autowired
   public void setMessages(MessageSource messages) {
     this.messages = messages;
   }
 
-  @PreAuthorize("hasRole('ROLE_USER')")
   @RequestMapping(method = RequestMethod.GET)
   public String getHomepage() {
     return "homepage";

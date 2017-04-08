@@ -64,7 +64,6 @@ public class SettingsController {
     this.userService = userService;
   }
 
-  @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
   @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
   public String resetPassword(HttpServletRequest request,
                                     @PathVariable("username") String username) {
@@ -82,7 +81,6 @@ public class SettingsController {
     return "redirect:/badUser.jsp?lang=" + request.getLocale().getLanguage();
   }
 
-  @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
   @RequestMapping(value = "/change-password", method = RequestMethod.GET)
   public String changePassword(HttpServletRequest request, @PathVariable("username") String
       username, @RequestParam("id") long id, @RequestParam("token") String token, Model model) {

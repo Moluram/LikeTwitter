@@ -28,7 +28,6 @@ public class LoginController {
   @RequestMapping(value = "/signin", method = RequestMethod.POST)
   public String performLogin
       (Model model, WebRequest request, String error, String logout, Authentication auth) {
-    auth.setAuthenticated(true);
     return "redirect:/" + auth.getPrincipal() + "?lang=" + request.getLocale().getCountry();
   }
 

@@ -41,7 +41,6 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(authProvider());
-    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
   }
 
   @Override
@@ -53,10 +52,16 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers( "/signin","/", "/signup").anonymous()
         .anyRequest().permitAll();
 
+    http.authorizeRequests()
+        .antMatchers("/**").hasRole("USER")
+        .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
+        .antMatchers("/{username}/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
+
     http.formLogin()
-        .loginPage("/signin")
-        .failureUrl("/signin?error=true")
-        .and()
+          .loginPage("/signin")
+          .successForwardUrl("/signin")
+          .failureUrl("/signin?error=true")
+          .and()
         .logout().logoutSuccessUrl("/signin");
   }
 

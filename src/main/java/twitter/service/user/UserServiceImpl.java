@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitter.beans.*;
-import twitter.web.dto.PasswordDto;
 import twitter.web.dto.UserDto;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
@@ -49,6 +48,7 @@ public class UserServiceImpl implements UserService{
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+
   @Override
   public User registerNewUserAccount(UserDto accountDto) {
     for (User user: userList) {
@@ -63,11 +63,9 @@ public class UserServiceImpl implements UserService{
     user.setEmail(accountDto.getEmail());
     user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     user.setUsername(accountDto.getUsername());
-    List<Role> roles = new ArrayList<>();
     List<Privilege> privileges = new ArrayList<>();
-    privileges.add(new Privilege("LIVE"));
-    roles.add(new Role("ROLE_USER", privileges));
-    user.setRoles(roles);
+    privileges.add(new Privilege("RESEND_REGISTRATION_TOKEN"));
+    user.setRole(new Role("USER", privileges));
     userList.add(user);
     return user;
   }

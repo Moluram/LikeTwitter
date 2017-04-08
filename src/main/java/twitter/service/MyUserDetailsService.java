@@ -2,7 +2,6 @@ package twitter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.Privilege;
 import twitter.beans.Role;
 import twitter.beans.User;
-import twitter.service.role.RoleService;
 import twitter.service.user.UserService;
 
 import java.util.ArrayList;
@@ -44,18 +42,18 @@ public class MyUserDetailsService implements UserDetailsService {
                 "Username does not exist: " + username);
       }
       return new org.springframework.security.core.userdetails.User(
-              user.getUsername(), user.getPassword(), !user.isEnabled(),
+              user.getUsername(), user.getPassword(), true,
           //TODO: not enabled user do not enter
               true, true,
-              true, getAuthorities(user.getRoles()));
+              true, getAuthorities(user.getRole()));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
   private Collection<? extends GrantedAuthority> getAuthorities
-      (Collection<Role> roles) {
-    return getGrantedAuthorities(getPrivileges(roles));
+      (Role role) {
+    return getGrantedAuthorities(getPrivileges(role));
   }
 
   private Collection<GrantedAuthority> getGrantedAuthorities(
@@ -67,12 +65,10 @@ public class MyUserDetailsService implements UserDetailsService {
     return authorities;
   }
 
-  private List<String> getPrivileges(Collection<Role> roles) {
+  private List<String> getPrivileges(Role role) {
     List<String> privileges = new ArrayList<>();
     List<Privilege> collection = new ArrayList<>();
-    for (Role role: roles) {
-      collection.addAll(role.getPrivileges());
-    }
+    collection.addAll(role.getPrivileges());
     for (Privilege item: collection) {
       privileges.add(item.getName());
     }

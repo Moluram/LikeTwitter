@@ -98,12 +98,10 @@ public class RegistrationController {
         return "redirect:/emailError?lang?lang=" + request.getLocale().getLanguage();
       }
       model.addAttribute("user" ,userDto);
-      return "redirect:/" + userDto.getUsername() + "?lang=" + request.getLocale()
-          .getLanguage();
+      return "redirect:/signin?lang=" + request.getLocale().getLanguage();
     }
   }
 
-  @PreAuthorize("hasAuthority('RESEND_REGISTRATION_TOKEN')")
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
   @ResponseBody
   public String resendRegistrationToken(Model model,@SessionAttribute("username") String username,
@@ -119,8 +117,6 @@ public class RegistrationController {
     return "redirect:/" + username + "/?lang=" + request.getLocale().getCountry();
   }
 
-
-  @PreAuthorize("hasAuthority('RESEND_REGISTRATION_TOKEN')")
   @RequestMapping(value = "/confirm", method = RequestMethod.GET)
   public String confirmRegistration(WebRequest request, Model model,
                                     @RequestParam("token") String token) {

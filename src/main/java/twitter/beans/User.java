@@ -31,14 +31,7 @@ public class User {
   @Column(name = "TOKENEXPIRED")
   private boolean tokenExpired;
 
-  @ManyToMany
-  @JoinTable(
-      name = "users_roles",
-      joinColumns = @JoinColumn(
-          name = "user_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(
-          name = "role_id", referencedColumnName = "id"))
-  private Collection<Role> roles;
+  private Role role;
 
   public boolean isEnabled() {
     return enabled;
@@ -88,11 +81,11 @@ public class User {
     this.email = email;
   }
 
-  public Collection<Role> getRoles() {
-    return roles;
+  public Role getRole() {
+    return role;
   }
 
-  public void setRoles(List<Role> roles) {
-    this.roles = roles;
+  public void setRole(Role role) {
+    this.role = role;
   }
 }
