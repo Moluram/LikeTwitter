@@ -45,7 +45,7 @@ public class RegistrationListener
     email.setText(message + " rn" + event.getAppUrl() + confirmationUrl);
     mailSender.send(email);
   }
-
+ 
   @Autowired
   @Qualifier("userService")
   public void setService(UserService service) {
