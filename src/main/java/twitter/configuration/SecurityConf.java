@@ -52,6 +52,9 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers( "/signin","/", "/signup").anonymous()
         .anyRequest().permitAll();
 
+    http.authorizeRequests().antMatchers( "/**").anonymous()
+        .anyRequest().denyAll();
+
     http.authorizeRequests()
         .antMatchers("/**").hasRole("USER")
         .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
