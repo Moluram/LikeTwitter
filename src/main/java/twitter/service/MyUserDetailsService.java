@@ -1,5 +1,6 @@
 package twitter.service;
 
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -46,7 +47,7 @@ public class MyUserDetailsService implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(
               user.getUsername(), user.getPassword(), user.isEnabled(),
               true, true,
-              true, getAuthorities(user.getRoles()));
+              true, getAuthorities(Arrays.asList(user.getRole())));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
