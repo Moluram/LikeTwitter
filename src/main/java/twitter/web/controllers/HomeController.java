@@ -1,6 +1,5 @@
 package twitter.web.controllers;
 
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -8,10 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import twitter.beans.Privilege;
-import twitter.beans.Role;
+import twitter.beans.PasswordResetToken;
 import twitter.beans.User;
-import twitter.beans.VerificationToken;
+import twitter.dao.passwordresetdao.PasswordResetRepository;
 import twitter.dao.privilege.PrivilegeDAO;
 import twitter.dao.role.RoleDAO;
 import twitter.dao.user.UserDAO;
@@ -27,14 +25,16 @@ class HomeController {
   private final PrivilegeDAO privilegeDAO;
   private final UserDAO userDAO;
   private final VerificationTokenDAO verificationTokenDAO;
+  private final PasswordResetRepository passwordResetRepository;
 
   @Autowired
   public HomeController(RoleDAO roleDAO, PrivilegeDAO privilegeDAO, UserDAO userDAO,
-      VerificationTokenDAO verificationTokenDAO) {
+      VerificationTokenDAO verificationTokenDAO, PasswordResetRepository passwordResetRepository) {
     this.roleDAO = roleDAO;
     this.privilegeDAO = privilegeDAO;
     this.userDAO = userDAO;
     this.verificationTokenDAO = verificationTokenDAO;
+    this.passwordResetRepository = passwordResetRepository;
   }
 
   @RequestMapping(method = RequestMethod.GET)
@@ -43,16 +43,16 @@ class HomeController {
 
 
     User user=userDAO.read(21);
-    VerificationToken verificationToken=new VerificationToken(user,"sdfdsfdsfdsfsdfjdsfjsdfjk");
+    PasswordResetToken passwordToken=new PasswordResetToken(user,"qwerttyikjdfbfjhlxascbjh,p;");
+//    passwordResetRepository.create(passwordToken);
 
     System.out.println("BY NAME");
-    verificationToken=verificationTokenDAO.findByTokenName("sdfdsfdsfdsfsdfjdsfjsdfjk");
-    System.out.println(verificationToken);
+    passwordToken=passwordResetRepository.findByToken("qwerttyikjdfbfjhlxascbjh,p;");
+    System.out.println(passwordToken);
     System.out.println("USER");
-    System.out.println(verificationTokenDAO.getUserByToken("sdfdsfdsfdsfsdfjdsfjsdfjk"));
-    System.out.println(verificationToken);
+    System.out.println(passwordResetRepository.getUserByToken("qwerttyikjdfbfjhlxascbjh,p;"));
     System.out.println("SAME");
-    System.out.println(verificationTokenDAO.read(verificationToken.getId()));
+    System.out.println(passwordResetRepository.read(passwordToken.getId()));
 
     return model;
   }

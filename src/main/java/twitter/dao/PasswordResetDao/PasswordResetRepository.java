@@ -1,12 +1,20 @@
-package twitter.dao.PasswordResetDao;
+package twitter.dao.passwordresetdao;
 
-import org.springframework.stereotype.Component;
 import twitter.beans.PasswordResetToken;
+import twitter.beans.User;
 
 /**
- * Created by Moluram on 3/29/2017.
+ * Created by Nikolay on 09.04.2017.
  */
-@Component
 public interface PasswordResetRepository {
+  Long create(PasswordResetToken resetToken);
+
+  PasswordResetToken read(Long id);
+
+  void update(PasswordResetToken resetToken);
+
   PasswordResetToken findByToken(String token);
+
+  User getUserByToken(String token);
+
 }
