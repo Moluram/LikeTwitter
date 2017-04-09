@@ -6,13 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import twitter.beans.Privilege;
 import twitter.beans.Role;
+import twitter.dao.privilege.PrivilegeDAO;
 
 /**
  * Created by Nikolay on 06.04.2017.
@@ -23,6 +26,9 @@ public class RoleDAOJdbcImpl implements RoleDAO {
   private static final String QUERY_INSERT_ROLE_ATTRIBUTES_VALUES =
       "INSERT INTO attribute_value(entity_id,attribute_id,value) VALUES"
           + "(?,(SELECT attribute_id FROM attribute WHERE attribute.name=?),?)";
+
+  private static final String QUERY_INSERT_ROLE_PRIVILEGES=
+      "INSERT INTO reference(parent_id,child_id) VALUES(?,?)";
 
   private static final String QUERY_UPDATE_ROLE_ATTRIBUTES_VALUES = "UPDATE attribute_value "
       + "SET value=? "
@@ -50,10 +56,12 @@ public class RoleDAOJdbcImpl implements RoleDAO {
   private static final String OBJECT_TYPE = "role";
 
   private final DataSource dataSource;
+  private final PrivilegeDAO privilegeDAO;
 
   @Autowired
-  public RoleDAOJdbcImpl(DataSource dataSource) {
+  public RoleDAOJdbcImpl(DataSource dataSource,PrivilegeDAO privilegeDAO) {
     this.dataSource = dataSource;
+    this.privilegeDAO=privilegeDAO;
   }
 
   @Override
@@ -63,11 +71,14 @@ public class RoleDAOJdbcImpl implements RoleDAO {
         PreparedStatement createEntitySt = connection.prepareStatement(QUERY_CREATE_ROLE_ENTITY,
             Statement.RETURN_GENERATED_KEYS);
         PreparedStatement addAttrValuesSt = connection
-            .prepareStatement(QUERY_INSERT_ROLE_ATTRIBUTES_VALUES)
+            .prepareStatement(QUERY_INSERT_ROLE_ATTRIBUTES_VALUES);
+        PreparedStatement addPrivilegesSt = connection
+            .prepareStatement(QUERY_INSERT_ROLE_PRIVILEGES);
     ) {
       id = createObjectEntity(createEntitySt);
       role.setId(id);
       insertRoleAttrValues(addAttrValuesSt, role);
+      insertPrivileges(addPrivilegesSt,role);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -87,13 +98,15 @@ public class RoleDAOJdbcImpl implements RoleDAO {
         role.setId(rs.getLong("id"));
         role.setName(rs.getString("name"));
       }
+      Collection<Privilege> privileges=privilegeDAO.getPrivilegesByRoleId(role.getId());
+      role.setPrivileges(privileges);
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return role;
   }
 
-
+  //TODO: update privileges ??
   @Override
   public void update(Role role) {
     try (Connection connection = dataSource.getConnection();
@@ -139,6 +152,8 @@ public class RoleDAOJdbcImpl implements RoleDAO {
         Role role=new Role();
         role.setId(rs.getLong("id"));
         role.setName(rs.getString("name"));
+        Collection<Privilege> privileges=privilegeDAO.getPrivilegesByRoleId(role.getId());
+        role.setPrivileges(privileges);
         roleList.add(role);
       }
     } catch (SQLException e) {
@@ -159,6 +174,8 @@ public class RoleDAOJdbcImpl implements RoleDAO {
         role=new Role();
         role.setId(rs.getLong("id"));
         role.setName(rs.getString("name"));
+        Collection<Privilege> privileges=privilegeDAO.getPrivilegesByRoleId(role.getId());
+        role.setPrivileges(privileges);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -195,6 +212,16 @@ public class RoleDAOJdbcImpl implements RoleDAO {
     addAttrValuesSt.executeBatch();
   }
 
+  private void insertPrivileges(PreparedStatement st,Role role)throws SQLException{
+    Collection<Privilege> privileges=role.getPrivileges();
+    for(Privilege pr: privileges){
+      st.setLong(1,role.getId());
+      st.setLong(2,pr.getId());
+      st.addBatch();
+    }
+    st.executeBatch();
+  }
+
   private void updateRoleAttrValues(PreparedStatement updateAttrValuesSt, Role role)
       throws SQLException {
     Map<String, String> attributeValueMap = getAttrValueMap(role);
@@ -208,7 +235,7 @@ public class RoleDAOJdbcImpl implements RoleDAO {
   }
 
   private Map<String, String> getAttrValueMap(Role role) {
-    Map<String, String> attributeValueMap = new HashMap<String,String>(5);
+    Map<String, String> attributeValueMap = new HashMap<String,String>(1);
     attributeValueMap.put("name", role.getName());
     return attributeValueMap;
   }

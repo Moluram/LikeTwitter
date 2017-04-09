@@ -1,8 +1,8 @@
 package twitter.dao.role;
 
+import java.util.Collection;
 import java.util.List;
 import twitter.beans.Role;
-import twitter.beans.User;
 
 /**
  * Created by Nikolay on 05.04.2017.
