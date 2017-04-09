@@ -16,9 +16,6 @@ public class Role {
 
   private String name;
 
-  @ManyToMany(mappedBy = "roles")
-  private Collection<User> users;
-
   @ManyToMany
   @JoinTable(
       name = "roles_privileges",
@@ -57,12 +54,15 @@ public class Role {
     return privileges;
   }
 
+  public void setPrivileges(Collection<Privilege> privileges){
+    this.privileges=privileges;
+  }
+
   @Override
   public String toString() {
     return "Role{" +
         "id=" + id +
         ", name='" + name + '\'' +
-        ", users=" + users +
         ", privileges=" + privileges +
         '}';
   }

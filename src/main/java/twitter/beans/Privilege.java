@@ -15,11 +15,11 @@ public class Privilege {
 
   private String name;
 
-  @ManyToMany(mappedBy = "privileges")
-  private Collection<Role> roles;
+  public Privilege() {
+  }
 
   public Privilege(String privilegeName) {
-    this.name = name;
+    this.name = privilegeName;
   }
 
   public Long getId() {
@@ -36,5 +36,13 @@ public class Privilege {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Privilege{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        '}';
   }
 }
