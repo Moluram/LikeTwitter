@@ -52,7 +52,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers( "/signin", "/", "/signup").anonymous();
 
     http.authorizeRequests()
-        .antMatchers("/**").hasAuthority("VIEW_PAGES")
+        .antMatchers("/**").hasAuthority("VIEW_PAGES_PRIVILEGE")
         .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
         .antMatchers("/{username}/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
 

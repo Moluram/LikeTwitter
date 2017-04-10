@@ -6,11 +6,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitter.beans.*;
+import twitter.dao.passwordresetdao.PasswordResetRepository;
+import twitter.dao.role.RoleDAO;
+import twitter.dao.user.UserDAO;
+import twitter.dao.verificationtoken.VerificationTokenDAO;
 import twitter.web.dto.UserDto;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,129 +24,118 @@ import java.util.UUID;
  */
 @Service("userService")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class UserServiceImpl implements UserService{
-  private List<User> userList = new ArrayList<>();
-  private List<VerificationToken> tokens = new ArrayList<>();
-  private List<PasswordResetToken> passwordResetTokens = new ArrayList<>();
+public class UserServiceImpl implements UserService {
+  private static final String USER_ROLE = "USER";
 
-  public void addUser(User user) {
-      userList.add(user);
-  }
+  private UserDAO userDAO;
+  private RoleDAO roleDAO;
+  private VerificationTokenDAO verificationTokenDAO;
+  private PasswordResetRepository passwordResetRepository;
+  private PasswordEncoder passwordEncoder;
 
-  public List<User> listUser() {
-    return null;
-  }
-
-  public void removeUser(Integer id) {
-
-  }
-
-  public User findByName(String name) {
-    for (User user: userList) {
-      if (user.getUsername().equals(name)) {
-        return user;
-      }
-    }
-    return null;
+  @Autowired
+  public void setPasswordResetRepository(PasswordResetRepository passwordResetRepository) {
+    this.passwordResetRepository = passwordResetRepository;
   }
 
   @Autowired
-  private PasswordEncoder passwordEncoder;
+  public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
+  }
 
+  @Autowired
+  public void setUserDAO(UserDAO userDAO) {
+    this.userDAO = userDAO;
+  }
+
+  @Autowired
+  public void setRoleDAO(RoleDAO roleDAO) {
+    this.roleDAO = roleDAO;
+  }
+
+  @Autowired
+  public void setVerificationTokenDAO(VerificationTokenDAO verificationTokenDAO){
+    this.verificationTokenDAO = verificationTokenDAO;
+  }
+
+  public void addUser(User user) {
+      userDAO.create(user);
+  }
+
+  @Override
+  public User getUserByUsername(String username) {
+    return userDAO.findByUsername(username);
+  }
+
+  @Override
+  public User findByEmail(String email) {
+    return userDAO.findByEmail(email);
+  }
+
+  public void removeUser(Integer id) {
+    userDAO.delete(id);
+  }
+
+  public List<User> listUser() {
+    return userDAO.getAll();
+  }
 
   @Override
   public User registerNewUserAccount(UserDto accountDto) {
-    for (User user: userList) {
-      if (user.getUsername().equals(accountDto.getUsername())){
-        throw new UsernameExistsException();
-      }
-      if (user.getEmail().equals(accountDto.getEmail())) {
-        throw new EmailExistsException();
-      }
+    if (null == userDAO.findByUsername(accountDto.getUsername())) {
+      throw new UsernameExistsException();
+    }
+    if (null == userDAO.findByEmail(accountDto.getEmail())) {
+      throw new EmailExistsException();
     }
     User user = new User();
     user.setEmail(accountDto.getEmail());
     user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     user.setUsername(accountDto.getUsername());
-    List<Privilege> privileges = new ArrayList<>();
-    privileges.add(new Privilege("VIEW_PAGES"));
-    user.setRole(new Role("USER", privileges));
-    userList.add(user);
+    user.setRole(roleDAO.findByName(USER_ROLE));
+    addUser(user);
     return user;
   }
 
   @Override
   public void createVerificationToken(User user, String token) {
-    tokens.add(new VerificationToken(user, token, VerificationToken.EXPIRATION));
+    verificationTokenDAO.create(new VerificationToken(user, token, VerificationToken.EXPIRATION));
   }
 
   @Override
   public VerificationToken getVerificationToken(String token) {
-    for (VerificationToken verificationToken: tokens) {
-      if (verificationToken.getToken().equals(token)) {
-        return verificationToken;
-      }
-    }
-    return null; // null if not found pls
+    return verificationTokenDAO.findByTokenName(token); // null if not found pls
   }
 
   @Override
   public void saveRegisteredUser(User user) {
-
+    userDAO.update(user);
   }
 
   @Override
   public VerificationToken generateNewVerificationToken(String existingToken) {
-    for (VerificationToken verificationToken: tokens) {
-      if (verificationToken.getToken().equals(existingToken)) {
-        verificationToken.setToken(UUID.randomUUID().toString());
-        return verificationToken;
-      }
+    VerificationToken token = verificationTokenDAO.findByTokenName(existingToken);
+    if (token == null) {
+      return token;
     }
-    return null; // null if not found pls
+    token.setToken(UUID.randomUUID().toString());
+    return token; // null if not found pls
   }
 
   @Override
   public User getUserByToken(String token) {
-    for (VerificationToken verificationToken: tokens) {
-      if (verificationToken.getToken().equals(token)) {
-        return verificationToken.getUser();
-      }
-    }
-    return null; // null if not found pls
-  }
-
-  @Override
-  public User getUserByUsername(String username) {
-    for (User user: userList) {
-      if (user.getUsername().equals(username)){
-        return user;
-      }
-    }
-    return null;
+    return verificationTokenDAO.findByTokenName(token).getUser(); // null if not found pls
   }
 
   @Override
   public void createPasswordResetTokenForUser(User user, String token) {
-    passwordResetTokens.add(new PasswordResetToken(user, token, PasswordResetToken.EXPIRATION));
+    passwordResetRepository.create(
+        new PasswordResetToken(user, token, PasswordResetToken.EXPIRATION));
   }
 
   @Override
   public void changeUserPassword(User user, String password) {
-    for (User iUser: userList) {
-      if (iUser.equals(user)){
-        iUser.setPassword(password);
-      }
-    }
-  }
-
-  @Override
-  public User findByEmail(String email) {
-    for (User user: userList) {
-      if (user.getEmail().equals(email)){
-        return user;
-      }
-    }
-    return null;
+    user.setPassword(password);
+    userDAO.update(user);
   }
 }

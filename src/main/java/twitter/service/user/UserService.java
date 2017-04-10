@@ -37,8 +37,6 @@ public interface UserService {
    */
   void removeUser(Integer id);
 
-  User findByName(String name);
-
   @Transactional
   User registerNewUserAccount(UserDto accountDto)
       throws UsernameExistsException, EmailExistsException;
@@ -49,7 +47,7 @@ public interface UserService {
 
   void saveRegisteredUser(User user);
 
-    VerificationToken generateNewVerificationToken(String existingToken);
+  VerificationToken generateNewVerificationToken(String existingToken);
 
   User getUserByToken(String token);
 

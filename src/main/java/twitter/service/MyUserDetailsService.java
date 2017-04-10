@@ -39,7 +39,7 @@ public class MyUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws
       UsernameNotFoundException {
     try {
-      User user = userService.findByName(username);
+      User user = userService.getUserByUsername(username);
       if (user == null) {
         throw new UsernameNotFoundException(
                 "Username does not exist: " + username);
