@@ -29,10 +29,10 @@ public class VerificationToken {
 
   }
 
-  public VerificationToken(User user, String token) {
+  public VerificationToken(User user, String token, int expiration) {
     this.user = user;
     this.token = token;
-    this.expiryDate = calculateExpiryDate(EXPIRATION);
+    this.expiryDate = calculateExpiryDate(expiration);
   }
 
   private Date calculateExpiryDate(int expiryTimeInMinutes) {
