@@ -23,13 +23,12 @@ public class PasswordResetToken {
 
   private Date expiryDate;
 
-  public PasswordResetToken() {
-  }
+  public PasswordResetToken() {}
 
-  public PasswordResetToken(User user, String token) {
+  public PasswordResetToken(User user, String token, int expiration) {
     this.user = user;
     this.token = token;
-    this.expiryDate = calculateExpiryDate(EXPIRATION);
+    this.expiryDate = calculateExpiryDate(expiration);
   }
 
   private Date calculateExpiryDate(int expiryTimeInMinutes) {
