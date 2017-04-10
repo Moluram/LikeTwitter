@@ -49,14 +49,10 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable();
 
-    http.authorizeRequests().antMatchers( "/signin","/", "/signup").anonymous()
-        .anyRequest().permitAll();
-
-    http.authorizeRequests().antMatchers( "/**").anonymous()
-        .anyRequest().denyAll();
+    http.authorizeRequests().antMatchers( "/signin", "/", "/signup").anonymous();
 
     http.authorizeRequests()
-        .antMatchers("/**").hasRole("USER")
+        .antMatchers("/**").hasAuthority("VIEW_PAGES")
         .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
         .antMatchers("/{username}/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
 
