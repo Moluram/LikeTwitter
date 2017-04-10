@@ -2,6 +2,7 @@ package twitter.web.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,9 @@ public class LoginController {
 
   @RequestMapping(value = "/signin", method = RequestMethod.POST)
   public String performLogin
-      (Model model, WebRequest request, String error, String logout, Authentication auth) {
-    return "redirect:/" + auth.getPrincipal() + "?lang=" + request.getLocale().getCountry();
+      (WebRequest request, Authentication auth) {
+    auth = SecurityContextHolder.getContext().getAuthentication();
+    return "redirect:/" + auth.getName() + "?lang=" + request.getLocale().getCountry();
   }
 
 
