@@ -1,67 +1,26 @@
 package twitter.web.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-import twitter.beans.PasswordResetToken;
-import twitter.beans.User;
-import twitter.dao.passwordresetdao.PasswordResetRepository;
-import twitter.dao.privilege.PrivilegeDAO;
-import twitter.dao.role.RoleDAO;
-import twitter.dao.user.UserDAO;
-import twitter.dao.verificationtoken.VerificationTokenDAO;
 import twitter.service.user.UserService;
 
 @Controller
-@PreAuthorize("hasRole('IS_AUTHENTICATED_ANONYMOUSLY')")
 @RequestMapping("/")
 class HomeController {
 
-  private final RoleDAO roleDAO;
-  private final PrivilegeDAO privilegeDAO;
-  private final UserDAO userDAO;
-  private final VerificationTokenDAO verificationTokenDAO;
-  private final PasswordResetRepository passwordResetRepository;
+	@RequestMapping(method = RequestMethod.GET)
+	public String sayHello(Authentication auth, WebRequest request) {
+		return "welcome";
+	}
 
-  @Autowired
-  public HomeController(RoleDAO roleDAO, PrivilegeDAO privilegeDAO, UserDAO userDAO,
-      VerificationTokenDAO verificationTokenDAO, PasswordResetRepository passwordResetRepository) {
-    this.roleDAO = roleDAO;
-    this.privilegeDAO = privilegeDAO;
-    this.userDAO = userDAO;
-    this.verificationTokenDAO = verificationTokenDAO;
-    this.passwordResetRepository = passwordResetRepository;
-  }
-
-  @RequestMapping(method = RequestMethod.GET)
-  public ModelAndView sayHello(ModelAndView model) {
-    model.setViewName("welcome");
-
-
-    User user=userDAO.read(21);
-    PasswordResetToken passwordToken=new PasswordResetToken(user,"qwerttyikjdfbfjhlxascbjh,p;");
-//    passwordResetRepository.create(passwordToken);
-
-    System.out.println("BY NAME");
-    passwordToken=passwordResetRepository.findByToken("qwerttyikjdfbfjhlxascbjh,p;");
-    System.out.println(passwordToken);
-    System.out.println("USER");
-    System.out.println(passwordResetRepository.getUserByToken("qwerttyikjdfbfjhlxascbjh,p;"));
-    System.out.println("SAME");
-    System.out.println(passwordResetRepository.read(passwordToken.getId()));
-
-    return model;
-  }
-
-  @PreAuthorize("hasRole('ROLE_USER')")
-  @RequestMapping(value = "@{username}", method = RequestMethod.GET)
-  public ModelAndView userPage(@PathVariable String username,
-      ModelAndView model, UserService service) {
-    model.setViewName("userPage");
-    return model;
-  }
+	@RequestMapping(value = "homepage", method = RequestMethod.GET)
+	public String homepage() {
+		return "homepage";
+	}
 }
