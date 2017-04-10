@@ -29,7 +29,7 @@ public interface RoleService {
    * Removes role from app
    * @param id - role id
    */
-  void removeRole(Integer id);
+  void removeRole(Long id);
 
   Role findByName(String name);
 }
