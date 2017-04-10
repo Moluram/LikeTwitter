@@ -16,9 +16,6 @@ public class Role {
 
   private String name;
 
-  @ManyToMany(mappedBy = "roles")
-  private Collection<User> users;
-
   @ManyToMany
   @JoinTable(
       name = "roles_privileges",
@@ -27,6 +24,9 @@ public class Role {
       inverseJoinColumns = @JoinColumn(
           name = "privilege_id", referencedColumnName = "id"))
   private Collection<Privilege> privileges;
+
+  public Role() {
+  }
 
   public Role(String name, List<Privilege> privileges) {
     this.name = name;
@@ -52,5 +52,18 @@ public class Role {
 
   public Collection<Privilege> getPrivileges() {
     return privileges;
+  }
+
+  public void setPrivileges(Collection<Privilege> privileges){
+    this.privileges=privileges;
+  }
+
+  @Override
+  public String toString() {
+    return "Role{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", privileges=" + privileges +
+        '}';
   }
 }

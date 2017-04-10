@@ -26,26 +26,26 @@ public class User {
   private String email;
 
   @Column(name = "ENABLED")
-  private boolean enabled = false;
+  private Boolean enabled = false;
 
   @Column(name = "TOKENEXPIRED")
-  private boolean tokenExpired;
+  private Boolean tokenExpired;
 
   private Role role;
 
-  public boolean isEnabled() {
+  public Boolean isEnabled() {
     return enabled;
   }
 
-  public void setEnabled(boolean enabled) {
+  public void setEnabled(Boolean enabled) {
     this.enabled = enabled;
   }
 
-  public boolean isTokenExpired() {
+  public Boolean isTokenExpired() {
     return tokenExpired;
   }
 
-  public void setTokenExpired(boolean tokenExpired) {
+  public void setTokenExpired(Boolean tokenExpired) {
     this.tokenExpired = tokenExpired;
   }
 
@@ -87,5 +87,18 @@ public class User {
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        ", email='" + email + '\'' +
+        ", enabled=" + enabled +
+        ", tokenExpired=" + tokenExpired +
+        ", role=" + role +
+        '}';
   }
 }

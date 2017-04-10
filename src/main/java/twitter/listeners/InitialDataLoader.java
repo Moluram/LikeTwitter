@@ -31,9 +31,19 @@ public class InitialDataLoader implements
   private static final String ROLE_USER = "ROLE_USER";
   private boolean alreadySetup = false;
 
+  private UserService userService;
+
   private RoleService roleService;
 
   private PrivilegeService privilegeService;
+
+  private PasswordEncoder passwordEncoder;
+
+  @Autowired
+  @Qualifier("userService")
+  public void setUserService(UserService userService) {
+    this.userService = userService;
+  }
 
   @Autowired
   @Qualifier("roleService")
@@ -47,6 +57,11 @@ public class InitialDataLoader implements
     this.privilegeService = privilegeService;
   }
 
+  @Autowired
+  public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
+  }
+
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     if (alreadySetup) {
       return;
@@ -58,7 +73,19 @@ public class InitialDataLoader implements
     createRoleIfNotFound(ROLE_ADMIN, userPrivileges);
     createRoleIfNotFound(ROLE_USER, userPrivileges);
 
+    createUser();
+
     alreadySetup = true;
+  }
+
+  private void createUser() {
+    Role adminRole = roleService.findByName(ROLE_ADMIN);
+    User user = new User();
+    user.setUsername("moluram");
+    user.setPassword(passwordEncoder.encode("123"));
+    user.setEmail("lala@mail.com");
+    user.setRole(adminRole);
+    userService.addUser(user);
   }
 
   @Transactional

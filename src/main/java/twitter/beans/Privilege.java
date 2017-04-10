@@ -15,6 +15,9 @@ public class Privilege {
 
   private String name;
 
+  public Privilege() {
+  }
+
   public Privilege(String privilegeName) {
     this.name = privilegeName;
   }
@@ -33,5 +36,13 @@ public class Privilege {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Privilege{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        '}';
   }
 }
