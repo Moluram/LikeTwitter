@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService{
     user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     user.setUsername(accountDto.getUsername());
     List<Privilege> privileges = new ArrayList<>();
-    privileges.add(new Privilege("RESEND_REGISTRATION_TOKEN"));
+    privileges.add(new Privilege("VIEW_PAGES"));
     user.setRole(new Role("USER", privileges));
     userList.add(user);
     return user;

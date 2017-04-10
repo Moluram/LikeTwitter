@@ -7,8 +7,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import twitter.beans.User;
 import twitter.service.user.UserService;
 
 /**
@@ -34,8 +37,14 @@ public class UserController {
   }
 
   @RequestMapping(method = RequestMethod.GET)
-  public String getHomepage() {
-    return "homepage";
+  public ModelAndView getHomepage(@PathVariable String username, ModelAndView model) {
+    User user = userService.getUserByUsername(username);
+    if (user == null) {
+      model.setViewName("errors/404error");
+      return model;
+    }
+    model.setViewName("homepage");
+    return model;
   }
 
 }
