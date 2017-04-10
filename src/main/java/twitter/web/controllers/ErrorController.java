@@ -13,4 +13,10 @@ public class ErrorController {
   public String emailError() {
     return "emailError";
   }
+
+  @RequestMapping(value = "/404", method = RequestMethod.GET)
+  public String notFound() {
+    return "errors/404error";
+  }
 }
+
