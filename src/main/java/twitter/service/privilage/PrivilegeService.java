@@ -29,7 +29,7 @@ public interface PrivilegeService {
    * Removes privilege from app
    * @param id - privilege id
    */
-  void removePrivilege(Integer id);
+  void removePrivilege(Long id);
 
   Privilege findByName(String name);
 }
