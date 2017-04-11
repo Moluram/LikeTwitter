@@ -20,7 +20,7 @@ import twitter.dao.user.UserDAO;
 /**
  * Created by Nikolay on 09.04.2017.
  */
-@Component
+@Component()
 public class PasswordResetRepositoryJdbcImpl implements PasswordResetRepository {
 
   private static final String QUERY_INSERT_TOKEN_ATTRIBUTES_VALUES =
