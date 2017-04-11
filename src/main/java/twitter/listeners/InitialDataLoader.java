@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.Privilege;
 import twitter.beans.Role;
 import twitter.beans.User;
+import twitter.constants.RolesAndPrivileges;
 import twitter.service.privilage.PrivilegeService;
 import twitter.service.role.RoleService;
 import twitter.service.user.UserService;
@@ -24,12 +25,6 @@ import java.util.List;
 @Component
 public class InitialDataLoader implements
     ApplicationListener<ContextRefreshedEvent> {
-
-  private static final String VIEW_PAGES_PRIVILEGE = "VIEW_PAGES_PRIVILEGE";
-  private static final String WRITE_PRIVILEGE = "WRITE_PRIVILEGE";
-  private static final String READ_PRIVILEGE = "READ_PRIVILEGE";
-  private static final String ROLE_ADMIN = "ROLE_ADMIN";
-  private static final String ROLE_USER = "ROLE_USER";
   private boolean alreadySetup = false;
 
   private RoleService roleService;
@@ -52,13 +47,14 @@ public class InitialDataLoader implements
     if (alreadySetup) {
       return;
     }
-    Privilege readPrivilege = createPrivilegeIfNotFound(READ_PRIVILEGE);
-    Privilege writePrivilege = createPrivilegeIfNotFound(WRITE_PRIVILEGE);
-    Privilege viewPagesPrivilege = createPrivilegeIfNotFound(VIEW_PAGES_PRIVILEGE);
+    Privilege readPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.READ_PRIVILEGE);
+    Privilege writePrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.WRITE_PRIVILEGE);
+    Privilege viewPagesPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges
+        .VIEW_PAGES_PRIVILEGE);
     List<Privilege> userPrivileges = Arrays
         .asList(readPrivilege, writePrivilege, viewPagesPrivilege);
-    createRoleIfNotFound(ROLE_ADMIN, userPrivileges);
-    createRoleIfNotFound(ROLE_USER, userPrivileges);
+    createRoleIfNotFound(RolesAndPrivileges.ROLE_ADMIN, userPrivileges);
+    createRoleIfNotFound(RolesAndPrivileges.ROLE_USER, userPrivileges);
     alreadySetup = true;
   }
 

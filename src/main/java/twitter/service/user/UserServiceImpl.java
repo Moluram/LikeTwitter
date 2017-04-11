@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitter.beans.*;
+import twitter.constants.RolesAndPrivileges;
 import twitter.dao.passwordresetdao.PasswordResetRepository;
 import twitter.dao.role.RoleDAO;
 import twitter.dao.user.UserDAO;
@@ -25,7 +26,6 @@ import java.util.UUID;
 @Service("userService")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class UserServiceImpl implements UserService {
-  private static final String USER_ROLE = "USER";
 
   private UserDAO userDAO;
   private RoleDAO roleDAO;
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     user.setEmail(accountDto.getEmail());
     user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     user.setUsername(accountDto.getUsername());
-    user.setRole(roleDAO.findByName(USER_ROLE));
+    user.setRole(roleDAO.findByName(RolesAndPrivileges.ROLE_USER));
     addUser(user);
     return user;
   }

@@ -45,7 +45,7 @@ public class MyUserDetailsService implements UserDetailsService {
                 "Username does not exist: " + username);
       }
       return new org.springframework.security.core.userdetails.User(
-              user.getUsername(), user.getPassword(), user.isEnabled(),
+              user.getUsername(), user.getPassword(), true,
               true, true,
               true, getAuthorities(Arrays.asList(user.getRole())));
     } catch (Exception e) {
