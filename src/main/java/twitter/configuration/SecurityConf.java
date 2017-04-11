@@ -61,7 +61,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
           .successForwardUrl("/signin")
           .failureUrl("/signin?error=true")
           .and()
-        .logout().logoutSuccessUrl("/signin");
+        .logout().logoutUrl("/logout").logoutSuccessUrl("/signin").deleteCookies("JSESSIONID");
   }
 
   @Bean

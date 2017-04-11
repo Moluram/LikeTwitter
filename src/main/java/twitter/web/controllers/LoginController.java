@@ -32,11 +32,4 @@ public class LoginController {
     auth = SecurityContextHolder.getContext().getAuthentication();
     return "redirect:/" + auth.getName() + "?lang=" + request.getLocale().getCountry();
   }
-
-
-  @PreAuthorize("hasRole('IS_AUTHENTICATED_FULLY')")
-  @RequestMapping(value = "/logout", method = RequestMethod.GET)
-  public String logout(ModelAndView model, WebRequest request) {
-    return "redirect:/?lang=" + request.getLocale().getCountry();
-  }
 }

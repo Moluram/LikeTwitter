@@ -20,6 +20,8 @@
     <spring:message code="label.form.reset"></spring:message>
 </button>
 
+<a href="<c:url value="/logout" />">Logout</a>
+
 <c:if test="${!user.enabled}">
     <br>
     <h1>
