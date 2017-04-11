@@ -56,6 +56,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
         .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
         .antMatchers("/{username}/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
 
+    http.exceptionHandling().accessDeniedPage("/accessDenied");
+
     http.formLogin()
           .loginPage("/signin")
           .successForwardUrl("/signin")
