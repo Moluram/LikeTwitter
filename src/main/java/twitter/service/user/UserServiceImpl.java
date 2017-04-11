@@ -82,10 +82,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User registerNewUserAccount(UserDto accountDto) {
-    if (null == userDAO.findByUsername(accountDto.getUsername())) {
+    if (null != userDAO.findByUsername(accountDto.getUsername())) {
       throw new UsernameExistsException();
     }
-    if (null == userDAO.findByEmail(accountDto.getEmail())) {
+    if (null != userDAO.findByEmail(accountDto.getEmail())) {
       throw new EmailExistsException();
     }
     User user = new User();

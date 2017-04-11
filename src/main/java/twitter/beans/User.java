@@ -29,7 +29,7 @@ public class User {
   private Boolean enabled = false;
 
   @Column(name = "TOKENEXPIRED")
-  private Boolean tokenExpired;
+  private Boolean tokenExpired=false;
 
   private Role role;
 

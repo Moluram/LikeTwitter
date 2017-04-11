@@ -95,7 +95,7 @@ public class RegistrationController {
         trySendMessage(request, registered);
       } catch (Exception me) {
         model.addAttribute("user", userDto);
-        return "redirect:/emailError?lang?lang=" + request.getLocale().getLanguage();
+        return "redirect:/emailError?lang=" + request.getLocale().getLanguage();
       }
       model.addAttribute("user" ,userDto);
       return "redirect:/signin?lang=" + request.getLocale().getLanguage();

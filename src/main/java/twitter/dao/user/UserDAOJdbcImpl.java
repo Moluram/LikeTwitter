@@ -197,6 +197,9 @@ public class UserDAOJdbcImpl implements UserDAO {
       st.setString(1,username);
       ResultSet rs=st.executeQuery();
       user=getUserFromResultSet(rs);
+      if(user==null){
+        return null;
+      }
       user.setRole(getUserRole(connection,user.getId()));
     } catch (SQLException e) {
       e.printStackTrace();
@@ -213,6 +216,9 @@ public class UserDAOJdbcImpl implements UserDAO {
       st.setString(1,email);
       ResultSet rs=st.executeQuery();
       user=getUserFromResultSet(rs);
+      if(user==null){
+        return null;
+      }
       user.setRole(getUserRole(connection,user.getId()));
     } catch (SQLException e) {
       e.printStackTrace();
