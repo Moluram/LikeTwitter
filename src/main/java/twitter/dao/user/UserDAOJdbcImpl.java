@@ -253,6 +253,9 @@ public class UserDAOJdbcImpl implements UserDAO {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    if (null == roleId) {
+      return null;
+    }
     return roleDAO.read(roleId);
   }
 
