@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import twitter.constants.RolesAndPrivileges;
 import twitter.service.MyUserDetailsService;
 
 /**
@@ -52,7 +53,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers( "/signin", "/", "/signup").anonymous();
 
     http.authorizeRequests()
-        .antMatchers("/**").hasAuthority("VIEW_PAGES_PRIVILEGE")
+        .antMatchers("/**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE)
         .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
         .antMatchers("/{username}/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
 
