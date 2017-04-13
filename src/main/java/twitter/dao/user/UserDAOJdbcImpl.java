@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class UserDAOJdbcImpl implements UserDAO {
 
   private static final String QUERY_UPDATE_USER_ATTRIBUTES_VALUES = "UPDATE attribute_value "
       + "SET value=? "
-      + "WHERE entity_id=? AND attribute_id=?";
+      + "WHERE entity_id=? AND attribute_id=(SELECT attribute_id FROM attribute WHERE name=?)";
 
   private static final String QUERY_UPDATE_USER_ROLE="UPDATE reference SET child_id=? "
       + "WHERE parent_id=?";
@@ -175,7 +176,7 @@ public class UserDAOJdbcImpl implements UserDAO {
         user.setUsername(rs.getString("username"));
         user.setPassword(rs.getString("password"));
         user.setEmail(rs.getString("email"));
-        Boolean enabled=Boolean.getBoolean(rs.getString("enabled"));
+        Boolean enabled=Boolean.valueOf(rs.getString("enabled"));
         user.setEnabled(enabled);
         Boolean tokenExpired=Boolean.getBoolean((rs.getString("token_expired")));
         user.setTokenExpired(tokenExpired);
@@ -242,7 +243,6 @@ public class UserDAOJdbcImpl implements UserDAO {
     return user;
   }
 
-  // TODO: if null
   private Role getUserRole(Connection connection,Integer userId) throws SQLException {
     Long roleId=null;
     try (PreparedStatement readRoleSt = connection.prepareStatement(QUERY_GET_USER_ROLE_ID)){
