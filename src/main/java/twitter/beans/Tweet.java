@@ -7,7 +7,15 @@ public class Tweet {
     private Integer id ;
     private String text;
     private Date date;
+    private String ownerUsername;
 
+    public String getOwnerUsername() {
+        return ownerUsername;
+    }
+
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
+    }
 
     public Tweet(){
         super();

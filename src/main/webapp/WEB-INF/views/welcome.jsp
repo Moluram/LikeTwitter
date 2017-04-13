@@ -10,5 +10,6 @@
 <body>
 	Greeting : ${greeting}
 	<a href="<c:url value="/signup"></c:url>">Registration</a>
+	<a href="<c:url value="/signin"></c:url>">Signin</a>
 </body>
 </html>

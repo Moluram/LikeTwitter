@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Moluram
@@ -22,7 +24,7 @@
 
 <a href="<c:url value="/logout" />">Logout</a>
 
-<c:if test="${!user.enabled}">
+<c:if test="${!isEnabled}">
     <br>
     <h1>
         <spring:message code="label.form.resendRegistrationToken"></spring:message>
@@ -31,5 +33,32 @@
         <spring:message code="button.form.resendRegistrationToken"></spring:message>
     </button>
 </c:if>
+
+
+<div >
+    <c:if test="${isOwner}">
+    <div >
+        <form:form modelAttribute="tweet" method="POST" enctype="utf8">
+            <tr><td>
+                <label>
+                    <spring:message code="label.form.text"></spring:message>
+                </label>
+            </td>
+                <td><form:input path="text" value="" /></td>
+                <form:errors path="text" element="div"/>
+            </tr>
+
+            <button type="submit">
+                <spring:message code="label.form.submit"></spring:message>
+            </button>
+        </form:form>
+    </div>
+    </c:if>
+    <c:forEach items="${tweets}" var="t">
+        <div>
+            <c:out value="${t.text}"/>
+        </div>
+    </c:forEach>
+</div>
 </body>
 </html>

@@ -20,8 +20,16 @@ public class TweetDao {
     }
 
     public void addTweet(Tweet t){
-        t.setDate(Calendar.getInstance().getTime());
         tweetList.add(t);
     }
 
+    public List<Tweet> getUserTweets(String username) {
+        List<Tweet> tweets = new ArrayList<>();
+        for (Tweet tweet: tweetList) {
+            if (tweet.getOwnerUsername().equals(username)) {
+                tweets.add(tweet);
+            }
+        }
+        return tweets;
+    }
 }
