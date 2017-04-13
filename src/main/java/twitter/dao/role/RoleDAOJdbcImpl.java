@@ -39,15 +39,17 @@ public class RoleDAOJdbcImpl implements RoleDAO {
       + "((SELECT type_id FROM object_type WHERE type_name=?))";
 
   private static final  String QUERY_READ_ALL_ROLES="SELECT "
-        + "obj.entity_id id,"
-        + "name.value name "
+      + "obj.entity_id id,"
+      + "name.value name "
       + "FROM object obj "
-        + "JOIN attribute_value name ON obj.entity_id = name.entity_id "
-          + "AND name.attribute_id=(SELECT attribute.attribute_id FROM attribute WHERE attribute.name='name') ";
+      + "JOIN object_type ON object_type.type_id=obj.type_id "
+      + "JOIN attribute_value name ON obj.entity_id = name.entity_id "
+      + "AND name.attribute_id=(SELECT attribute.attribute_id FROM attribute WHERE attribute.name='name') "
+      + "WHERE object_type.type_name='role' ";
 
-  private static final String USER_ID_CONSTREIN=" WHERE obj.entity_id=? LIMIT 1";
+  private static final String USER_ID_CONSTRAIN ="AND obj.entity_id=? LIMIT 1";
 
-  private static final String NAME_CONSTREIN=" WHERE name.value=? LIMIT 1";
+  private static final String NAME_CONSTRAIN =" AND name.value=? LIMIT 1";
 
   private static final String QUERY_DELETE_ROLE_OBJECT="DELETE FROM object WHERE entity_id=?";
 
@@ -88,7 +90,7 @@ public class RoleDAOJdbcImpl implements RoleDAO {
   @Override
   public Role read(Long id) {
     Role role=null;
-    String query=QUERY_READ_ALL_ROLES+USER_ID_CONSTREIN;
+    String query=QUERY_READ_ALL_ROLES+USER_ID_CONSTRAIN;
     try (Connection connection = dataSource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
       st.setLong(1,id);
@@ -165,7 +167,7 @@ public class RoleDAOJdbcImpl implements RoleDAO {
   @Override
   public Role findByName(String name) {
     Role role=null;
-    String query=QUERY_READ_ALL_ROLES+NAME_CONSTREIN;
+    String query=QUERY_READ_ALL_ROLES+NAME_CONSTRAIN;
     try (Connection connection = dataSource.getConnection();
         PreparedStatement st = connection.prepareStatement(query)) {
       st.setString(1,name);
