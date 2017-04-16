@@ -1,35 +1,19 @@
 package twitter.beans;
 
-import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
-
 /**
  * Represent a single user in the application
  */
-@Entity
-@Table(name = "USERS")
-public class User {
+public class User extends Entity {
 
-  @Id
-  @Column(name = "ID")
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
-
-  @Column(name = "USERNAME")
   private String username;
 
-  @Column(name = "PASSWORD")
   private String password;
 
-  @Column(name = "EMAIL")
   private String email;
 
-  @Column(name = "ENABLED")
   private Boolean enabled = false;
 
-  @Column(name = "TOKENEXPIRED")
-  private Boolean tokenExpired=false;
+  private Boolean tokenExpired = false;
 
   private Role role;
 
@@ -47,14 +31,6 @@ public class User {
 
   public void setTokenExpired(Boolean tokenExpired) {
     this.tokenExpired = tokenExpired;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
   }
 
   public String getUsername() {
@@ -104,15 +80,27 @@ public class User {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     User user = (User) o;
 
-    if (id != null ? !id.equals(user.id) : user.id != null) return false;
-    if (username != null ? !username.equals(user.username) : user.username != null) return false;
-    if (password != null ? !password.equals(user.password) : user.password != null) return false;
-    if (email != null ? !email.equals(user.email) : user.email != null) return false;
+    if (id != null ? !id.equals(user.id) : user.id != null) {
+      return false;
+    }
+    if (username != null ? !username.equals(user.username) : user.username != null) {
+      return false;
+    }
+    if (password != null ? !password.equals(user.password) : user.password != null) {
+      return false;
+    }
+    if (email != null ? !email.equals(user.email) : user.email != null) {
+      return false;
+    }
     return (enabled != null ? enabled.equals(user.enabled) : user.enabled == null);
   }
 

@@ -1,28 +1,15 @@
 package twitter.beans;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * Represent a role for a user
  */
-@Entity
-public class Role {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+public class Role extends Entity {
 
   private String name;
 
-  @ManyToMany
-  @JoinTable(
-      name = "roles_privileges",
-      joinColumns = @JoinColumn(
-          name = "role_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(
-          name = "privilege_id", referencedColumnName = "id"))
   private Collection<Privilege> privileges;
 
   public Role() {
@@ -31,15 +18,6 @@ public class Role {
   public Role(String name, List<Privilege> privileges) {
     this.name = name;
     this.privileges = privileges;
-  }
-
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getName() {
@@ -54,8 +32,8 @@ public class Role {
     return privileges;
   }
 
-  public void setPrivileges(Collection<Privilege> privileges){
-    this.privileges=privileges;
+  public void setPrivileges(Collection<Privilege> privileges) {
+    this.privileges = privileges;
   }
 
   @Override
