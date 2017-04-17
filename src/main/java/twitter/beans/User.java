@@ -17,6 +17,16 @@ public class User extends Entity {
 
   private Role role;
 
+  private UserProfile userProfile;
+
+  public UserProfile getUserProfile() {
+    return userProfile;
+  }
+
+  public void setUserProfile(UserProfile userProfile) {
+    this.userProfile = userProfile;
+  }
+
   public Boolean isEnabled() {
     return enabled;
   }
@@ -75,6 +85,7 @@ public class User extends Entity {
         ", enabled=" + enabled +
         ", tokenExpired=" + tokenExpired +
         ", role=" + role +
+        ", userProfile=" + userProfile +
         '}';
   }
 

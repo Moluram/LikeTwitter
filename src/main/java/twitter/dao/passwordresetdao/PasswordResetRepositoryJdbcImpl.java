@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 import twitter.beans.PasswordResetToken;
 import twitter.beans.User;
 import twitter.dao.DateUtils;
-import twitter.dao.user.UserDAO;
+import twitter.dao.UserDAO;
+import twitter.dao.exception.DAOException;
 
 /**
  * Created by Nikolay on 09.04.2017.
@@ -101,7 +102,7 @@ public class PasswordResetRepositoryJdbcImpl implements PasswordResetRepository 
   }
 
   @Override
-  public PasswordResetToken read(Long id) {
+  public PasswordResetToken read(Long id) throws DAOException {
     PasswordResetToken passwordResetToken=null;
     String query=QUERY_READ_ALL_TOKENS+TOKEN_ID_CONSTREIN;
     try (Connection connection = dataSource.getConnection();
@@ -138,7 +139,7 @@ public class PasswordResetRepositoryJdbcImpl implements PasswordResetRepository 
   }
 
   @Override
-  public PasswordResetToken findByToken(String token) {
+  public PasswordResetToken findByToken(String token) throws DAOException {
     PasswordResetToken passwordResetToken=null;
     String query=QUERY_READ_ALL_TOKENS+TOKEN_CONSTREIN;
     try (Connection connection = dataSource.getConnection();
@@ -163,7 +164,7 @@ public class PasswordResetRepositoryJdbcImpl implements PasswordResetRepository 
   }
 
   @Override
-  public User getUserByToken(String token){
+  public User getUserByToken(String token) throws DAOException {
     User user=null;
     try (Connection connection = dataSource.getConnection();
         PreparedStatement st = connection.prepareStatement(QUERY_GET_USER_TOKEN_ID)) {
@@ -173,7 +174,7 @@ public class PasswordResetRepositoryJdbcImpl implements PasswordResetRepository 
       st.setString(3,"user");
       ResultSet resultSet=st.executeQuery();
       while(resultSet.next()){
-        Integer id=resultSet.getInt("user_id");
+        Long id=resultSet.getLong("user_id");
         user=userDAO.read(id);
       }
     } catch (SQLException e) {

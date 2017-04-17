@@ -2,6 +2,7 @@ package twitter.dao.passwordresetdao;
 
 import twitter.beans.PasswordResetToken;
 import twitter.beans.User;
+import twitter.dao.exception.DAOException;
 
 /**
  * Created by Nikolay on 09.04.2017.
@@ -9,12 +10,12 @@ import twitter.beans.User;
 public interface PasswordResetRepository {
   Long create(PasswordResetToken resetToken);
 
-  PasswordResetToken read(Long id);
+  PasswordResetToken read(Long id) throws DAOException;
 
   void update(PasswordResetToken resetToken);
 
-  PasswordResetToken findByToken(String token);
+  PasswordResetToken findByToken(String token) throws DAOException;
 
-  User getUserByToken(String token);
+  User getUserByToken(String token) throws DAOException;
 
 }

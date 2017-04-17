@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
 import twitter.dao.DateUtils;
-import twitter.dao.user.UserDAO;
+import twitter.dao.UserDAO;
+import twitter.dao.exception.DAOException;
 
 /**
  * Created by Nikolay on 08.04.2017.
@@ -105,7 +106,7 @@ public class VerificationTokenDAOJdbcImpl implements VerificationTokenDAO{
   }
 
   @Override
-  public VerificationToken read(Long id) {
+  public VerificationToken read(Long id) throws DAOException {
     VerificationToken verificationToken=null;
     String query=QUERY_READ_ALL_TOKENS+TOKEN_ID_CONSTREIN;
     try (Connection connection = dataSource.getConnection();
@@ -142,7 +143,7 @@ public class VerificationTokenDAOJdbcImpl implements VerificationTokenDAO{
   }
 
   @Override
-  public VerificationToken findByTokenName(String token) {
+  public VerificationToken findByTokenName(String token) throws DAOException {
     VerificationToken verificationToken=null;
     String query=QUERY_READ_ALL_TOKENS+TOKEN_CONSTREIN;
     try (Connection connection = dataSource.getConnection();
@@ -167,7 +168,7 @@ public class VerificationTokenDAOJdbcImpl implements VerificationTokenDAO{
   }
 
   @Override
-  public User getUserByToken(String token){
+  public User getUserByToken(String token) throws DAOException {
     User user=null;
     try (Connection connection = dataSource.getConnection();
         PreparedStatement st = connection.prepareStatement(QUERY_GET_USER_TOKEN_ID)) {
@@ -177,7 +178,7 @@ public class VerificationTokenDAOJdbcImpl implements VerificationTokenDAO{
       st.setString(3,"user");
       ResultSet resultSet=st.executeQuery();
       while(resultSet.next()){
-        Integer id=resultSet.getInt("user_id");
+        Long id=resultSet.getLong("user_id");
         user=userDAO.read(id);
       }
     } catch (SQLException e) {
