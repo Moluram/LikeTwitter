@@ -1,4 +1,4 @@
-package twitter.dao;
+package twitter.dao.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;

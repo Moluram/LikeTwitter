@@ -1,4 +1,4 @@
-package twitter.dao.privilege;
+package twitter.dao;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,7 +8,7 @@ import twitter.beans.Role;
 /**
  * Created by Nikolay on 06.04.2017.
  */
-public interface PrivilegeDAO {
+public interface IPrivilegeDAO {
   /**
    * Adds privilege to the database
    * @param privilege - privilege to add

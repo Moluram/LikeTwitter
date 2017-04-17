@@ -1,4 +1,4 @@
-package twitter.dao.privilege;
+package twitter.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,12 +14,13 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import twitter.beans.Privilege;
+import twitter.dao.IPrivilegeDAO;
 
 /**
  * Created by Nikolay on 06.04.2017.
  */
 @Component
-public class PrivilegeDAOJdbcImpl implements PrivilegeDAO {
+public class PrivilegeDAOImpl implements IPrivilegeDAO {
 
   private static final String QUERY_INSERT_PRIVILEGE_ATTRIBUTES_VALUES =
       "INSERT INTO attribute_value(entity_id,attribute_id,value) VALUES"
@@ -56,7 +57,7 @@ public class PrivilegeDAOJdbcImpl implements PrivilegeDAO {
   private final DataSource dataSource;
 
   @Autowired
-  public PrivilegeDAOJdbcImpl(DataSource dataSource) {
+  public PrivilegeDAOImpl(DataSource dataSource) {
     this.dataSource = dataSource;
   }
 

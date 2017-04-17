@@ -18,10 +18,10 @@ public abstract class EntityRowMapper<T> implements RowMapper<T> {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  protected List<Long> readRelatedObjectsId(Long objId,String relObjType) {
+  protected List<Long> readRelatedObjectsId(Long objId, String objType, String relObjType) {
     List<Long> ids = jdbcTemplate
         .queryForList(SqlQuery.READ_REFERENCIES_ID.getQuery(), Long.class, objId,
-            EntityType.TYPE_USER,
+            objType,
             relObjType);
     return ids;
   }

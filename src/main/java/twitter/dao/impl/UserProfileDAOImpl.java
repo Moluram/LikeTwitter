@@ -1,18 +1,15 @@
 package twitter.dao.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Component;
 import twitter.beans.UserProfile;
-import twitter.dao.AbstractGenericDAOImpl;
-import twitter.dao.UserProfileDAO;
+import twitter.dao.IUserProfileDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
 import twitter.dao.mapper.UserProfileRowMapper;
-import twitter.dao.mapper.UserRowMapper;
 import twitter.dao.query.SqlQuery;
 
 /**
@@ -20,7 +17,7 @@ import twitter.dao.query.SqlQuery;
  */
 @Component
 public class UserProfileDAOImpl extends AbstractGenericDAOImpl<UserProfile> implements
-    UserProfileDAO {
+    IUserProfileDAO {
 
   public UserProfileDAOImpl(DataSource dataSource) {
     super(dataSource);

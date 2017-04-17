@@ -1,4 +1,4 @@
-package twitter.dao.verificationtoken;
+package twitter.dao;
 
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
@@ -7,7 +7,7 @@ import twitter.dao.exception.DAOException;
 /**
  * Created by Nikolay on 08.04.2017.
  */
-public interface VerificationTokenDAO {
+public interface IVerificationTokenDAO {
 
   Long create(VerificationToken verificationToken);
 

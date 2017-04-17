@@ -1,8 +1,5 @@
 package twitter.dao.impl;
 
-import java.nio.file.attribute.UserPrincipal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,32 +7,28 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import twitter.beans.Entity;
 import twitter.beans.User;
-import twitter.beans.UserProfile;
-import twitter.dao.AbstractGenericDAOImpl;
-import twitter.dao.UserDAO;
-import twitter.dao.UserProfileDAO;
+import twitter.dao.IUserDAO;
+import twitter.dao.IUserProfileDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
 import twitter.dao.exception.DAOException;
 import twitter.dao.mapper.UserRowMapper;
 import twitter.dao.query.SqlQuery;
-import twitter.dao.role.RoleDAO;
+import twitter.dao.IRoleDAO;
 
 /**
  * Created by Nikolay on 14.04.2017.
  */
 @Component
-public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements UserDAO {
+public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements IUserDAO {
 
-  private final RoleDAO roleDAO;
-  private final UserProfileDAO userProfileDAO;
+  private final IRoleDAO roleDAO;
+  private final IUserProfileDAO userProfileDAO;
 
   @Autowired
-  public UserDAOImpl(DataSource dataSource, RoleDAO roleDAO,UserProfileDAO userProfileDAO) {
+  public UserDAOImpl(DataSource dataSource, IRoleDAO roleDAO,IUserProfileDAO userProfileDAO) {
     super(dataSource);
     this.roleDAO = roleDAO;
     this.userProfileDAO=userProfileDAO;

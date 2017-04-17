@@ -1,4 +1,4 @@
-package twitter.dao.role;
+package twitter.dao;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,7 +7,7 @@ import twitter.beans.Role;
 /**
  * Created by Nikolay on 05.04.2017.
  */
-public interface RoleDAO {
+public interface IRoleDAO {
   /**
    * Adds pole to the database
    * @param role - role to add

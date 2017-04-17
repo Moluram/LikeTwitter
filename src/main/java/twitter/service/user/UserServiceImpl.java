@@ -7,12 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitter.beans.*;
 import twitter.constants.RolesAndPrivileges;
-import twitter.dao.UserProfileDAO;
-import twitter.dao.exception.DAOException;
-import twitter.dao.passwordresetdao.PasswordResetRepository;
-import twitter.dao.role.RoleDAO;
-import twitter.dao.UserDAO;
-import twitter.dao.verificationtoken.VerificationTokenDAO;
+import twitter.dao.IUserProfileDAO;
+import twitter.dao.IPasswordResetDAO;
+import twitter.dao.IRoleDAO;
+import twitter.dao.IUserDAO;
+import twitter.dao.IVerificationTokenDAO;
 import twitter.web.dto.UserDto;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
@@ -27,20 +26,20 @@ import java.util.UUID;
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class UserServiceImpl implements UserService {
 
-  private UserDAO userDAO;
-  private RoleDAO roleDAO;
-  private UserProfileDAO userProfileDAO;
-  private VerificationTokenDAO verificationTokenDAO;
-  private PasswordResetRepository passwordResetRepository;
+  private IUserDAO userDAO;
+  private IRoleDAO roleDAO;
+  private IUserProfileDAO userProfileDAO;
+  private IVerificationTokenDAO verificationTokenDAO;
+  private IPasswordResetDAO passwordResetRepository;
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  public void setUserProfileDAO(UserProfileDAO userProfileDAO) {
+  public void setUserProfileDAO(IUserProfileDAO userProfileDAO) {
     this.userProfileDAO = userProfileDAO;
   }
 
   @Autowired
-  public void setPasswordResetRepository(PasswordResetRepository passwordResetRepository) {
+  public void setPasswordResetRepository(IPasswordResetDAO passwordResetRepository) {
     this.passwordResetRepository = passwordResetRepository;
   }
 
@@ -50,51 +49,37 @@ public class UserServiceImpl implements UserService {
   }
 
   @Autowired
-  public void setUserDAO(UserDAO userDAO) {
+  public void setUserDAO(IUserDAO userDAO) {
     this.userDAO = userDAO;
   }
 
   @Autowired
-  public void setRoleDAO(RoleDAO roleDAO) {
+  public void setRoleDAO(IRoleDAO roleDAO) {
     this.roleDAO = roleDAO;
   }
 
   @Autowired
-  public void setVerificationTokenDAO(VerificationTokenDAO verificationTokenDAO){
+  public void setVerificationTokenDAO(IVerificationTokenDAO verificationTokenDAO) {
     this.verificationTokenDAO = verificationTokenDAO;
   }
 
   public void addUser(User user) {
-      userDAO.create(user);
+    userDAO.create(user);
   }
 
-  //TODO: catch exception
   @Override
-  public User getUserByUsername(String username){
-    User user=null;
-    try {
-      user = userDAO.findByUsername(username);
-    } catch (DAOException e) {
-      e.printStackTrace();
-    }
-    return user;
+  public User getUserByUsername(String username) {
+    return userDAO.findByUsername(username);
   }
 
-  //TODO: catch exception
   @Override
-  public User findByEmail(String email){
-    User user=null;
-    try {
-      user = userDAO.findByEmail(email);
-    } catch (DAOException e) {
-      e.printStackTrace();
-    }
-    return user;
+  public User findByEmail(String email) {
+    return userDAO.findByEmail(email);
   }
 
   @Override
   public void updateUserPhoto(User user, String photo) {
-    UserProfile userProfile=user.getUserProfile();
+    UserProfile userProfile = user.getUserProfile();
     userProfile.setPhotoUrl(photo);
     userProfileDAO.update(userProfile);
   }
@@ -107,24 +92,15 @@ public class UserServiceImpl implements UserService {
     return userDAO.getAll();
   }
 
-  //TODO: catch exception
   @Override
-  public User registerNewUserAccount(UserDto accountDto){
-    try {
-      if (null != userDAO.findByUsername(accountDto.getUsername())) {
-        throw new UsernameExistsException();
-      }
-    } catch (DAOException e) {
-      e.printStackTrace();
+  public User registerNewUserAccount(UserDto accountDto) {
+    if (null != userDAO.findByUsername(accountDto.getUsername())) {
+      throw new UsernameExistsException();
     }
-    try {
-      if (null != userDAO.findByEmail(accountDto.getEmail())) {
-        throw new EmailExistsException();
-      }
-    } catch (DAOException e) {
-      e.printStackTrace();
+    if (null != userDAO.findByEmail(accountDto.getEmail())) {
+      throw new EmailExistsException();
     }
-    UserProfile userProfile=new UserProfile();
+    UserProfile userProfile = new UserProfile();
 
     System.out.println(userProfile.getPhotoUrl());
 
@@ -146,13 +122,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public VerificationToken getVerificationToken(String token) {
-    VerificationToken vToken=null;
-    try {
-      vToken =  verificationTokenDAO.findByTokenName(token); // null if not found pls
-    } catch (DAOException e) {
-      e.printStackTrace();
-    }
-    return vToken;
+    return verificationTokenDAO.findByTokenName(token);
   }
 
   @Override
@@ -162,12 +132,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public VerificationToken generateNewVerificationToken(String existingToken) {
-    VerificationToken token = null;
-    try {
-      token = verificationTokenDAO.findByTokenName(existingToken);
-    } catch (DAOException e) {
-      e.printStackTrace();
-    }
+    VerificationToken token = verificationTokenDAO.findByTokenName(existingToken);
     if (token == null) {
       return token;
     }
@@ -177,13 +142,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User getUserByToken(String token) {
-    User user=null;
-    try {
-      user =  verificationTokenDAO.findByTokenName(token).getUser(); // null if not found pls
-    } catch (DAOException e) {
-      e.printStackTrace();
-    }
-    return  user;
+    return verificationTokenDAO.findByTokenName(token).getUser();
   }
 
   @Override

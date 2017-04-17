@@ -1,4 +1,4 @@
-package twitter.dao;
+package twitter.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.util.Collection;
@@ -10,10 +10,12 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import twitter.beans.Entity;
+import twitter.dao.IGenericDAO;
 import twitter.dao.exception.DAOException;
 import twitter.dao.mapper.EntityRowMapper;
 import twitter.dao.query.SqlQuery;
@@ -151,6 +153,8 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
               objectType);
     }catch(EmptyResultDataAccessException e){
       return null;
+    }catch(IncorrectResultSizeDataAccessException e){
+      throw new DAOException("Duplicate "+attr+": "+value+" in database!",e);
     }
     return id;
   }

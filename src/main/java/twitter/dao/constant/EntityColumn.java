@@ -21,5 +21,8 @@ public class EntityColumn {
 
   public static final String COLUMN_PASSWORD_RESET_TOKEN = "p_token";
   public static final String COLUMN_VERIFICATION_TOKEN = "v_token";
+  public static final String COLUMN_EXPIRE_DATE="expire_date";
+
+  public static final String COLUMN_NAME="name";
 
 }
