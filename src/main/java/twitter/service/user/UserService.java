@@ -58,4 +58,6 @@ public interface UserService {
   void changeUserPassword(User user, String password);
 
   User findByEmail(String email);
+
+  List<String> getUsernamesWith(String username, Integer maxSuggestions);
 }

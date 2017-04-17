@@ -16,7 +16,6 @@ import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,6 +69,22 @@ public class UserServiceImpl implements UserService {
   @Override
   public User findByEmail(String email) {
     return userDAO.findByEmail(email);
+  }
+
+  @Override
+  public List<String> getUsernamesWith(String username, Integer maxSuggestions) {
+    List<String> list = new ArrayList<>();
+    List<User> users = userDAO.getAll();
+    int counter = 0;
+    for (User user: users) {
+      if (user.getUsername().contains(username)) {
+        list.add(user.getUsername());
+      }
+      if (counter >= maxSuggestions) {
+        break;
+      }
+    }
+    return list;
   }
 
   public void removeUser(Integer id) {
