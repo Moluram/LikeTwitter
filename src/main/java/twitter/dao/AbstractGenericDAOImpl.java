@@ -1,6 +1,5 @@
 package twitter.dao;
 
-import java.io.File;
 import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -42,6 +41,7 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
   @PostConstruct
   protected void initialize() {
     setDataSource(dataSource);
+    rowMapper.setJdbcTemplate(getJdbcTemplate());
   }
 
   @Autowired
@@ -97,10 +97,6 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
         });
   }
 
-  protected List<File> getFiles(T instance) {
-    return null;
-  }
-
   protected Collection<Long> getReferencesIds(T instance) {
     return null;
   }
@@ -122,31 +118,40 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
   @Override
   public T read(Long id) throws DAOException {
     String query = getReadQuery() + " AND obj.entity_id=?";
-    List<Long> refIds = readRelatedObjectsId(id);
-    rowMapper.setReferencesId(refIds);
-    T instance = getJdbcTemplate().queryForObject(query, rowMapper, id);
+    T instance;
+    try {
+      instance = getJdbcTemplate().queryForObject(query, rowMapper, id);
+    }catch(EmptyResultDataAccessException e){
+      return null;
+    }
     return instance;
   }
 
   protected T readBy(String attr, String value) throws DAOException {
     Long objId = getObjectIdByAttr(attr, value, objectType);
-    T instance = read(objId);
+    if(objId==null){
+      return null;
+    }
+    T instance;
+    try {
+      instance = read(objId);
+    }catch(Exception e){
+      return null;
+    }
     return instance;
   }
 
   protected abstract String getReadQuery();
 
-  protected List<Long> readRelatedObjectsId(Long objId) {
-    List<Long> ids = getJdbcTemplate()
-        .queryForList(SqlQuery.READ_REFERENCIES_ID.getQuery(), Long.class, objId, objectType,
-            relatedObjType);
-    return ids;
-  }
-
   private Long getObjectIdByAttr(String attr, String value, String objectType) {
-    Long id = getJdbcTemplate()
-        .queryForObject(SqlQuery.READ_OBJECT_ID_BY_VALUE.getQuery(), Long.class, attr, value,
-            objectType);
+    Long id;
+    try {
+      id = getJdbcTemplate()
+          .queryForObject(SqlQuery.READ_OBJECT_ID_BY_VALUE.getQuery(), Long.class, attr, value,
+              objectType);
+    }catch(EmptyResultDataAccessException e){
+      return null;
+    }
     return id;
   }
 
@@ -155,12 +160,19 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
     createOrUpdateAttrs(instance, INSERT_TYPE.UPDATE);
   }
 
+  //TODO: related obj
   @Override
-  public void delete(T instance) {
-    getJdbcTemplate().update(SqlQuery.DELETE_ENTITY.getQuery(), instance.getId());
-    deleteRelatedObjects(instance);
+  public void delete(Long id) {
+    getJdbcTemplate().update(SqlQuery.DELETE_ENTITY.getQuery(), id);
+    deleteRelatedObjects(id);
   }
 
-  protected void deleteRelatedObjects(T instance) {
+  @Override
+  public List<T> getAll(){
+    List<T> all=getJdbcTemplate().query(getReadQuery(),rowMapper);
+    return all;
+  }
+
+  protected void deleteRelatedObjects(Long id) {
   }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
+import twitter.dao.exception.DAOException;
 import twitter.web.dto.UserDto;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface UserService {
    * Removes user from app
    * @param id - user id
    */
-  void removeUser(Integer id);
+  void removeUser(Long id);
 
   @Transactional
   User registerNewUserAccount(UserDto accountDto)
@@ -58,4 +59,6 @@ public interface UserService {
   void changeUserPassword(User user, String password);
 
   User findByEmail(String email);
+
+  void updateUserPhoto(User user,String photo);
 }

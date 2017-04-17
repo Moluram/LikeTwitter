@@ -3,7 +3,7 @@ package twitter.dao.exception;
 /**
  * Created by Nikolay on 15.04.2017.
  */
-public class DAOException extends Exception{
+public class DAOException extends RuntimeException{
 
   public DAOException() {
   }

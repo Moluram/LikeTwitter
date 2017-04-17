@@ -7,10 +7,10 @@ import java.util.ResourceBundle;
  */
 public enum SqlQuery {
   INSERT_ENTITY, INSERT_ATTRIBUTE, INSERT_REFERENCE, UPDATE_ATTRIBUTE, DELETE_ENTITY,
-  READ_REFERENCIES_ID, READ_OBJECT_ID_BY_VALUE;
+  READ_REFERENCIES_ID, READ_OBJECT_ID_BY_VALUE,READ_ALL_USERS,READ_ALL_USER_PROFILES;
 
   public String getQuery() {
     ResourceBundle resourceBundle = ResourceBundle.getBundle("sqlquery");
-    return resourceBundle.getString("sqlquery." + this.name().toLowerCase());
+    return resourceBundle.getString("query." + this.name().toLowerCase());
   }
 }
