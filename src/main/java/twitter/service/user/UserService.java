@@ -61,4 +61,6 @@ public interface UserService {
   User findByEmail(String email);
 
   void updateUserPhoto(User user,String photo);
+
+  List<String> getUsernamesWith(String username, Integer maxSuggestions);
 }
