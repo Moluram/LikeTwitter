@@ -84,7 +84,7 @@
             </div>
             <div class="form-group">
 
-                <input  type="email" class="form-control" placeholder="Email address" required autofocus type="text" id="username" name="username"/>
+                <input  type="username" class="form-control" placeholder="Username" required autofocus type="text" id="username" name="username"/>
 
             <input type="password" class="form-control" placeholder="Password"  id="password" name="password"/>
             </div>
