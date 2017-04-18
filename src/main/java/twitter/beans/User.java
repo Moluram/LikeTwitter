@@ -1,6 +1,8 @@
 package twitter.beans;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Represent a single user in the application
@@ -11,7 +13,7 @@ public class User {
 
   @Id
   @Column(name = "ID")
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   @Column(name = "USERNAME")
@@ -23,15 +25,28 @@ public class User {
   @Column(name = "EMAIL")
   private String email;
 
-  @Column(name = "ROLE")
-  private String role;
+  @Column(name = "ENABLED")
+  private Boolean enabled = false;
 
-  public String getRole() {
-    return role;
+  @Column(name = "TOKENEXPIRED")
+  private Boolean tokenExpired=false;
+
+  private Role role;
+
+  public Boolean isEnabled() {
+    return enabled;
   }
 
-  public void setRole(String role) {
-    this.role = role;
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public Boolean isTokenExpired() {
+    return tokenExpired;
+  }
+
+  public void setTokenExpired(Boolean tokenExpired) {
+    this.tokenExpired = tokenExpired;
   }
 
   public Integer getId() {
@@ -64,5 +79,51 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        ", email='" + email + '\'' +
+        ", enabled=" + enabled +
+        ", tokenExpired=" + tokenExpired +
+        ", role=" + role +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    User user = (User) o;
+
+    if (id != null ? !id.equals(user.id) : user.id != null) return false;
+    if (username != null ? !username.equals(user.username) : user.username != null) return false;
+    if (password != null ? !password.equals(user.password) : user.password != null) return false;
+    if (email != null ? !email.equals(user.email) : user.email != null) return false;
+    return (enabled != null ? enabled.equals(user.enabled) : user.enabled == null);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id != null ? id.hashCode() : 0;
+    result = 31 * result + (username != null ? username.hashCode() : 0);
+    result = 31 * result + (password != null ? password.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
+    result = 31 * result + (role != null ? role.hashCode() : 0);
+    return result;
   }
 }
