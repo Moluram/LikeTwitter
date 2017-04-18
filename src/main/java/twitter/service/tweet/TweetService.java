@@ -6,10 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import twitter.beans.Tweet;
-import twitter.dao.tweet.TweetDao;
+import twitter.dao.TweetDao;
 import twitter.web.dto.TweetDto;
-
-import javax.validation.Valid;
 
 
 @Service

@@ -2,52 +2,39 @@ package twitter.beans;
 
 import java.util.Date;
 
-public class Tweet {
+public class Tweet extends Entity {
 
-    private Integer id ;
-    private String text;
-    private Date date;
-    private String ownerUsername;
+  private String text;
+  private Date date;
+  private String ownerUsername;
 
-    public String getOwnerUsername() {
-        return ownerUsername;
-    }
+  public String getOwnerUsername() {
+    return ownerUsername;
+  }
 
-    public void setOwnerUsername(String ownerUsername) {
-        this.ownerUsername = ownerUsername;
-    }
+  public void setOwnerUsername(String ownerUsername) {
+    this.ownerUsername = ownerUsername;
+  }
 
-    public Tweet(){
-        super();
-    }
+  public Tweet() {
+    super();
+  }
 
+  public String getText() {
+    return text;
+  }
 
+  public void setText(String text) {
+    this.text = text;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
+  public void setDate(Date date) {
+    this.date = date;
+  }
 
 
 }
