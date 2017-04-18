@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
+import twitter.dao.exception.DAOException;
 import twitter.web.dto.UserDto;
 
 import java.util.List;
@@ -35,11 +36,11 @@ public interface UserService {
    * Removes user from app
    * @param id - user id
    */
-  void removeUser(Integer id);
+  void removeUser(Long id);
 
   @Transactional
   User registerNewUserAccount(UserDto accountDto)
-      throws UsernameExistsException, EmailExistsException;
+          throws UsernameExistsException, EmailExistsException;
 
   void createVerificationToken(User user, String token);
 
@@ -59,5 +60,5 @@ public interface UserService {
 
   User findByEmail(String email);
 
-  List<String> getUsernamesWith(String username, Integer maxSuggestions);
+  void updateUserPhoto(User user,String photo);
 }
