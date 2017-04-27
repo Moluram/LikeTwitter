@@ -40,8 +40,8 @@
             <div class="mbr-navbar__container">
                 <div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
                     <span class="mbr-navbar__brand-link mbr-brand mbr-brand--inline">
-                        <span class="mbr-brand__logo"><a href="https://mobirise.com"><img src="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
-                        <span class="mbr-brand__name"><a class="mbr-brand__name text-white" href="https://mobirise.com">LikeTwitter</a></span>
+                        <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img src="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
+                        <span class="mbr-brand__name"><a class="mbr-brand__name text-white" href="<c:url value="/"/>">LikeTwitter</a></span>
                     </span>
                 </div>
                 <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
@@ -49,9 +49,15 @@
                     <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
                         <div class="mbr-navbar__column">
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons btn-inverse mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
-                                <li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="https://mobirise.com">ABOUT</a></li>
-                                <li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="https://mobirise.com">CONTACT</a></li>
-                                <li class="mbr-navbar__item"><a class="mbr-buttons__link btn btn-default text-white" href="https://mobirise.com">LOGOUT</a></li>
+                                <li class="mbr-navbar__item"><a
+                                        class="mbr-buttons__link btn text-white"
+                                        href="<c:url value="/about"/> ">ABOUT
+                                </a></li>
+                                <li class="mbr-navbar__item"><a
+                                        class="mbr-buttons__link btn text-white" href="<c:url value="/contact"/>">CONTACT</a></li>
+                                <li class="mbr-navbar__item"><a
+                                        class="mbr-buttons__link btn btn-default text-white"
+                                        href="<c:url value="/logout"/>">LOGOUT</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -84,21 +90,22 @@
             </div>
 
             <div class="col-md-9">
+                <div class="row">
                 <c:if test="${isOwner}">
                     <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
                         <div class="row">
                         <div class="widget-area blank">
                             <div class="status-upload">
                                 <spring:message  code="label.form.text" var="inputText"/>
-                                <textarea >
                                 <form:input path="text"  placeholder="${inputText}" />
-                                </textarea>
-                                    <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+                                <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
                             </div><!-- Status Upload  -->
                         </div><!-- Widget Area -->
                       </div>
                     </form:form>
                 </c:if>
+                </div>
+                <div class="row">
                 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
                 <c:forEach items="${tweets}" var="t">
                     <div class="well">
@@ -134,6 +141,7 @@
                         </div>
                     </div>
                 </c:forEach>
+                </div>
             </div>
         </div>
     </div>
