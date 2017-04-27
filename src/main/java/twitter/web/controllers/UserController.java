@@ -33,6 +33,7 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/{username}")
+
 public class UserController {
 
   private static final String TWEET_DTO_NAME = "tweet";
