@@ -34,6 +34,7 @@ public class WebConf extends WebMvcConfigurerAdapter {
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setContentType("text/html;charset=UTF-8");
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
