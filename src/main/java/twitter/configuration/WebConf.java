@@ -1,6 +1,7 @@
 package twitter.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -29,6 +30,11 @@ import java.util.Properties;
 @PropertySource("classpath:mail.properties")
 @Import({SecurityConf.class,DatabaseConf.class})
 public class WebConf extends WebMvcConfigurerAdapter {
+
+	@Override
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
 
 	@Bean
 	public ViewResolver viewResolver() {
@@ -75,6 +81,7 @@ public class WebConf extends WebMvcConfigurerAdapter {
 				new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("WEB-INF/i18/messages");
 		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setUseCodeAsDefaultMessage(false);
 		return messageSource;
 	}
 

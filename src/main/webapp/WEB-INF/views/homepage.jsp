@@ -12,6 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
+
 <html>
 <head>
     <title>Title</title>
@@ -34,6 +35,27 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="bootstrap.min.js"></script>
+    <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#typeahead').typeahead({
+                    hint: true,
+                    highlight: true, /* Enable substring highlighting */
+                    minLength: 1 /* Specify minimum characters required for showing suggestions */
+                },
+                {
+                    source: function (query, process) {
+                        return $.getJSON(
+                            '/search?username=' + document.getElementById("searcher").value,
+                            {query: query},
+                            function (data) {
+                                return process(data);
+                            });
+                    }
+
+                });
+        });
+    </script>
 </head>
 <body>
 <div>
@@ -52,11 +74,14 @@
 </div>
 <img src="/files/${user.userProfile.photoUrl}">
 <img src="/files/${user.userProfile.miniPhoto}">
-<form>
-    <h2><spring:message code="label.form.search"></spring:message></h2>
-    <input type="text" class="tt-query" id="username"/>
-    <button type="submit" formmethod="get" value="<c:url value="/search"/>"></button>
-</form>
+
+
+<div class="bs-example">
+    <h2>Type your favorite car name</h2>
+    <input type="text" class="typeahead tt-query" name="searcher" autocomplete="off"
+           spellcheck="false">
+</div>
+
 <h1>
     <spring:message code="label.form.title.reset"></spring:message>
 </h1>

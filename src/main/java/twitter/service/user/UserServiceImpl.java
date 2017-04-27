@@ -167,6 +167,7 @@ public class UserServiceImpl implements UserService {
       if (counter >= maxSuggestions) {
         break;
       }
+      counter++;
     }
     return list;
   }
