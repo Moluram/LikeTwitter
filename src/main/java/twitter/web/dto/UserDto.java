@@ -48,6 +48,10 @@ public class UserDto {
     this.password = password;
   }
 
+  public void setMatchingPassword(String matchingPassword) {
+    this.matchingPassword = matchingPassword;
+  }
+
   public String getMatchingPassword() {
     return matchingPassword;
   }
