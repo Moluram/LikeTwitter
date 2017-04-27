@@ -1,17 +1,11 @@
 package twitter.beans;
 
-import javax.persistence.*;
 import java.util.Collection;
 
 /**
  * Created by moluram on 24.3.17.
  */
-@Entity
-public class Privilege {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+public class Privilege extends Entity {
 
   private String name;
 
@@ -20,14 +14,6 @@ public class Privilege {
 
   public Privilege(String privilegeName) {
     this.name = privilegeName;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getName() {

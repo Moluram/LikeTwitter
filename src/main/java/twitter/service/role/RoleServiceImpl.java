@@ -5,17 +5,17 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import twitter.beans.Role;
-import twitter.dao.role.RoleDAO;
+import twitter.dao.IRoleDAO;
 
 import java.util.List;
 
 @Service("roleService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class RoleServiceImpl implements RoleService {
-  private RoleDAO roleDAO;
+  private IRoleDAO roleDAO;
 
   @Autowired
-  public void setRoleDAO(RoleDAO roleDAO) {
+  public void setRoleDAO(IRoleDAO roleDAO) {
     this.roleDAO = roleDAO;
   }
 

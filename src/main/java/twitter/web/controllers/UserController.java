@@ -12,9 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import twitter.beans.Tweet;
 import twitter.beans.User;
+import twitter.service.image.ImageService;
+import twitter.service.storage.FileNamingService;
+import twitter.service.storage.StorageService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
 import twitter.web.dto.TweetDto;
@@ -28,19 +33,24 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/{username}")
+
 public class UserController {
+
   private static final String TWEET_DTO_NAME = "tweet";
   private UserService userService;
   private MessageSource messages;
   private Environment env;
 
-
-
   private TweetService tweet_service;
-
+  private ImageService imageService;
 
   @Autowired
-  public void setTweetS2ervice(TweetService ts ) {
+  public void setImageService(ImageService imageService) {
+    this.imageService = imageService;
+  }
+
+  @Autowired
+  public void setTweetS2ervice(TweetService ts) {
     tweet_service = ts;
   }
 
@@ -57,7 +67,7 @@ public class UserController {
 
   @RequestMapping(method = RequestMethod.GET)
   public ModelAndView getHomepage(@PathVariable String username, ModelAndView model,
-                                  HttpSession session) {
+      HttpSession session) {
     User user = userService.getUserByUsername(username);
     if (user == null) {
       model.setViewName("errors/404error");
@@ -80,12 +90,12 @@ public class UserController {
 
 
   @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-  @RequestMapping(method=RequestMethod.POST)
+  @RequestMapping(method = RequestMethod.POST)
   public String addTweet(@PathVariable String username,
-                         @ModelAttribute(TWEET_DTO_NAME) @Valid TweetDto tweetDto,
-                         BindingResult result,
-                         @SessionAttribute("user") User sessionUser,
-                         WebRequest request) {
+      @ModelAttribute(TWEET_DTO_NAME) @Valid TweetDto tweetDto,
+      BindingResult result,
+      @SessionAttribute("user") User sessionUser,
+      WebRequest request) {
     User user = userService.getUserByUsername(username);
     if (user == null) {
       return "redirect:/404" + "?lang=" + request.getLocale().getCountry();
@@ -95,4 +105,12 @@ public class UserController {
     }
     return "redirect:/" + username + "?lang=" + request.getLocale().getCountry();
   }
+
+  @RequestMapping(value = "/upload-photo", method = RequestMethod.POST)
+  public String uploadFile(@RequestParam("file") MultipartFile file, WebRequest request,
+      @SessionAttribute("user") User sessionUser) {
+    imageService.storeImage(file,sessionUser.getUserProfile());
+    return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
+  }
+
 }

@@ -1,7 +1,6 @@
 package twitter.service.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,17 +11,17 @@ import twitter.beans.User;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import twitter.dao.passwordresetdao.PasswordResetRepository;
+import twitter.dao.IPasswordResetDAO;
 
 /**
  * Created by Moluram on 3/29/2017.
  */
 @Service
 public class SecurityServiceImpl implements SecurityService {
-  private PasswordResetRepository passwordResetRepository;
+  private IPasswordResetDAO passwordResetRepository;
 
   @Autowired
-  public void setPasswordResetRepository(PasswordResetRepository passwordResetRepository) {
+  public void setPasswordResetRepository(IPasswordResetDAO passwordResetRepository) {
     this.passwordResetRepository = passwordResetRepository;
   }
 

@@ -1,6 +1,7 @@
 package twitter.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -29,10 +31,16 @@ import java.util.Properties;
 @Import({SecurityConf.class,DatabaseConf.class})
 public class WebConf extends WebMvcConfigurerAdapter {
 
+	@Override
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
+
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setContentType("text/html;charset=UTF-8");
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
@@ -73,6 +81,7 @@ public class WebConf extends WebMvcConfigurerAdapter {
 				new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("WEB-INF/i18/messages");
 		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setUseCodeAsDefaultMessage(false);
 		return messageSource;
 	}
 
@@ -82,6 +91,13 @@ public class WebConf extends WebMvcConfigurerAdapter {
 		resolver.setDefaultLocale(new Locale("en"));
 		resolver.setCookieName("myLocaleCookie");
 		resolver.setCookieMaxAge(4800);
+		return resolver;
+	}
+
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
 		return resolver;
 	}
 

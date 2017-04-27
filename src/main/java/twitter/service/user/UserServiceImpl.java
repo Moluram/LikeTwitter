@@ -7,10 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitter.beans.*;
 import twitter.constants.RolesAndPrivileges;
-import twitter.dao.passwordresetdao.PasswordResetRepository;
-import twitter.dao.role.RoleDAO;
-import twitter.dao.user.UserDAO;
-import twitter.dao.verificationtoken.VerificationTokenDAO;
+import twitter.dao.IUserProfileDAO;
+import twitter.dao.IPasswordResetDAO;
+import twitter.dao.IRoleDAO;
+import twitter.dao.IUserDAO;
+import twitter.dao.IVerificationTokenDAO;
 import twitter.web.dto.UserDto;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
@@ -26,14 +27,20 @@ import java.util.UUID;
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class UserServiceImpl implements UserService {
 
-  private UserDAO userDAO;
-  private RoleDAO roleDAO;
-  private VerificationTokenDAO verificationTokenDAO;
-  private PasswordResetRepository passwordResetRepository;
+  private IUserDAO userDAO;
+  private IRoleDAO roleDAO;
+  private IUserProfileDAO userProfileDAO;
+  private IVerificationTokenDAO verificationTokenDAO;
+  private IPasswordResetDAO passwordResetRepository;
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  public void setPasswordResetRepository(PasswordResetRepository passwordResetRepository) {
+  public void setUserProfileDAO(IUserProfileDAO userProfileDAO) {
+    this.userProfileDAO = userProfileDAO;
+  }
+
+  @Autowired
+  public void setPasswordResetRepository(IPasswordResetDAO passwordResetRepository) {
     this.passwordResetRepository = passwordResetRepository;
   }
 
@@ -43,22 +50,22 @@ public class UserServiceImpl implements UserService {
   }
 
   @Autowired
-  public void setUserDAO(UserDAO userDAO) {
+  public void setUserDAO(IUserDAO userDAO) {
     this.userDAO = userDAO;
   }
 
   @Autowired
-  public void setRoleDAO(RoleDAO roleDAO) {
+  public void setRoleDAO(IRoleDAO roleDAO) {
     this.roleDAO = roleDAO;
   }
 
   @Autowired
-  public void setVerificationTokenDAO(VerificationTokenDAO verificationTokenDAO){
+  public void setVerificationTokenDAO(IVerificationTokenDAO verificationTokenDAO) {
     this.verificationTokenDAO = verificationTokenDAO;
   }
 
   public void addUser(User user) {
-      userDAO.create(user);
+    userDAO.create(user);
   }
 
   @Override
@@ -72,22 +79,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<String> getUsernamesWith(String username, Integer maxSuggestions) {
-    List<String> list = new ArrayList<>();
-    List<User> users = userDAO.getAll();
-    int counter = 0;
-    for (User user: users) {
-      if (user.getUsername().contains(username)) {
-        list.add(user.getUsername());
-      }
-      if (counter >= maxSuggestions) {
-        break;
-      }
-    }
-    return list;
+  public void updateUserPhoto(User user, String photo) {
+    UserProfile userProfile = user.getUserProfile();
+    userProfile.setPhotoUrl(photo);
+    userProfileDAO.update(userProfile);
   }
 
-  public void removeUser(Integer id) {
+  public void removeUser(Long id) {
     userDAO.delete(id);
   }
 
@@ -103,7 +101,10 @@ public class UserServiceImpl implements UserService {
     if (null != userDAO.findByEmail(accountDto.getEmail())) {
       throw new EmailExistsException();
     }
+    UserProfile userProfile = new UserProfile();
+    userProfileDAO.create(userProfile);
     User user = new User();
+    user.setUserProfile(userProfile);
     user.setEmail(accountDto.getEmail());
     user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     user.setUsername(accountDto.getUsername());
@@ -119,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public VerificationToken getVerificationToken(String token) {
-    return verificationTokenDAO.findByTokenName(token); // null if not found pls
+    return verificationTokenDAO.findByTokenName(token);
   }
 
   @Override
@@ -139,18 +140,35 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User getUserByToken(String token) {
-    return verificationTokenDAO.findByTokenName(token).getUser(); // null if not found pls
+    return verificationTokenDAO.findByTokenName(token).getUser();
   }
 
   @Override
   public void createPasswordResetTokenForUser(User user, String token) {
     passwordResetRepository.create(
-        new PasswordResetToken(user, token, PasswordResetToken.EXPIRATION));
+            new PasswordResetToken(user, token, PasswordResetToken.EXPIRATION));
   }
 
   @Override
   public void changeUserPassword(User user, String password) {
     user.setPassword(password);
     userDAO.update(user);
+  }
+
+  @Override
+  public List<String> getUsernamesWith(String username, Integer maxSuggestions) {
+    List<String> list = new ArrayList<>();
+    List<User> users = userDAO.getAll();
+    int counter = 0;
+    for (User user: users) {
+      if (user.getUsername().contains(username)) {
+        list.add(user.getUsername());
+      }
+      if (counter >= maxSuggestions) {
+        break;
+      }
+      counter++;
+    }
+    return list;
   }
 }

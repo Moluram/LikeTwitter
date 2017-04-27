@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import twitter.beans.Privilege;
-import twitter.dao.privilege.PrivilegeDAO;
+import twitter.dao.IPrivilegeDAO;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @Service("privilegeService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PrivilegeServiceImpl implements PrivilegeService {
-  private PrivilegeDAO privilegeDAO;
+  private IPrivilegeDAO privilegeDAO;
 
   @Autowired
-  public void setPrivilegeDAO(PrivilegeDAO privilegeDAO) {
+  public void setPrivilegeDAO(IPrivilegeDAO privilegeDAO) {
     this.privilegeDAO = privilegeDAO;
   }
 

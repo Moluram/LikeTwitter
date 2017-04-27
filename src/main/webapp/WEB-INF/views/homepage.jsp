@@ -16,28 +16,72 @@
 <html>
 <head>
     <title>Title</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script  type="text/javascript" src="../js/typeahead/0.11.1/typeahead.bundle.js"></script>
+    <script type="text/javascript" src="../js/typeahead/0.11.1/typeahead.bundle.js"></script>
 
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="bootstrap.min.js"></script>
+    <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#typeahead').typeahead({
+                    hint: true,
+                    highlight: true, /* Enable substring highlighting */
+                    minLength: 1 /* Specify minimum characters required for showing suggestions */
+                },
+                {
+                    source: function (query, process) {
+                        return $.getJSON(
+                            '/search?username=' + document.getElementById("searcher").value,
+                            {query: query},
+                            function (data) {
+                                return process(data);
+                            });
+                    }
+
+                });
+        });
+    </script>
 </head>
 <body>
-    <form >
-        <h2> <spring:message code="label.form.search"></spring:message></h2>
-        <input type="text" class="tt-query" id="username"/>
-        <button type="submit" formmethod="get" value="<c:url value="/search"/>"></button>
+<div>
+    <form method="POST" enctype="multipart/form-data" action="/${user.username}/upload-photo">
+        <table>
+            <tr>
+                <td>File to upload:</td>
+                <td><input type="file" name="file"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Upload"/></td>
+            </tr>
+        </table>
     </form>
+</div>
+<img src="/files/${user.userProfile.photoUrl}">
+<img src="/files/${user.userProfile.miniPhoto}">
+
+
+<div class="bs-example">
+    <h2>Type your favorite car name</h2>
+    <input type="text" class="typeahead tt-query" name="searcher" autocomplete="off"
+           spellcheck="false">
+</div>
+
 <h1>
     <spring:message code="label.form.title.reset"></spring:message>
 </h1>
@@ -58,24 +102,25 @@
 </c:if>
 
 
-<div >
+<div>
     <c:if test="${isOwner}">
-    <div >
-        <form:form modelAttribute="tweet" method="POST" enctype="utf8">
-            <tr><td>
-                <label>
-                    <spring:message code="label.form.text"></spring:message>
-                </label>
-            </td>
-                <td><form:input path="text" value="" /></td>
-                <form:errors path="text" element="div"/>
-            </tr>
+        <div>
+            <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
+                <tr>
+                    <td>
+                        <label>
+                            <spring:message code="label.form.text"></spring:message>
+                        </label>
+                    </td>
+                    <td><form:input path="text" value=""/></td>
+                    <form:errors path="text" element="div"/>
+                </tr>
 
-            <button type="submit">
-                <spring:message code="label.form.submit"></spring:message>
-            </button>
-        </form:form>
-    </div>
+                <button type="submit">
+                    <spring:message code="label.form.submit"></spring:message>
+                </button>
+            </form:form>
+        </div>
     </c:if>
     <c:forEach items="${tweets}" var="t">
         <div>
