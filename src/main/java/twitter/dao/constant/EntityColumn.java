@@ -25,4 +25,8 @@ public class EntityColumn {
 
   public static final String COLUMN_NAME="name";
 
+  public static final String COLUMN_TEXT="text";
+  public static final String COLUMN_DATE="date";
+  public static final String COLUMN_OWNER_USERNAME="owner_username";
+
 }

@@ -36,7 +36,6 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
   private String[] columIdNames;
 
   private String objectType;
-  private String relatedObjType;
 
   private final DataSource dataSource;
 
@@ -53,10 +52,6 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
 
   protected void setObjectType(String objectType) {
     this.objectType = objectType;
-  }
-
-  protected void setRelatedObjType(String relatedObjType) {
-    this.relatedObjType = relatedObjType;
   }
 
   protected void setColumIdNames(String[] columIdNames) {
@@ -129,35 +124,24 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
     return instance;
   }
 
-  protected T readBy(String attr, String value) throws DAOException {
-    Long objId = getObjectIdByAttr(attr, value, objectType);
-    if(objId==null){
+  protected List<T> readBy(String attr, String value) throws DAOException {
+    String query=getReadQuery()+" AND "+attr+".value=?";
+     return getJdbcTemplate().query(query,rowMapper,value);
+  }
+
+  protected T readUnique(String attr,String value){
+    List<T> instances=readBy(attr,value);
+    if (instances.size() > 1) {
+      throw new DAOException(
+          "Incorrect result size of "+objectType+": exepted 1, actual " + instances.size());
+    } else if (instances.size() == 0) {
       return null;
+    } else {
+      return instances.get(0);
     }
-    T instance;
-    try {
-      instance = read(objId);
-    }catch(Exception e){
-      return null;
-    }
-    return instance;
   }
 
   protected abstract String getReadQuery();
-
-  private Long getObjectIdByAttr(String attr, String value, String objectType) {
-    Long id;
-    try {
-      id = getJdbcTemplate()
-          .queryForObject(SqlQuery.READ_OBJECT_ID_BY_VALUE.getQuery(), Long.class, attr, value,
-              objectType);
-    }catch(EmptyResultDataAccessException e){
-      return null;
-    }catch(IncorrectResultSizeDataAccessException e){
-      throw new DAOException("Duplicate "+attr+": "+value+" in database!",e);
-    }
-    return id;
-  }
 
   @Override
   public void update(T instance) {
