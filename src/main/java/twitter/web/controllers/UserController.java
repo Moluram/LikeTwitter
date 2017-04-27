@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import twitter.beans.Tweet;
 import twitter.beans.User;
+import twitter.service.image.ImageService;
 import twitter.service.storage.FileNamingService;
 import twitter.service.storage.StorageService;
 import twitter.service.tweet.TweetService;
@@ -40,17 +41,11 @@ public class UserController {
   private Environment env;
 
   private TweetService tweet_service;
-  private StorageService storageService;
-  private FileNamingService fileNamingService;
+  private ImageService imageService;
 
   @Autowired
-  public void setFileNamingService(FileNamingService fileNamingService) {
-    this.fileNamingService = fileNamingService;
-  }
-
-  @Autowired
-  public void setStorageService(StorageService storageService) {
-    this.storageService = storageService;
+  public void setImageService(ImageService imageService) {
+    this.imageService = imageService;
   }
 
   @Autowired
@@ -113,9 +108,7 @@ public class UserController {
   @RequestMapping(value = "/upload-photo", method = RequestMethod.POST)
   public String uploadFile(@RequestParam("file") MultipartFile file, WebRequest request,
       @SessionAttribute("user") User sessionUser) {
-    String filename = fileNamingService.generateNewFileName(file);
-    storageService.store(file, filename);
-    userService.updateUserPhoto(sessionUser, filename);
+    imageService.storeImage(file,sessionUser.getUserProfile());
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
   }
 

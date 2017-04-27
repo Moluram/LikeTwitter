@@ -10,6 +10,7 @@ public class UserProfile extends Entity {
   private String firstName="";
   private String lastName="";
   private String photoUrl="default.jpg";
+  private String miniPhoto="default-mini.jpg";
   private List<String> links;
   private String status="";
 
@@ -109,5 +110,13 @@ public class UserProfile extends Entity {
         ", links=" + links +
         ", status='" + status + '\'' +
         '}';
+  }
+
+  public String getMiniPhoto() {
+    return miniPhoto;
+  }
+
+  public void setMiniPhoto(String miniPhoto) {
+    this.miniPhoto = miniPhoto;
   }
 }

@@ -102,9 +102,6 @@ public class UserServiceImpl implements UserService {
       throw new EmailExistsException();
     }
     UserProfile userProfile = new UserProfile();
-
-    System.out.println(userProfile.getPhotoUrl());
-
     userProfileDAO.create(userProfile);
     User user = new User();
     user.setUserProfile(userProfile);

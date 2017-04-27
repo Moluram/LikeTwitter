@@ -1,14 +1,17 @@
 package twitter.service.storage;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -23,14 +26,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
   private final Path rootLocation;
+  private final FileNamingService fileNamingService;
 
   @Autowired
-  public FileSystemStorageService(StorageProperties properties) {
+  public FileSystemStorageService(StorageProperties properties,
+      FileNamingService fileNamingService) {
     this.rootLocation = Paths.get(properties.getLocation());
+    this.fileNamingService = fileNamingService;
   }
 
   @Override
-  public void store(MultipartFile file,String newFilename) {
+  public void store(MultipartFile file, String newFilename) {
     try {
       if (file.isEmpty()) {
         throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
@@ -38,6 +44,16 @@ public class FileSystemStorageService implements StorageService {
       Files.copy(file.getInputStream(), this.rootLocation.resolve(newFilename));
     } catch (IOException e) {
       throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
+    }
+  }
+
+  @Override
+  public void storeImage(BufferedImage image, String filename) {
+    try {
+      File file = Files.createFile(this.rootLocation.resolve(filename)).toFile();
+      ImageIO.write(image, fileNamingService.getFileFormat(filename), file);
+    }catch (IOException e){
+      throw new StorageException("Failed to store image " + filename, e);
     }
   }
 
@@ -63,10 +79,9 @@ public class FileSystemStorageService implements StorageService {
     try {
       Path file = load(filename);
       Resource resource = new UrlResource(file.toUri());
-      if(resource.exists() || resource.isReadable()) {
+      if (resource.exists() || resource.isReadable()) {
         return resource;
-      }
-      else {
+      } else {
         throw new StorageFileNotFoundException("Could not read file: " + filename);
 
       }
@@ -84,7 +99,7 @@ public class FileSystemStorageService implements StorageService {
   @Override
   public void init() {
     try {
-      if(Files.notExists(rootLocation)) {
+      if (Files.notExists(rootLocation)) {
         Files.createDirectory(rootLocation);
       }
     } catch (IOException e) {

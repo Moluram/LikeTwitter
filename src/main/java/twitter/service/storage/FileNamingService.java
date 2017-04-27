@@ -22,14 +22,16 @@ public class FileNamingService {
     this.rootLocation = Paths.get(properties.getLocation());
   }
 
-  public String generateNewFileName(MultipartFile file){
-    String originalName=file.getOriginalFilename();
-    String[] parts= originalName.split("\\.");
-    String newName=genarateUniqueFileName()+"."+parts[parts.length-1];
-    return newName;
+  public String generateNewFileName(String originalName){
+    return genarateUniqueFileName()+"."+getFileFormat(originalName);
   }
 
-  public String genarateUniqueFileName() {
+  public String getFileFormat(String fileName){
+    String[] parts= fileName.split("\\.");
+    return parts[parts.length-1];
+  }
+
+  private String genarateUniqueFileName() {
     String filename= UUID.randomUUID().toString();
     if (Files.notExists(rootLocation.resolve(filename))){
       return filename;
