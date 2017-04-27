@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/dependency/runner.jar --port $PORT target/liketwitter.war
+web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/liketwitter.war
