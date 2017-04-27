@@ -17,6 +17,7 @@ public class UserProfileRowMapper extends EntityRowMapper<UserProfile> {
     userProfile.setFirstName((resultSet.getString(EntityColumn.COLUMN_FIRST_NAME)));
     userProfile.setLastName((resultSet.getString(EntityColumn.COLUMN_LAST_NAME)));
     userProfile.setPhotoUrl(resultSet.getString(EntityColumn.COLUMN_PHOTO_URL));
+    userProfile.setMiniPhoto(resultSet.getString(EntityColumn.COLUMN_MINI_PHOTO));
     userProfile.setLinks(resultSet.getString(EntityColumn.COLUMN_LINKS));
     userProfile.setStatus(resultSet.getString(EntityColumn.COLUMN_STATUS));
     return userProfile;

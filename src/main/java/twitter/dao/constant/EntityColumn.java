@@ -16,6 +16,7 @@ public class EntityColumn {
   public static final String COLUMN_FIRST_NAME="first_name";
   public static final String COLUMN_LAST_NAME="last_name";
   public static final String COLUMN_PHOTO_URL="photo_url";
+  public static final String COLUMN_MINI_PHOTO="mini_photo";
   public static final String COLUMN_LINKS="links";
   public static final String COLUMN_STATUS="status";
 

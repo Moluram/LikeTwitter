@@ -37,6 +37,7 @@ public class UserProfileDAOImpl extends AbstractGenericDAOImpl<UserProfile> impl
     attributeValueMap.put(EntityColumn.COLUMN_FIRST_NAME, instance.getFirstName());
     attributeValueMap.put(EntityColumn.COLUMN_LAST_NAME, instance.getLastName());
     attributeValueMap.put(EntityColumn.COLUMN_PHOTO_URL, instance.getPhotoUrl());
+    attributeValueMap.put(EntityColumn.COLUMN_MINI_PHOTO,instance.getMiniPhoto());
     String links="";
     if(instance.getLinks()!=null){
       links=instance.getLinks().toString();
