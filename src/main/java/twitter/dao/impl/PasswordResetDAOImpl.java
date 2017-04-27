@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -48,7 +49,6 @@ public class PasswordResetDAOImpl extends AbstractGenericDAOImpl<PasswordResetTo
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_ROLE);
-    setRelatedObjType(EntityType.TYPE_PRIVILEGE);
     setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new PasswordResetRowMapper(userDAO, dateUtils));
     super.initialize();
@@ -56,7 +56,7 @@ public class PasswordResetDAOImpl extends AbstractGenericDAOImpl<PasswordResetTo
 
   @Override
   protected Collection<Long> getReferencesIds(PasswordResetToken instance) {
-    return Arrays.asList(instance.getId());
+    return Arrays.asList(instance.getUser().getId());
   }
 
   @Override
@@ -70,12 +70,12 @@ public class PasswordResetDAOImpl extends AbstractGenericDAOImpl<PasswordResetTo
 
   @Override
   protected String getReadQuery() {
-    return SqlQuery.READ_ALL_ROLES.getQuery();
+    return SqlQuery.READ_ALL_PASSWORD_RESET_TOKENS.getQuery();
   }
 
   @Override
   public PasswordResetToken findByToken(String name) throws DAOException {
-    return readBy(EntityColumn.COLUMN_PASSWORD_RESET_TOKEN, name);
+    return readUnique(EntityColumn.COLUMN_PASSWORD_RESET_TOKEN, name);
   }
 
   @Override

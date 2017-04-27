@@ -35,7 +35,6 @@ public class RoleDAOImpl extends AbstractGenericDAOImpl<Role> implements IRoleDA
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_ROLE);
-    setRelatedObjType(EntityType.TYPE_PRIVILEGE);
     setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new RoleRowMapper(privilegeDAO));
     super.initialize();
@@ -61,6 +60,6 @@ public class RoleDAOImpl extends AbstractGenericDAOImpl<Role> implements IRoleDA
 
   @Override
   public Role findByName(String name) throws DAOException {
-    return readBy(EntityColumn.COLUMN_NAME, name);
+    return readUnique(EntityColumn.COLUMN_NAME, name);
   }
 }

@@ -3,11 +3,13 @@ package twitter.dao.impl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import twitter.beans.PasswordResetToken;
 import twitter.beans.Role;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
@@ -40,7 +42,6 @@ public class VerificationTokenDAOImpl extends AbstractGenericDAOImpl<Verificatio
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_ROLE);
-    setRelatedObjType(EntityType.TYPE_PRIVILEGE);
     setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new VerificationTokenRowMapper(userDAO, dateUtils));
     super.initialize();
@@ -48,7 +49,7 @@ public class VerificationTokenDAOImpl extends AbstractGenericDAOImpl<Verificatio
 
   @Override
   protected Collection<Long> getReferencesIds(VerificationToken instance) {
-    return Arrays.asList(instance.getId());
+    return Arrays.asList(instance.getUser().getId());
   }
 
   @Override
@@ -62,12 +63,12 @@ public class VerificationTokenDAOImpl extends AbstractGenericDAOImpl<Verificatio
 
   @Override
   protected String getReadQuery() {
-    return SqlQuery.READ_ALL_ROLES.getQuery();
+    return SqlQuery.READ_ALL_VERIFICATION_TOKENS.getQuery();
   }
 
   @Override
   public VerificationToken findByTokenName(String name) throws DAOException {
-    return readBy(EntityColumn.COLUMN_VERIFICATION_TOKEN, name);
+    return readUnique(EntityColumn.COLUMN_VERIFICATION_TOKEN, name);
   }
 
   @Override

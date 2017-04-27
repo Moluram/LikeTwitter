@@ -34,10 +34,19 @@ public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements IUserDA
     this.userProfileDAO=userProfileDAO;
   }
 
+  @Override
+  public User findByUsername(String username) throws DAOException {
+    return readUnique(EntityColumn.COLUMN_USERNAME, username);
+  }
+
+  @Override
+  public User findByEmail(String email) throws DAOException {
+    return readUnique(EntityColumn.COLUMN_EMAIL, email);
+  }
+
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_USER);
-    setRelatedObjType(EntityType.TYPE_ROLE);
     setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new UserRowMapper(roleDAO,userProfileDAO));
     super.initialize();
@@ -64,13 +73,4 @@ public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements IUserDA
     return SqlQuery.READ_ALL_USERS.getQuery();
   }
 
-  @Override
-  public User findByUsername(String username) throws DAOException {
-    return readBy(EntityColumn.COLUMN_USERNAME, username);
-  }
-
-  @Override
-  public User findByEmail(String email) throws DAOException {
-    return readBy(EntityColumn.COLUMN_EMAIL, email);
-  }
 }
