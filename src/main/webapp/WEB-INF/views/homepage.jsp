@@ -132,11 +132,10 @@
                                         <span>${user.username}</span>
                                         <li>|</li>
                                         <li><span><i class="glyphicon glyphicon-calendar"></i>
-                                            25.04
+                                            ${t.date}
                                     </span></li>
                                     </ul>
-                                    <p>${tweet.text}</p>
-
+                                    <p>${t.text}</p>
                                     <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
                                 </div>
                             </div>
