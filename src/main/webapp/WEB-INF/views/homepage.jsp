@@ -73,8 +73,9 @@
                 <div class='container'>
                     <div class='row'>
                         <div class='col-md-3'>
-                            <img class='img-circle img-responsive' src='${owner.photoMin}' />
+                            <img class='img-circle img-responsive' src='/files/${owner.photoMin}' />
                             <h2>${owner.username}</h2>
+                            <c:if test="${isOwner}">
                             <div>
                                 <form method="POST" enctype="multipart/form-data"
                                       action="/${owner.username}/upload-photo">
@@ -90,6 +91,7 @@
                                     </table>
                                 </form>
                             </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -126,7 +128,7 @@
                         <div class="well">
                             <div class="media">
                                 <a class="pull-left" href="#">
-                                    <img class="media-object"
+                                    <img class="media-object img-circle img-responsive"
                                          src="/files/${t.photoMin}">
                                 </a>
                                 <div class="media-body">
@@ -157,8 +159,8 @@
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
 
-<img src="/files/${ownerUsername.photoOriginal}">
-<img src="/files/${ownerUsername.photoMin}">
+<img src="/files/${owner.photoOriginal}">
+<img src="/files/${owner.photoMin}">
 
 
 <div class="bs-example">
