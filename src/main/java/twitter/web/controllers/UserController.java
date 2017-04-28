@@ -23,10 +23,13 @@ import twitter.service.storage.StorageService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
 import twitter.web.dto.TweetDto;
+import twitter.web.dto.UserDto;
 
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Moluram on 3/28/2017.
@@ -73,7 +76,7 @@ public class UserController {
       model.setViewName("errors/404error");
       return model;
     }
-
+    model.addObject("owner" , new UserDto(user));
     User sessionUser = (User) session.getAttribute("user");
     if (user.equals(sessionUser)) {
       model.addObject("isOwner", true);
@@ -83,9 +86,17 @@ public class UserController {
     }
 
     model.addObject("isEnabled", sessionUser.isEnabled());
-    model.addObject("tweets", tweet_service.getUserTweets(username));
+    model.addObject("tweets", listOfDto(tweet_service.getUserTweets(username), user));
     model.setViewName("homepage");
     return model;
+  }
+
+  private List<TweetDto> listOfDto(List<Tweet> userTweets, User user) {
+    List<TweetDto> tweetDtos = new ArrayList<>();
+    for ( Tweet tweet: userTweets) {
+      tweetDtos.add(new TweetDto(tweet, user));
+    }
+    return tweetDtos;
   }
 
 

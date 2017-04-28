@@ -24,9 +24,9 @@ public class SearchController {
   }
 
   @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-  public @ResponseBody String[] getUserPage(@RequestParam("username") String username) {
+  public @ResponseBody List<String> getUserPage(@RequestParam("username") String username) {
     List<String> list = userService.getUsernamesWith(username, MAX_SUGGESTIONS);
-    return toArray(list);
+    return list;
   }
 
   private String[] toArray(List<String> list) {

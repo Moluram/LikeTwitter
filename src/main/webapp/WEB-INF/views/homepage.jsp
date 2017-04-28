@@ -73,10 +73,11 @@
                 <div class='container'>
                     <div class='row'>
                         <div class='col-md-3'>
-                            <img class='img-circle img-responsive' src='${pageContext.request.contextPath}/resources/images/mbr-2000x1333.jpg' />
-                            <h2>${user.username}</h2>
+                            <img class='img-circle img-responsive' src='${ownerUsername.photoMin}' />
+                            <h2>${ownerUsername.username}</h2>
                             <div>
-                                <form method="POST" enctype="multipart/form-data" action="/${user.username}/upload-photo">
+                                <form method="POST" enctype="multipart/form-data"
+                                      action="/${ownerUsername.username}/upload-photo">
                                     <table>
                                         <tr>
                                             <td>File to upload:</td>
@@ -125,11 +126,12 @@
                         <div class="well">
                             <div class="media">
                                 <a class="pull-left" href="#">
-                                    <img class="media-object" src="/files/${user.userProfile.miniPhoto}">
+                                    <img class="media-object"
+                                         src="/files/${t.photoMin}">
                                 </a>
                                 <div class="media-body">
                                     <ul class="list-inline">
-                                        <span>${user.username}</span>
+                                        <span>${t.ownerUsername}</span>
                                         <li>|</li>
                                         <li><span><i class="glyphicon glyphicon-calendar"></i>
                                             ${t.date}
@@ -155,8 +157,8 @@
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
 
-<img src="/files/${user.userProfile.photoUrl}">
-<img src="/files/${user.userProfile.miniPhoto}">
+<img src="/files/${ownerUsername.photoOriginal}">
+<img src="/files/${ownerUsername.photoMin}">
 
 
 <div class="bs-example">
@@ -168,7 +170,7 @@
 <h1>
     <spring:message code="label.form.title.reset"></spring:message>
 </h1>
-<button type="submit" value="<c:url value="/${user.username}/reset-password"/>" formmethod="post">
+<button type="submit" value="<c:url value="/${ownerUsername.username}/reset-password"/>" formmethod="post">
     <spring:message code="label.form.reset"></spring:message>
 </button>
 

@@ -12,7 +12,7 @@ import twitter.dao.IPasswordResetDAO;
 import twitter.dao.IRoleDAO;
 import twitter.dao.IUserDAO;
 import twitter.dao.IVerificationTokenDAO;
-import twitter.web.dto.UserDto;
+import twitter.web.dto.SignUpDto;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
 
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User registerNewUserAccount(UserDto accountDto) {
+  public User registerNewUserAccount(SignUpDto accountDto) {
     if (null != userDAO.findByUsername(accountDto.getUsername())) {
       throw new UsernameExistsException();
     }

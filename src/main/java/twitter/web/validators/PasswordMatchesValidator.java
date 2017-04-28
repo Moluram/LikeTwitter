@@ -1,6 +1,6 @@
 package twitter.web.validators;
 
-import twitter.web.dto.UserDto;
+import twitter.web.dto.SignUpDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -10,14 +10,14 @@ import javax.validation.ConstraintValidatorContext;
  * @author Aliaksei Chorny
  */
 public class PasswordMatchesValidator
-    implements ConstraintValidator<PasswordMatches, UserDto> {
+    implements ConstraintValidator<PasswordMatches, SignUpDto> {
   @Override
    public void initialize(PasswordMatches constraint) {
    }
 
    @Override
-   public boolean isValid(UserDto user, ConstraintValidatorContext context) {
-     UserDto userDto = user;
-     return userDto.getPassword().equals(userDto.getMatchingPassword());
+   public boolean isValid(SignUpDto user, ConstraintValidatorContext context) {
+     SignUpDto signUpDto = user;
+     return signUpDto.getPassword().equals(signUpDto.getMatchingPassword());
    }
 }

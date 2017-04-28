@@ -1,36 +1,16 @@
 package twitter.web.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Value;
-import twitter.web.validators.PasswordMatches;
-import twitter.web.validators.ValidEmail;
-
-import javax.validation.constraints.NotNull;
+import twitter.beans.User;
 
 /**
- * Represent a class to  transfer user from the view to the application
- * @author Aliaksei Chorny
+ * Created by Moluram on 4/28/2017.
  */
-@PasswordMatches
 public class UserDto {
-  @NotNull
-  @NotEmpty
   private String username;
-
-  @NotNull
-  @NotEmpty
-  private String password;
-  private String matchingPassword;
-
-  @NotNull
-  @NotEmpty
-  @ValidEmail
-  private String email;
-  private boolean enabled;
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
+  private String lastName;
+  private String firstName;
+  private String photoOriginal;
+  private String photoMin;
 
   public String getUsername() {
     return username;
@@ -40,31 +20,43 @@ public class UserDto {
     this.username = username;
   }
 
-  public String getPassword() {
-    return password;
+  public String getLastName() {
+    return lastName;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
-  public void setMatchingPassword(String matchingPassword) {
-    this.matchingPassword = matchingPassword;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public String getMatchingPassword() {
-    return matchingPassword;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
-  public String getEmail() {
-    return email;
+  public String getPhotoOriginal() {
+    return photoOriginal;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setPhotoOriginal(String photoOriginal) {
+    this.photoOriginal = photoOriginal;
   }
 
-  public boolean isEnabled() {
-    return enabled;
+  public String getPhotoMin() {
+    return photoMin;
+  }
+
+  public void setPhotoMin(String photoMin) {
+    this.photoMin = photoMin;
+  }
+
+  public UserDto(User user) {
+    this.username = user.getUsername();
+    this.firstName = user.getUserProfile().getFirstName();
+    this.lastName  = user.getUserProfile().getLastName();
+    this.photoMin = user.getUserProfile().getMiniPhoto();
+    this.photoOriginal = user.getUserProfile().getPhotoUrl();
   }
 }
