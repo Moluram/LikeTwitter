@@ -73,11 +73,11 @@
                 <div class='container'>
                     <div class='row'>
                         <div class='col-md-3'>
-                            <img class='img-circle img-responsive' src='${ownerUsername.photoMin}' />
-                            <h2>${ownerUsername.username}</h2>
+                            <img class='img-circle img-responsive' src='${owner.photoMin}' />
+                            <h2>${owner.username}</h2>
                             <div>
                                 <form method="POST" enctype="multipart/form-data"
-                                      action="/${ownerUsername.username}/upload-photo">
+                                      action="/${owner.username}/upload-photo">
                                     <table>
                                         <tr>
                                             <td>File to upload:</td>
