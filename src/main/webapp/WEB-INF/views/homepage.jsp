@@ -74,8 +74,21 @@
                     <div class='row'>
                         <div class='col-md-3'>
                             <img class='img-circle img-responsive' src='${pageContext.request.contextPath}/resources/images/mbr-2000x1333.jpg' />
-                            <h2>One</h2>
-                            <p>Lorem ispum</p>
+                            <h2>${user.username}</h2>
+                            <div>
+                                <form method="POST" enctype="multipart/form-data" action="/${user.username}/upload-photo">
+                                    <table>
+                                        <tr>
+                                            <td>File to upload:</td>
+                                            <td><input type="file" name="file"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><input type="submit" value="Upload"/></td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +110,8 @@
                         <div class="widget-area blank">
                             <div class="status-upload">
                                 <spring:message  code="label.form.text" var="inputText"/>
-                                <form:input path="text"  placeholder="${inputText}" />
+                                <form:input path="text" cssClass="form-control input-lg"
+                                            placeholder="${inputText}" />
                                 <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
                             </div><!-- Status Upload  -->
                         </div><!-- Widget Area -->
@@ -107,40 +121,27 @@
                 </div>
                 <div class="row">
                 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
-                <c:forEach items="${tweets}" var="t">
-                    <div class="well">
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="http://placekitten.com/150/150">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">Receta 1</h4>
-                                <p class="text-right">By Francisco</p>
-                                <p>${tweet.text}</p>
-                                <ul class="list-inline list-unstyled">
-                                    <li><span><i class="glyphicon glyphicon-calendar"></i> 2 days, 8 hours </span></li>
-                                    <li>|</li>
-                                    <span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>
-                                    <li>|</li>
-                                    <li>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </li>
-                                    <li>|</li>
-                                    <li>
-                                        <!-- Use Font Awesome http://fortawesome.github.io/Font-Awesome/ -->
-                                        <span><i class="fa fa-facebook-square"></i></span>
-                                        <span><i class="fa fa-twitter-square"></i></span>
-                                        <span><i class="fa fa-google-plus-square"></i></span>
-                                    </li>
-                                </ul>
+                    <c:forEach items="${tweets}" var="t">
+                        <div class="well">
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object" src="/files/${user.userProfile.miniPhoto}">
+                                </a>
+                                <div class="media-body">
+                                    <ul class="list-inline">
+                                        <span>${user.username}</span>
+                                        <li>|</li>
+                                        <li><span><i class="glyphicon glyphicon-calendar"></i>
+                                            ${tweet.date}
+                                    </span></li>
+                                    </ul>
+                                    <p>${tweet.text}</p>
+
+                                    <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
                 </div>
             </div>
         </div>
@@ -155,20 +156,6 @@
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
 
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/${user.username}/upload-photo">
-        <table>
-            <tr>
-                <td>File to upload:</td>
-                <td><input type="file" name="file"/></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Upload"/></td>
-            </tr>
-        </table>
-    </form>
-</div>
 <img src="/files/${user.userProfile.photoUrl}">
 <img src="/files/${user.userProfile.miniPhoto}">
 
