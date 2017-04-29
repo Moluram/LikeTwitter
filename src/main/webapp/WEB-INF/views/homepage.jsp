@@ -32,6 +32,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/mbr-additional.css" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/animate.css/animate.min.css"
           rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/smooth-scroll/smooth-scroll.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
 </head>
 <body>
 <section class="mbr-navbar mbr-navbar--xs mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
@@ -49,6 +57,16 @@
                     <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
                         <div class="mbr-navbar__column">
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons btn-inverse mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
+                                <li class="mbr-navbar__item">
+                                        <div class="input-group typeahead" role="search">
+                                            <input type="search" id="q" name="q"
+                                                   placeholder="Search for user"
+                                                   autocomplete="off"
+                                                   class="form-control input-sm">
+                                        </div>
+
+                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </li>
                                 <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn text-white"
                                         href="<c:url value="/about"/> ">ABOUT
@@ -152,12 +170,6 @@
 </section>
 
 
-<script src="${pageContext.request.contextPath}/resources/web/assets/jquery/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/smooth-scroll/smooth-scroll.js"></script>
-<script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
-<script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
-<script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
 
 <img src="/files/${owner.photoOriginal}">
 <img src="/files/${owner.photoMin}">
@@ -172,7 +184,7 @@
 <h1>
     <spring:message code="label.form.title.reset"></spring:message>
 </h1>
-<button type="submit" value="<c:url value="/${ownerUsername.username}/reset-password"/>" formmethod="post">
+<button type="submit" value="<c:url value="/${owner.username}/reset-password"/>" formmethod="post">
     <spring:message code="label.form.reset"></spring:message>
 </button>
 
@@ -194,3 +206,69 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+    var productsearcher;
+    jQuery(document).ready(function($) {
+        productsearcher = new Bloodhound({
+            datumTokenizer: function (d) {
+                return Bloodhound.tokenizers.whitespace(d.value);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            replace: function (url, uriEncodedQuery) {
+                return url + "#" + uriEncodedQuery;
+                // the part after the hash is not sent to the server
+            },
+            remote: {
+                url: '/search' ,
+                ajax: {
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        partialSearchString: 'fire',
+                        category: 'all'
+                    }),
+                    success: function (data) {
+                        console.log("Got data successfully");
+                        console.log(data);
+                    }
+                }
+            }
+        });
+
+        // initialize the bloodhound suggestion engine
+        productsearcher.initialize();
+
+        // instantiate the typeahead UI
+        $('#q').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            source: productsearcher.ttAdapter(),
+
+            // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+            name: 'usersList',
+
+            // the key from the array we want to display (name,id,email,etc...)
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                header: [
+                    '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                    return '<a href="' + data + '" class="list-group-item">' + data + '</a>'
+                }
+            }
+        })
+        // Set the Options for "Bloodhound" suggestion engine
+
+    });
+
+    function goToPage() {
+        var url = document.getElementById("q").value;
+        document.location.href = "/" + url.value;
+    }
+</script>

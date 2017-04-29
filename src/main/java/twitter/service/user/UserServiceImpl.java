@@ -102,6 +102,15 @@ public class UserServiceImpl implements UserService {
     return list;
   }
 
+  @Override
+  public List<String> getUsernames() {
+    List<String> users = new ArrayList<>();
+    for (User user : userDAO.getAll()) {
+      users.add(user.getUsername());
+    }
+    return users;
+  }
+
   public void removeUser(Long id) {
     userDAO.delete(id);
   }

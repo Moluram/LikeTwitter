@@ -34,8 +34,8 @@ public class SearchController {
   }
 
   @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-  public @ResponseBody String getUserPage(@RequestParam("username") String username) throws IOException {
-    List<String> list = userService.getUsernamesStartsWith(username, MAX_SUGGESTIONS);
+  public @ResponseBody String getUserPage() throws IOException {
+    List<String> list = userService.getUsernames();
     return objectMapper.writeValueAsString(list);
   }
 

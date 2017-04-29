@@ -62,4 +62,6 @@ public interface UserService {
   void updateUserPhoto(User user,String photo);
 
   List<String> getUsernamesStartsWith(String username, Integer maxSuggestions);
+
+  List<String> getUsernames();
 }
