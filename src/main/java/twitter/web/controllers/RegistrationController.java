@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
+import twitter.web.dto.SignUpDto;
 import twitter.web.events.OnRegistrationCompleteEvent;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
@@ -73,31 +74,31 @@ public class RegistrationController {
 
   @RequestMapping(method = RequestMethod.GET)
   public String showRegistrationForm(WebRequest request, Model model, Authentication auth) {
-    UserDto userDto = new UserDto();
-    model.addAttribute(USER_ATTRIBUTE_NAME, userDto);
+    SignUpDto signUpDto = new SignUpDto();
+    model.addAttribute(USER_ATTRIBUTE_NAME, signUpDto);
     return REGISTRATION_PAGE_NAME;
   }
 
   @RequestMapping(method = RequestMethod.POST)
   public String registerUserAccount(
-      @ModelAttribute(USER_ATTRIBUTE_NAME) @Valid UserDto userDto,
+      @ModelAttribute(USER_ATTRIBUTE_NAME) @Valid SignUpDto signUpDto,
       BindingResult result, WebRequest request, Model model, Errors errors) {
     if (result.hasErrors()) {
-      model.addAttribute("user", userDto);
+      model.addAttribute("user", signUpDto);
       return "registration";
     } else {
-      User registered = tryRegisterUser(userDto, result);
+      User registered = tryRegisterUser(signUpDto, result);
       if (registered == null) {
-        model.addAttribute("user", userDto);
+        model.addAttribute("user", signUpDto);
         return "registration";
       }
       try {
         trySendMessage(request, registered);
       } catch (Exception me) {
-        model.addAttribute("user", userDto);
+        model.addAttribute("user", signUpDto);
         return "redirect:/emailError?lang=" + request.getLocale().getLanguage();
       }
-      model.addAttribute("user" ,userDto);
+      model.addAttribute("user" , signUpDto);
       return "redirect:/signin?lang=" + request.getLocale().getLanguage();
     }
   }
@@ -166,10 +167,10 @@ public class RegistrationController {
         registered, request.getLocale(), appUrl));
   }
 
-  private User tryRegisterUser(UserDto userDto, BindingResult result) {
+  private User tryRegisterUser(SignUpDto signUpDto, BindingResult result) {
     User user = null;
     try {
-      user = userService.registerNewUserAccount(userDto);
+      user = userService.registerNewUserAccount(signUpDto);
     } catch (EmailExistsException e) {
       result.rejectValue("email", "message.regError");
     } catch (UsernameExistsException e) {
