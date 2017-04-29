@@ -1,5 +1,6 @@
 package twitter.configuration;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ApplicationContext;
@@ -75,7 +76,12 @@ public class WebConf extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-    @Primary
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
+	}
+
+	@Bean
+	@Primary
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource =
 				new ReloadableResourceBundleMessageSource();

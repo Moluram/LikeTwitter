@@ -1,5 +1,6 @@
 package twitter.web.controllers;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import twitter.beans.User;
 import twitter.service.user.UserService;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +19,14 @@ import java.util.List;
 public class SearchController {
   private static final Integer MAX_SUGGESTIONS = 10;
   private UserService userService;
+  private ObjectMapper objectMapper;
+
+
+
+  @Autowired
+  public void setObjectMapper(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
 
   @Autowired
   public void setUserService(UserService userService) {
@@ -24,9 +34,9 @@ public class SearchController {
   }
 
   @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-  public @ResponseBody String[] getUserPage(@RequestParam("username") String username) {
-    List<String> list = userService.getUsernamesWith(username, MAX_SUGGESTIONS);
-    return toArray(list);
+  public @ResponseBody String getUserPage(@RequestParam("username") String username) throws IOException {
+    List<String> list = userService.getUsernamesStartsWith(username, MAX_SUGGESTIONS);
+    return objectMapper.writeValueAsString(list);
   }
 
   private String[] toArray(List<String> list) {
