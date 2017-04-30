@@ -111,7 +111,8 @@ public class UserController {
     if (user == null) {
       return "redirect:/404" + "?lang=" + request.getLocale().getCountry();
     }
-    if (!result.hasErrors() && username.equals(sessionUser.getUsername())) {
+    if (!result.hasErrors() && username.equals(sessionUser.getUsername()) && !tweetDto.getText()
+        .trim().isEmpty()) {
       tweet_service.addTweet(tweetDto, username);
     }
     return "redirect:/" + username + "?lang=" + request.getLocale().getCountry();
@@ -120,7 +121,9 @@ public class UserController {
   @RequestMapping(value = "/upload-photo", method = RequestMethod.POST)
   public String uploadFile(@RequestParam("file") MultipartFile file, WebRequest request,
       @SessionAttribute("user") User sessionUser) {
-    imageService.storeImage(file,sessionUser.getUserProfile());
+    if (file.getSize() != 0) {
+      imageService.storeImage(file, sessionUser.getUserProfile());
+    }
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
   }
 

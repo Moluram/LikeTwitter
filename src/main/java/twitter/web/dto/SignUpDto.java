@@ -1,7 +1,6 @@
 package twitter.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Value;
 import twitter.web.validators.PasswordMatches;
 import twitter.web.validators.ValidEmail;
 

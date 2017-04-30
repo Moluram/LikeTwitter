@@ -85,6 +85,32 @@ public class UserServiceImpl implements UserService {
     userProfileDAO.update(userProfile);
   }
 
+  @Override
+  public List<String> getUsernamesStartsWith(String username, Integer maxSuggestions) {
+    List<String> list = new ArrayList<>();
+    List<User> users = userDAO.getAll();
+    int counter = 0;
+    for (User user: users) {
+      if (user.getUsername().startsWith(username)) {
+        list.add(user.getUsername());
+      }
+      if (counter >= maxSuggestions) {
+        break;
+      }
+      counter++;
+    }
+    return list;
+  }
+
+  @Override
+  public List<String> getUsernames() {
+    List<String> users = new ArrayList<>();
+    for (User user : userDAO.getAll()) {
+      users.add(user.getUsername());
+    }
+    return users;
+  }
+
   public void removeUser(Long id) {
     userDAO.delete(id);
   }
@@ -153,22 +179,5 @@ public class UserServiceImpl implements UserService {
   public void changeUserPassword(User user, String password) {
     user.setPassword(password);
     userDAO.update(user);
-  }
-
-  @Override
-  public List<String> getUsernamesWith(String username, Integer maxSuggestions) {
-    List<String> list = new ArrayList<>();
-    List<User> users = userDAO.getAll();
-    int counter = 0;
-    for (User user: users) {
-      if (user.getUsername().contains(username)) {
-        list.add(user.getUsername());
-      }
-      if (counter >= maxSuggestions) {
-        break;
-      }
-      counter++;
-    }
-    return list;
   }
 }
