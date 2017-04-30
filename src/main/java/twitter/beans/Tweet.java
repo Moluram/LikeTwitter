@@ -1,12 +1,27 @@
 package twitter.beans;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Tweet extends Entity {
 
   private String text;
   private Date date;
   private String ownerUsername;
+  private List<String> usernamesOfUserWhoLikes = new ArrayList<>();
+
+  public List<String> getUsernamesOfUserWhoLikes() {
+    return usernamesOfUserWhoLikes;
+  }
+
+  public void addUsernameToLikes(String usernamesOfUserWhoLikes) {
+    this.usernamesOfUserWhoLikes.add(usernamesOfUserWhoLikes);
+  }
+
+  public void removeUsernameFromLikes(String usernamesOfUserWhoLikes) {
+    this.usernamesOfUserWhoLikes.remove(usernamesOfUserWhoLikes);
+  }
 
   public String getOwnerUsername() {
     return ownerUsername;

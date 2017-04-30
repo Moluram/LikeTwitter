@@ -1,5 +1,6 @@
 package twitter.web.controllers;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -112,7 +113,7 @@ public class UserController {
     for ( Tweet tweet: userTweets) {
       tweetDtos.add(new TweetDto(tweet, user));
     }
-    return tweetDtos;
+    return Lists.reverse(tweetDtos);
   }
 
 

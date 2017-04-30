@@ -42,4 +42,8 @@ public class TweetService {
     tweet.setText(tweetDto.getText());
     tweet_repository.create(tweet);
   }
+
+  public void getTweet(Long id) {
+
+  }
 }
