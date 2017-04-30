@@ -135,6 +135,18 @@
                                  src='/files/${owner.photoMin}' />
                         </a>
                         <h2>@${owner.username}</h2>
+                        <c:if test="${!isOwner}">
+                            <c:if test="${!isSubscribes}">
+                                <a href="<c:url value="/${owner.username}/subscribe"/>"
+                                        class="btn btn-success pull-left">Subscribe
+                                </a>
+                            </c:if>
+                            <c:if test="${isSubscribes}">
+                                <a href="<c:url value="/${owner.username}/subscribe"/>"
+                                   class="btn btn-default pull-left">UnSubscribe
+                                </a>
+                            </c:if>
+                        </c:if>
                 </div>
                 <div class='row animated fadeInUp'>
                     <p class="lead">Settings</p>
@@ -166,24 +178,23 @@
             </div>
 
             <div class="col-md-9">
-                    <c:if test="${isOwner}">
-                        <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
-                            <div class="row">
-                                <div class="widget-area blank rounded border animated fadeInUp">
-                                    <div class="form-group">
-                                        <spring:message  code="label.form.text" var="inputText"/>
-                                        <form:input type="text" path="text"
-                                                    cssClass="form-control input-lg"
-                                                    placeholder="${inputText}" />
+                <c:if test="${isOwner}">
+                    <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
+                        <div class="row">
+                            <div class="widget-area blank rounded border animated fadeInUp">
+                                <div class="form-group">
+                                    <spring:message  code="label.form.text" var="inputText"/>
+                                    <form:input type="text" path="text"
+                                                cssClass="form-control input-lg"
+                                                placeholder="${inputText}" />
 
-                                        <button type="submit" class="btn btn-success pull-right"><i
-                                                class="fa fa-share"></i> Share</button>
-                                    </div>
-                                </div><!-- Widget Area -->
-                             </div>
-                        </form:form>
-                    </c:if>
-
+                                    <button type="submit" class="btn btn-success pull-right"><i
+                                            class="fa fa-share"></i> Share</button>
+                                </div>
+                            </div><!-- Widget Area -->
+                         </div>
+                    </form:form>
+                </c:if>
                 <hr class="colorgraph">
                 <c:forEach items="${tweets}" var="t">
                 <div class="row animated fadeInUp delay">
