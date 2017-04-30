@@ -143,11 +143,10 @@
                             <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
                             <button type="submit" class="btn btn-default pull-right" id="resetPassword"
                                     value="<c:url
-                        value="/${owner.username}/reset-password"/>" formmethod="post">
+                        value="/${owner.username}/settings/reset-password"/>" formmethod="post">
                                 <spring:message code="label.form.reset"/>
                             </button>
                         </div>
-
                         <c:if test="${isOwner}">
                             <div class="list-group-item row">
                                 <form enctype="multipart/form-data" method="post">
