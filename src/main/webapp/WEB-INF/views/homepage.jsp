@@ -113,7 +113,7 @@
                                     <li class="mbr-navbar__item" style="margin-top: 8px"><small class="text-center h3" >You're not confirm your email!</small></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn btn-warning"
-                                            href="<c:url value="/logout"/>">RESEND EMAIL</a></li>
+                                            href="<c:url value="/signup/resendRegistrationToken"/>">RESEND EMAIL</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -152,11 +152,12 @@
                         </c:if>
                 </div>
                 <div class='row animated fadeInUp'>
-                    <p class="lead">Shop Name</p>
+                    <p class="lead">Settings</p>
                     <div class="list-group" style="margin-right: 5px">
-                        <div class="form-group list-group-item">
+                        <div class="list-group-item row">
                             <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
-                            <button type="submit" class="btn btn-default" id="resetPassword" value="<c:url
+                            <button type="submit" class="btn btn-default pull-right" id="resetPassword"
+                                    value="<c:url
                         value="/${owner.username}/reset-password"/>" formmethod="post">
                                 <spring:message code="label.form.reset"/>
                             </button>
@@ -191,20 +192,32 @@
 
                         <div class="well">
                             <div class="media">
+                                <div class="col-md-3">
                                 <a class="pull-left" href="#">
                                     <img class="media-object img-rounded img-thumbnail img-responsive"
                                          src="/files/${t.photoMin}">
                                 </a>
-                                <div class="media-body">
-                                    <ul class="list-inline">
-                                        <h4>@${t.ownerUsername}</h4>
-                                        <li>|</li>
-                                        <li><span><i class="glyphicon glyphicon-calendar"></i>
-                                            ${t.date}
-                                    </span></li>
-                                    </ul>
-                                    <h5>${t.text}</h5>
-                                    <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                @${t.ownerUsername}
+
+                                            </div>
+                                            <div class="col-md-10">|
+                                                <span><i class="glyphicon glyphicon-calendar"></i>
+                                                    ${t.date}
+                                            </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                        ${t.text}
+                                        </div>
+                                        <div class="row">
+                                        <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -214,42 +227,6 @@
         </div>
     </div>
 </section>
-
-
-
-<img src="/files/${owner.photoOriginal}">
-<img src="/files/${owner.photoMin}">
-
-
-<div class="bs-example">
-    <h2>Type your favorite car name</h2>
-    <input type="text" class="typeahead tt-query" name="searcher" autocomplete="off"
-           spellcheck="false">
-</div>
-
-<h1>
-    <spring:message code="label.form.title.reset"></spring:message>
-</h1>
-<button type="submit" value="<c:url value="/${owner.username}/reset-password"/>" formmethod="post">
-    <spring:message code="label.form.reset"></spring:message>
-</button>
-
-<a href="<c:url value="/logout" />">Logout</a>
-
-<c:if test="${!isEnabled}">
-    <br>
-    <h1>
-        <spring:message code="label.form.resendRegistrationToken"></spring:message>
-    </h1>
-    <button value="<c:url value="/signup/resendRegistrationToken"/>" formmethod="get">
-        <spring:message code="button.form.resendRegistrationToken"></spring:message>
-    </button>
-</c:if>
-
-
-<div>
-
-</div>
 </body>
 </html>
 <script type="text/javascript">
