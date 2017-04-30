@@ -111,30 +111,29 @@
     <div class="mbr-section__container mbr-section__container--std-padding container" style="padding-top: 50px; padding-bottom: 93px;">
         <div class="row">
             <div class="col-md-3">
-                <div class='container'>
                     <div class='row'>
-                        <div class='col-md-3'>
-                            <img class='img-circle img-responsive' src='/files/${owner.photoMin}' />
-                            <h2>${owner.username}</h2>
-                            <c:if test="${isOwner}">
-                                <div>
-                                    <form method="POST" enctype="multipart/form-data"
-                                          action="/${owner.username}/upload-photo">
-                                        <table>
-                                            <tr>
-                                                <td>File to upload:</td>
-                                                <td><input type="file" name="file"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td><input type="submit" value="Upload"/></td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </div>
-                            </c:if>
-                        </div>
-                    </div>
+                        <a class="pull-left" href="#">
+                            <img class='media-object img-rounded img-thumbnail img-responsive'
+                                 src='/files/${owner.photoMin}' />
+                        </a>
+                        <h2>${owner.username}</h2>
+                        <c:if test="${isOwner}">
+                            <div>
+                                <form method="POST" enctype="multipart/form-data"
+                                      action="/${owner.username}/upload-photo">
+                                    <table>
+                                        <tr>
+                                            <td>File to upload:</td>
+                                            <td><input type="file" name="file"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><input type="submit" value="Upload"/></td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </c:if>
                 </div>
                 <div class='row'>
                     <p class="lead">Shop Name</p>
@@ -163,13 +162,14 @@
                         </form:form>
                     </c:if>
                 </div>
+                <c:forEach items="${tweets}" var="t">
                 <div class="row">
                     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
-                    <c:forEach items="${tweets}" var="t">
+
                         <div class="well">
                             <div class="media">
                                 <a class="pull-left" href="#">
-                                    <img class="media-object img-circle img-responsive"
+                                    <img class="media-object img-rounded img-thumbnail img-responsive"
                                          src="/files/${t.photoMin}">
                                 </a>
                                 <div class="media-body">
@@ -185,8 +185,8 @@
                                 </div>
                             </div>
                         </div>
-                    </c:forEach>
                 </div>
+                </c:forEach>
             </div>
         </div>
     </div>
