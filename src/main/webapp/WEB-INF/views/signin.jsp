@@ -20,7 +20,8 @@
 
 
 </head>
-<body style="background-image: url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-women-child-baby-awesome/wallpaper-young-people-in-party.jpg);">
+<body style="background-image:
+url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-women-child-baby-awesome/wallpaper-young-people-in-party.jpg); background-size: 100%;">
 
 <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--transparent mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
     <div class="mbr-navbar__section mbr-section">

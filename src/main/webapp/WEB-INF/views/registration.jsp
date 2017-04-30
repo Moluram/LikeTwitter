@@ -22,7 +22,7 @@
 
 
 </head>
-<body style="background-image: url(${pageContext.request.contextPath}/resources/images/joy.png);">
+<body style="background-image: url(${pageContext.request.contextPath}/resources/images/joy.png); background-size: 100%;">
 <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--transparent mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
     <div class="mbr-navbar__section mbr-section">
         <div class="mbr-section__container container">
