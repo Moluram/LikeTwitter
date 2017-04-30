@@ -40,6 +40,22 @@
     <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
     <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
+    <style>
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+        }
+
+        input[type=text]:focus {
+            border: 3px solid #555;
+        }
+    </style>
 </head>
 <body>
 <section class="mbr-navbar mbr-navbar--xs mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
@@ -111,7 +127,7 @@
     <div class="mbr-section__container mbr-section__container--std-padding container" style="padding-top: 50px; padding-bottom: 93px;">
         <div class="row">
             <div class="col-md-3">
-                    <div class='row'>
+                    <div class='row animated fadeInUp'>
                         <a class="pull-left" href="#">
                             <img class='media-object img-rounded img-thumbnail img-responsive'
                                  src='/files/${owner.photoMin}' />
@@ -135,35 +151,42 @@
                             </div>
                         </c:if>
                 </div>
-                <div class='row'>
+                <div class='row animated fadeInUp'>
                     <p class="lead">Shop Name</p>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">Category 1</a>
-                        <a href="#" class="list-group-item">Category 2</a>
-                        <a href="#" class="list-group-item">Category 3</a>
+                    <div class="list-group" style="margin-right: 5px">
+                        <div class="form-group list-group-item">
+                            <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
+                            <button type="submit" class="btn btn-default" id="resetPassword" value="<c:url
+                        value="/${owner.username}/reset-password"/>" formmethod="post">
+                                <spring:message code="label.form.reset"/>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-9">
-                <div class="row">
                     <c:if test="${isOwner}">
                         <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
                             <div class="row">
-                                <div class="widget-area blank">
-                                    <div class="status-upload">
+                                <div class="widget-area blank rounded border animated fadeInUp">
+                                    <div class="form-group">
                                         <spring:message  code="label.form.text" var="inputText"/>
-                                        <form:input path="text" cssClass="form-control input-lg"
+                                        <form:input type="text" path="text"
+                                                    cssClass="form-control input-lg"
                                                     placeholder="${inputText}" />
-                                        <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
-                                    </div><!-- Status Upload  -->
+
+                                        <button type="submit" class="btn btn-success pull-right"><i
+                                                class="fa fa-share"></i> Share</button>
+                                    </div>
                                 </div><!-- Widget Area -->
-                            </div>
+                             </div>
                         </form:form>
                     </c:if>
-                </div>
+
+                <hr class="colorgraph">
                 <c:forEach items="${tweets}" var="t">
-                <div class="row">
+                <div class="row animated fadeInUp delay">
                     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
 
                         <div class="well">
@@ -174,13 +197,13 @@
                                 </a>
                                 <div class="media-body">
                                     <ul class="list-inline">
-                                        <span>${t.ownerUsername}</span>
+                                        <h4>@${t.ownerUsername}</h4>
                                         <li>|</li>
                                         <li><span><i class="glyphicon glyphicon-calendar"></i>
                                             ${t.date}
                                     </span></li>
                                     </ul>
-                                    <p>${t.text}</p>
+                                    <h5>${t.text}</h5>
                                     <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
                                 </div>
                             </div>
