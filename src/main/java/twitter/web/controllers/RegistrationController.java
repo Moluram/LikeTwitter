@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Serve for control the registration
@@ -80,7 +81,7 @@ public class RegistrationController {
   @RequestMapping(method = RequestMethod.POST)
   public String registerUserAccount(
       @ModelAttribute(USER_ATTRIBUTE_NAME) @Valid SignUpDto signUpDto,
-      BindingResult result, WebRequest request, Model model, Errors errors) {
+      BindingResult result, HttpServletRequest request, Model model, Errors errors) {
     if (result.hasErrors()) {
       model.addAttribute("user", signUpDto);
       return "registration";
@@ -102,18 +103,14 @@ public class RegistrationController {
   }
 
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
-  @ResponseBody
-  public String resendRegistrationToken(Model model,@SessionAttribute("username") String username,
-      HttpServletRequest request, @RequestParam("token") String existingToken) {
-    VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
-    User user = newToken.getUser();
+  public String resendRegistrationToken(Model model,
+      HttpServletRequest request, @SessionAttribute("user") User sessionUser) {
+    VerificationToken newToken = userService.createVerificationToken(sessionUser, UUID.randomUUID
+        ().toString());
     String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
-    SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, user);
+    SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, sessionUser);
     mailSender.send(email);
-    model.addAttribute("isResend", true);
-    model.addAttribute("resendMessage", messages.getMessage("message.resendToken", null,
-        request.getLocale()));
-    return "redirect:/" + username + "/?lang=" + request.getLocale().getCountry();
+    return "redirect:/" + sessionUser.getUsername() + "/?lang=" + request.getLocale().getCountry();
   }
 
   @RequestMapping(value = "/confirm", method = RequestMethod.GET)
@@ -159,8 +156,8 @@ public class RegistrationController {
     return email;
   }
 
-  private void trySendMessage(WebRequest request, User registered) {
-    String appUrl = request.getContextPath();
+  private void trySendMessage(HttpServletRequest request, User registered) {
+    String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();;
     eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
         registered, request.getLocale(), appUrl));
   }

@@ -140,8 +140,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void createVerificationToken(User user, String token) {
-    verificationTokenDAO.create(new VerificationToken(user, token, VerificationToken.EXPIRATION));
+  public VerificationToken createVerificationToken(User user, String token) {
+    VerificationToken verificationToken = new VerificationToken(user, token, VerificationToken
+        .EXPIRATION);
+    verificationTokenDAO.create(verificationToken);
+    return verificationToken;
   }
 
   @Override

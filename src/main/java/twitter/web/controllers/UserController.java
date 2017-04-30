@@ -15,11 +15,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import twitter.beans.Subscribe;
 import twitter.beans.Tweet;
 import twitter.beans.User;
 import twitter.service.image.ImageService;
 import twitter.service.storage.FileNamingService;
 import twitter.service.storage.StorageService;
+import twitter.service.subscribe.SubscribeService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
 import twitter.web.dto.TweetDto;
@@ -30,6 +32,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * Created by Moluram on 3/28/2017.
@@ -46,6 +51,12 @@ public class UserController {
 
   private TweetService tweet_service;
   private ImageService imageService;
+  private SubscribeService subscribeService;
+
+  @Autowired
+  public void setSubscribeService(SubscribeService subscribeService) {
+    this.subscribeService = subscribeService;
+  }
 
   @Autowired
   public void setImageService(ImageService imageService) {
@@ -53,7 +64,7 @@ public class UserController {
   }
 
   @Autowired
-  public void setTweetS2ervice(TweetService ts) {
+  public void setTweetService(TweetService ts) {
     tweet_service = ts;
   }
 
@@ -83,6 +94,11 @@ public class UserController {
       model.addObject(TWEET_DTO_NAME, new TweetDto());
     } else {
       model.addObject("isOwner", false);
+      boolean isSubscribes = false;
+      if (subscribeService.getSubscribe(sessionUser.getUsername()).contains(username)) {
+        isSubscribes = true;
+      }
+      model.addObject("isSubscribes", isSubscribes);
     }
 
     model.addObject("isEnabled", sessionUser.isEnabled());
@@ -101,7 +117,7 @@ public class UserController {
 
 
   @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-  @RequestMapping(method = RequestMethod.POST)
+  @RequestMapping(method = POST)
   public String addTweet(@PathVariable String username,
       @ModelAttribute(TWEET_DTO_NAME) @Valid TweetDto tweetDto,
       BindingResult result,
@@ -118,7 +134,7 @@ public class UserController {
     return "redirect:/" + username + "?lang=" + request.getLocale().getCountry();
   }
 
-  @RequestMapping(value = "/upload-photo", method = RequestMethod.POST)
+  @RequestMapping(value = "/upload-photo", method = POST)
   public String uploadFile(@RequestParam("file") MultipartFile file, WebRequest request,
       @SessionAttribute("user") User sessionUser) {
     if (file.getSize() != 0) {
@@ -127,4 +143,28 @@ public class UserController {
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
   }
 
+  @RequestMapping(value = "/subscribe", method = POST)
+  public String subscribe(@PathVariable String username, WebRequest request,
+                          @SessionAttribute ("user") User  sessionUser) {
+    Subscribe subscribe = subscribeService.getSubscribe(sessionUser.getUsername());
+    if (subscribe.contains(username)) {
+      subscribe.removeSubscribe(username);
+    } else {
+      subscribe.addSubscribe(username);
+    }
+    //TODO: save in the database
+    return "redirect:/" + username + "?lang=" + request.getLocale().getCountry();
+  }
+
+  @RequestMapping(value = "/subscribe", method = GET)
+  public ModelAndView listOfSubscribes(@SessionAttribute ("user") User  sessionUser, ModelAndView model) {
+    Subscribe subscribe = subscribeService.getSubscribe(sessionUser.getUsername());
+    List<UserDto> dtos = new ArrayList<>();
+    for (String userUsername: subscribe.getSubscribes()) {
+      dtos.add(new UserDto(userService.getUserByUsername(userUsername)));
+    }
+    model.addObject("users", dtos);
+    model.setViewName("subscribes");
+    return model;
+  }
 }

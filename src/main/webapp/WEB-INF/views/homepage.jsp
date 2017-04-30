@@ -40,6 +40,8 @@
     <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
     <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
+
+    <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-filestyle.min.js"></script>
     <style>
         input[type=text] {
             width: 100%;
@@ -88,6 +90,11 @@
                                 </li>
                                 <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn text-white"
+                                        href="<c:url
+                                        value="/${sessionScope.get('user').getUsername()}/subscribe"/>">SUBSCRIBES
+                                </a></li>
+                                <li class="mbr-navbar__item"><a
+                                        class="mbr-buttons__link btn text-white"
                                         href="<c:url value="/about"/> ">ABOUT
                                 </a></li>
                                 <li class="mbr-navbar__item"><a
@@ -132,59 +139,67 @@
                             <img class='media-object img-rounded img-thumbnail img-responsive'
                                  src='/files/${owner.photoMin}' />
                         </a>
-                        <h2>${owner.username}</h2>
-                        <c:if test="${isOwner}">
-                            <div>
-                                <form method="POST" enctype="multipart/form-data"
-                                      action="/${owner.username}/upload-photo">
-                                    <table>
-                                        <tr>
-                                            <td>File to upload:</td>
-                                            <td><input type="file" name="file"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><input type="submit" value="Upload"/></td>
-                                        </tr>
-                                    </table>
-                                </form>
-                            </div>
+                        <h2>@${owner.username}</h2>
+                        <c:if test="${!isOwner}">
+                            <form action="<c:url value="/${owner.username}/subscribe"/>" method="post">
+                            <c:if test="${!isSubscribes}">
+                                <button class="btn btn-success pull-left">Subscribe
+                                </button>
+                            </c:if>
+                            <c:if test="${isSubscribes}">
+                                <button class="btn btn-default pull-left">UnSubscribe
+                                </button>
+                            </c:if>
+                            </form>
                         </c:if>
                 </div>
                 <div class='row animated fadeInUp'>
                     <p class="lead">Settings</p>
-                    <div class="list-group" style="margin-right: 5px">
-                        <div class="list-group-item row">
-                            <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
-                            <button type="submit" class="btn btn-default pull-right" id="resetPassword"
-                                    value="<c:url
-                        value="/${owner.username}/reset-password"/>" formmethod="post">
-                                <spring:message code="label.form.reset"/>
-                            </button>
-                        </div>
+                    <div class="list-group" style="margin-right: 20px">
+                        <c:if test="${isOwner}">
+                            <div class="list-group-item row">
+                                <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
+                                <button type="submit" class="btn btn-default pull-right" id="resetPassword"
+                                        value="<c:url
+                        value="/${owner.username}/settings/reset-password"/>" formmethod="post">
+                                    <spring:message code="label.form.reset"/>
+                                </button>
+                            </div>
+                            <div class="list-group-item row">
+                                <form enctype="multipart/form-data" method="post"
+                                      action="/${user.username}/upload-photo">
+                                    <label for="file"> Upload your own icon!</label>
+                                    <input type="file" name="file" id="file" data-size="sm"
+                                           data-buttonBefore="true" class="btn-group-sm filestyle"
+                                           data-buttonName="btn-primary"/>
+                                    <button type="submit" class="btn btn-success pull-right"
+                                            id="uploadFile">Upload
+                                    </button>
+                                </form>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-9">
-                    <c:if test="${isOwner}">
-                        <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
-                            <div class="row">
-                                <div class="widget-area blank rounded border animated fadeInUp">
-                                    <div class="form-group">
-                                        <spring:message  code="label.form.text" var="inputText"/>
-                                        <form:input type="text" path="text"
-                                                    cssClass="form-control input-lg"
-                                                    placeholder="${inputText}" />
+                <c:if test="${isOwner}">
+                    <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
+                        <div class="row">
+                            <div class="widget-area blank rounded border animated fadeInUp">
+                                <div class="form-group">
+                                    <spring:message  code="label.form.text" var="inputText"/>
+                                    <form:input type="text" path="text"
+                                                cssClass="form-control input-lg"
+                                                placeholder="${inputText}" />
 
-                                        <button type="submit" class="btn btn-success pull-right"><i
-                                                class="fa fa-share"></i> Share</button>
-                                    </div>
-                                </div><!-- Widget Area -->
-                             </div>
-                        </form:form>
-                    </c:if>
-
+                                    <button type="submit" class="btn btn-success pull-right"><i
+                                            class="fa fa-share"></i> Share</button>
+                                </div>
+                            </div><!-- Widget Area -->
+                         </div>
+                    </form:form>
+                </c:if>
                 <hr class="colorgraph">
                 <c:forEach items="${tweets}" var="t">
                 <div class="row animated fadeInUp delay">
@@ -282,7 +297,7 @@
                     '<div class="list-group search-results-dropdown">'
                 ],
                 suggestion: function (data) {
-                    return '<a href="' + data + '" class="list-group-item">' + data + '</a>'
+                    return '<a href="' + '/' + data + '" class="list-group-item">' + data + '</a>'
                 }
             }
         })

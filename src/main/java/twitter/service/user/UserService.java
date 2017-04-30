@@ -41,7 +41,7 @@ public interface UserService {
   User registerNewUserAccount(SignUpDto accountDto)
           throws UsernameExistsException, EmailExistsException;
 
-  void createVerificationToken(User user, String token);
+  VerificationToken createVerificationToken(User user, String token);
 
   VerificationToken getVerificationToken(String token);
 
