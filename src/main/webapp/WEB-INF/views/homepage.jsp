@@ -149,7 +149,8 @@
                         </div>
                         <c:if test="${isOwner}">
                             <div class="list-group-item row">
-                                <form enctype="multipart/form-data" method="post">
+                                <form enctype="multipart/form-data" method="post"
+                                      action="/${user.username}/upload-photo">
                                     <label for="file"> Upload your own icon!</label>
                                     <input type="file" name="file" id="file" data-size="sm"
                                            data-buttonBefore="true" class="btn-group-sm filestyle"
