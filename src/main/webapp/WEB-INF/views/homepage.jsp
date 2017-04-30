@@ -90,6 +90,11 @@
                                 </li>
                                 <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn text-white"
+                                        href="<c:url
+                                        value="/${sessionScope.get('user').getUsername()}/subscribe"/>">SUBSCRIBES
+                                </a></li>
+                                <li class="mbr-navbar__item"><a
+                                        class="mbr-buttons__link btn text-white"
                                         href="<c:url value="/about"/> ">ABOUT
                                 </a></li>
                                 <li class="mbr-navbar__item"><a
@@ -136,30 +141,30 @@
                         </a>
                         <h2>@${owner.username}</h2>
                         <c:if test="${!isOwner}">
+                            <form action="<c:url value="/${owner.username}/subscribe"/>" method="post">
                             <c:if test="${!isSubscribes}">
-                                <a href="<c:url value="/${owner.username}/subscribe"/>"
-                                        class="btn btn-success pull-left">Subscribe
-                                </a>
+                                <button class="btn btn-success pull-left">Subscribe
+                                </button>
                             </c:if>
                             <c:if test="${isSubscribes}">
-                                <a href="<c:url value="/${owner.username}/subscribe"/>"
-                                   class="btn btn-default pull-left">UnSubscribe
-                                </a>
+                                <button class="btn btn-default pull-left">UnSubscribe
+                                </button>
                             </c:if>
+                            </form>
                         </c:if>
                 </div>
                 <div class='row animated fadeInUp'>
                     <p class="lead">Settings</p>
                     <div class="list-group" style="margin-right: 20px">
-                        <div class="list-group-item row">
-                            <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
-                            <button type="submit" class="btn btn-default pull-right" id="resetPassword"
-                                    value="<c:url
-                        value="/${owner.username}/settings/reset-password"/>" formmethod="post">
-                                <spring:message code="label.form.reset"/>
-                            </button>
-                        </div>
                         <c:if test="${isOwner}">
+                            <div class="list-group-item row">
+                                <label for="resetPassword"> <spring:message code="label.form.title.reset"/></label>
+                                <button type="submit" class="btn btn-default pull-right" id="resetPassword"
+                                        value="<c:url
+                        value="/${owner.username}/settings/reset-password"/>" formmethod="post">
+                                    <spring:message code="label.form.reset"/>
+                                </button>
+                            </div>
                             <div class="list-group-item row">
                                 <form enctype="multipart/form-data" method="post"
                                       action="/${user.username}/upload-photo">
@@ -292,7 +297,7 @@
                     '<div class="list-group search-results-dropdown">'
                 ],
                 suggestion: function (data) {
-                    return '<a href="' + data + '" class="list-group-item">' + data + '</a>'
+                    return '<a href="' + '/' + data + '" class="list-group-item">' + data + '</a>'
                 }
             }
         })
