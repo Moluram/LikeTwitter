@@ -44,6 +44,9 @@
 <body>
 <section class="mbr-navbar mbr-navbar--xs mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
     <div class="mbr-navbar__section mbr-section">
+        <c:if test="${!isEnabled}">
+            <div class="row">
+        </c:if>
         <div class="mbr-section__container container">
             <div class="mbr-navbar__container">
                 <div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
@@ -82,6 +85,26 @@
                 </div>
             </div>
         </div>
+            <c:if test="${!isEnabled}">
+            </div>
+
+            <div class="row">
+                <div style="background:#FFE4B5;">
+                    <div class="container">
+                        <div class="mbr-navbar__column mbr-navbar__menu pull-right">
+                            <div class="mbr-navbar__column center-block pull-right">
+                                <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--center btn-decorator mbr-buttons--active list-inline">
+                                    <li class="mbr-navbar__item" style="margin-top: 8px"><small class="text-center h3" >You're not confirm your email!</small></li>
+                                    <li class="mbr-navbar__item"><a
+                                            class="mbr-buttons__link btn btn-warning"
+                                            href="<c:url value="/logout"/>">RESEND EMAIL</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </c:if>
     </div>
 </section>
 <section class="mbr-section mbr-section--relative mbr-section--fixed-size mbr-parallax-background mbr-after-navbar" id="form1-9" >
