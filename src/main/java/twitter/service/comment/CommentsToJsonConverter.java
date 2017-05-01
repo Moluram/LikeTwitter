@@ -42,7 +42,8 @@ class CommentsToJsonConverter {
           );
       List<Comment> childComments = originalComments
           .stream()
-          .filter(c -> c.getParentCommentId() == currentComment.getId())
+          .filter(c ->
+              currentComment.getId().equals(c.getParentCommentId()))
           .collect(Collectors.toList());
       JsonArrayBuilder childCommentsBuilder = Json.createArrayBuilder();
       if (childComments.size() > 0) {

@@ -31,7 +31,6 @@ public class CommentRowMapper extends EntityRowMapper<Comment> {
 
   @Override
   public Comment mapRow(ResultSet resultSet, int i) throws SQLException {
-    System.out.println("ROW MAPPER");
     Comment comment = new Comment();
     Long id = resultSet.getLong(EntityColumn.COLUMN_ID);
     comment.setId(id);

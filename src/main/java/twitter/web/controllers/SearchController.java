@@ -1,6 +1,5 @@
 package twitter.web.controllers;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +18,15 @@ import java.util.List;
 public class SearchController {
   private static final Integer MAX_SUGGESTIONS = 10;
   private UserService userService;
-  private ObjectMapper objectMapper;
-
-
-
-  @Autowired
-  public void setObjectMapper(ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper;
-  }
 
   @Autowired
   public void setUserService(UserService userService) {
     this.userService = userService;
   }
 
-  @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-  public @ResponseBody String getUserPage() throws IOException {
+  @RequestMapping(value = "/search", method = RequestMethod.GET)
+  public @ResponseBody List getUserPage() throws IOException {
     List<String> list = userService.getUsernames();
-    return objectMapper.writeValueAsString(list);
+    return list;
   }
 }

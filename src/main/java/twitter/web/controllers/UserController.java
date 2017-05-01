@@ -177,11 +177,4 @@ public class UserController {
     return model;
   }
 
-  @RequestMapping(value = "/comments", method = GET, produces = "application/json")
-  public
-  @ResponseBody
-  String loadComments(@RequestParam("tweet-id") Long tweetId) {
-    return commentService.getCommentsByTweetId(tweetId).toString();
-  }
-
 }
