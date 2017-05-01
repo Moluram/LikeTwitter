@@ -11,4 +11,5 @@ public class EntityType {
   public static final String TYPE_VERIFICATION_TOKEN="verification_token";
   public static final String TYPE_PASSWORD_RESET_TOKEN="password_reset_token";
   public static final String TYPE_TWEET="tweet";
+  public static final String TYPE_COMMENT="comment";
 }

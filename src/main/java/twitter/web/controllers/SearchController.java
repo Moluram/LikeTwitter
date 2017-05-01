@@ -38,13 +38,4 @@ public class SearchController {
     List<String> list = userService.getUsernames();
     return objectMapper.writeValueAsString(list);
   }
-
-  private String[] toArray(List<String> list) {
-    String[] array = new String[list.size()];
-    Iterator<String> iterator = list.iterator();
-    for (int i = 0; i < list.size(); i++) {
-      array[i] = iterator.next();
-    }
-    return array;
-  }
 }

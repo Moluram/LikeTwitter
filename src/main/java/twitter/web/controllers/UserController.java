@@ -1,6 +1,7 @@
 package twitter.web.controllers;
 
 import com.google.common.collect.Lists;
+import javax.json.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import twitter.beans.Subscribe;
 import twitter.beans.Tweet;
 import twitter.beans.User;
+import twitter.service.comment.CommentService;
 import twitter.service.image.ImageService;
 import twitter.service.storage.FileNamingService;
 import twitter.service.storage.StorageService;
@@ -53,6 +55,12 @@ public class UserController {
   private TweetService tweet_service;
   private ImageService imageService;
   private SubscribeService subscribeService;
+  private CommentService commentService;
+
+  @Autowired
+  public void setCommentService(CommentService commentService) {
+    this.commentService = commentService;
+  }
 
   @Autowired
   public void setSubscribeService(SubscribeService subscribeService) {
@@ -168,4 +176,12 @@ public class UserController {
     model.setViewName("subscribes");
     return model;
   }
+
+  @RequestMapping(value = "/comments", method = GET, produces = "application/json")
+  public
+  @ResponseBody
+  String loadComments(@RequestParam("tweet-id") Long tweetId) {
+    return commentService.getCommentsByTweetId(tweetId).toString();
+  }
+
 }

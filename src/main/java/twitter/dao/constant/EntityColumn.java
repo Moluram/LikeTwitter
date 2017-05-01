@@ -30,4 +30,6 @@ public class EntityColumn {
   public static final String COLUMN_DATE="date";
   public static final String COLUMN_OWNER_USERNAME="owner_username";
 
+  public static final String COLUMN_OWNER_TWEET_ID="owner_tweet_id";
+
 }
