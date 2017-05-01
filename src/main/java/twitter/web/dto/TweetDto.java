@@ -19,16 +19,36 @@ public class TweetDto {
   private String ownerUsername;
   private String photoMin;
   private Date date;
+  private Integer numberOfLikes;
+  private Long id;
 
   public TweetDto(Tweet tweet, User user) {
     this.ownerUsername = tweet.getOwnerUsername();
     this.date = tweet.getDate();
     this.text = tweet.getText();
     this.photoMin = user.getUserProfile().getMiniPhoto();
+    this.numberOfLikes = tweet.getUsernamesOfUserWhoLikes().size();
+    this.id = tweet.getId();
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public TweetDto() {
 
+  }
+
+  public Integer getNumberOfLikes() {
+    return numberOfLikes;
+  }
+
+  public void setNumberOfLikes(Integer numberOfLikes) {
+    this.numberOfLikes = numberOfLikes;
   }
 
   public Date getDate() {

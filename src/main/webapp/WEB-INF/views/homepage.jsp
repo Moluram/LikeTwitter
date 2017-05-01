@@ -218,7 +218,6 @@
                                         <div class="row">
                                             <div class="col-md-2">
                                                 @${t.ownerUsername}
-
                                             </div>
                                             <div class="col-md-10">|
                                                 <span><i class="glyphicon glyphicon-calendar"></i>
@@ -230,7 +229,15 @@
                                         ${t.text}
                                         </div>
                                         <div class="row">
-                                        <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
+                                            <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
+
+                                            <a href="<c:url
+                                            value="/tweet/${t.id}/${sessionScope.get('user').getUsername()}/${owner.username}/${t.ownerUsername}"/> " id="like"
+                                               class="btn btn-sm btn-success">
+                                                <span class="glyphicon glyphicon-thumbs-up">
+                                                    ${t.numberOfLikes}
+                                                </span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -245,9 +252,8 @@
 </body>
 </html>
 <script type="text/javascript">
-    var productsearcher;
     jQuery(document).ready(function($) {
-        productsearcher = new Bloodhound({
+            var productsearcher = new Bloodhound({
             datumTokenizer: function (d) {
                 return Bloodhound.tokenizers.whitespace(d.value);
             },
@@ -304,9 +310,4 @@
         // Set the Options for "Bloodhound" suggestion engine
 
     });
-
-    function goToPage() {
-        var url = document.getElementById("q").value;
-        document.location.href = "/" + url.value;
-    }
 </script>
