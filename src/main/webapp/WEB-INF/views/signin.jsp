@@ -10,7 +10,7 @@
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
-    <title>Sign In</title>
+    <title><spring:message code="title.signin"/></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/style.css">
@@ -40,12 +40,12 @@ url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-wom
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
                                 <li class="mbr-navbar__item">
                                     <a class="mbr-buttons__link btn text-white"
-                                       href="<c:url value="/about"/>">ABOUT
+                                       href="<c:url value="/about"/>"><spring:message code="navbar.button.about"/>
                                     </a>
                                 </li>
                                 <li class="mbr-navbar__item">
                                     <a class="mbr-buttons__link btn text-white" href="<c:url
-                                    value="/contact"/>">CONTACT</a>
+                                    value="/contact"/>"><spring:message code="navbar.button.contact"/></a>
                                 </li>
                             </ul>
                         </div>

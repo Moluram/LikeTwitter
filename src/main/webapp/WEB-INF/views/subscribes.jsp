@@ -15,7 +15,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title><spring:message code="title.subscribes"/></title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -88,17 +88,17 @@
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url
-                                        value="/${sessionScope.get('user').getUsername()}"/>">HOME
+                                        value="/${sessionScope.get('user').getUsername()}"/>"><spring:message code="navbar.button.home"/>
                                     </a></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
-                                            href="<c:url value="/about"/> ">ABOUT
+                                            href="<c:url value="/about"/> "><spring:message code="navbar.button.about"/>
                                     </a></li>
                                     <li class="mbr-navbar__item"><a
-                                            class="mbr-buttons__link btn text-white" href="<c:url value="/contact"/>">CONTACT</a></li>
+                                            class="mbr-buttons__link btn text-white" href="<c:url value="/contact"/>"><spring:message code="navbar.button.contact"/></a></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn btn-default text-white"
-                                            href="<c:url value="/logout"/>">LOGOUT</a></li>
+                                            href="<c:url value="/logout"/>"><spring:message code="navbar.button.logout"/></a></li>
                                 </ul>
                             </div>
                         </nav>
