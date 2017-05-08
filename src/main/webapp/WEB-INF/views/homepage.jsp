@@ -38,31 +38,19 @@
           type="text/css">
     <link href="${pageContext.request.contextPath}/resources/animate.css/animate.min.css"
           rel="stylesheet" type="text/css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/ajax.js"></script>
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/typeahead.js"></script>
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/smooth-scroll/smooth-scroll.js"></script>
     <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
     <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-filestyle.min.js"></script>
-    <style>
-        input[type=text] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 3px solid #ccc;
-            -webkit-transition: 0.5s;
-            transition: 0.5s;
-            outline: none;
-        }
 
-        input[type=text]:focus {
-            border: 3px solid #555;
-        }
-    </style>
+    <script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
+    <link href="${pageContext.request.contextPath}/resources/css/custom.css"
+          rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <section
@@ -120,9 +108,8 @@
                     </div>
                 </div>
             </div>
-            <c:if test="${!isEnabled}">
+        <c:if test="${!isEnabled}">
         </div>
-
         <div class="row">
             <div style="background:#FFE4B5;">
                 <div class="container">
@@ -236,52 +223,50 @@
                                              src="/files/${t.photoMin}">
                                     </a>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="media-body">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                @${t.ownerUsername}
-                                            </div>
-                                            <div class="col-md-10">|
-                                                <span><i class="glyphicon glyphicon-calendar"></i>
-                                                    ${t.date}
-                                            </span>
-                                            </div>
+                            <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            @${t.ownerUsername}
                                         </div>
-                                        <div class="row">
-                                                ${t.text}
-                                        </div>
-                                        <div class="row">
-                                            <span><i class="glyphicon glyphicon-comment"></i> 0 comments</span>
-
-                                            <a href="<c:url
-                                            value="/tweet/${t.id}/${sessionScope.get('user').getUsername()}/${owner.username}/${t.ownerUsername}"/> "
-                                               id="like"
-                                               class="btn btn-sm btn-success">
-                                                <span class="glyphicon glyphicon-thumbs-up">
-                                                        ${t.numberOfLikes}
-                                                </span>
-                                            </a>
+                                        <div class="col-md-10">|
+                                            <span><i class="glyphicon glyphicon-calendar"></i>
+                                                ${t.date}
+                                        </span>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                            ${t.text}
+                                    </div>
+                                    <div class="row">
+                                        <a href="<c:url
+                                        value="/tweet/${t.id}/${sessionScope.get('user').getUsername()}/${owner.username}/${t.ownerUsername}"/> "
+                                           id="like"
+                                           onclick="return like()"
+                                           class="btn btn-sm btn-success">
+                                            <span id="likes" class="glyphicon glyphicon-thumbs-up">
+                                                    ${t.numberOfLikes}
+                                            </span>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="btn btn-default" onclick="loadComments(${t.id})"
-                                    id="show-comments-btn">Show Comments
-                            </button>
-                            <button class="btn btn-default hidden" onclick="hideComments()"
-                                    id="hide-comments-btn">Hide Comments
-                            </button>
-                            <div id="comments"></div>
-                            <div class="add-new-comment">
-                                <form id="add-comment-form" action="/comments" method="POST"
-                                      class="hidden">
-                                    <input type="text" name="text" placeholder="Input comment" id="new-comment-text">
-                                    <input type="hidden" name="author" value="${user.username}">
-                                    <input type="hidden" name="tweetId" value="${t.id}">
-                                    <input type="hidden" name="parentId" value="">
-                                    <button type="submit">Add</button>
-                                </form>
+
+                                <button class="btn btn-default" onclick="loadComments(${t.id})"
+                                        id="show-comments-btn">Show Comments
+                                </button>
+                                <button class="btn btn-default hidden" onclick="hideComments()"
+                                        id="hide-comments-btn">Hide Comments
+                                </button>
+                                <div id="comments"></div>
+                                <div class="add-new-comment">
+                                    <form id="add-comment-form" action="/comments" method="POST"
+                                          class="hidden">
+                                        <input type="text" name="text" placeholder="Input comment" id="new-comment-text">
+                                        <input type="hidden" name="author" value="${user.username}">
+                                        <input type="hidden" name="tweetId" value="${t.id}">
+                                        <input type="hidden" name="parentId" value="">
+                                        <button type="submit" class="btn btn-success">Add</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -290,66 +275,5 @@
         </div>
     </div>
 </section>
-<script type="text/javascript">
-  jQuery(document).ready(function ($) {
-    var productsearcher = new Bloodhound({
-      datumTokenizer: function (d) {
-        return Bloodhound.tokenizers.whitespace(d.value);
-      },
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-      replace: function (url, uriEncodedQuery) {
-        return url + "#" + uriEncodedQuery;
-        // the part after the hash is not sent to the server
-      },
-      remote: {
-        url: '/search',
-        ajax: {
-          type: "GET",
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          data: JSON.stringify({
-            partialSearchString: 'fire',
-            category: 'all'
-          }),
-          success: function (data) {
-            console.log("Got data successfully");
-            console.log(data);
-          }
-        }
-      }
-    });
-
-    // initialize the bloodhound suggestion engine
-    productsearcher.initialize();
-
-    // instantiate the typeahead UI
-    $('#q').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 1
-    }, {
-      source: productsearcher.ttAdapter(),
-
-      // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
-      name: 'usersList',
-
-      // the key from the array we want to display (name,id,email,etc...)
-      templates: {
-        empty: [
-          '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-        ],
-        header: [
-          '<div class="list-group search-results-dropdown">'
-        ],
-        suggestion: function (data) {
-          return '<a href="' + '/' + data + '" class="list-group-item">' + data + '</a>'
-        }
-      }
-    })
-    // Set the Options for "Bloodhound" suggestion engine
-
-  });
-</script>
-<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
 </body>
 </html>
