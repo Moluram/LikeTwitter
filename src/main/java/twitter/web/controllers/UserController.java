@@ -151,30 +151,4 @@ public class UserController {
     }
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
   }
-
-  @RequestMapping(value = "/subscribe", method = POST)
-  public String subscribe(@PathVariable String username, WebRequest request,
-                          @SessionAttribute ("user") User  sessionUser) {
-    Subscribe subscribe = subscribeService.getSubscribe(sessionUser.getUsername());
-    if (subscribe.contains(username)) {
-      subscribe.removeSubscribe(username);
-    } else {
-      subscribe.addSubscribe(username);
-    }
-    //TODO: save in the database
-    return "redirect:/" + username + "?lang=" + request.getLocale().getCountry();
-  }
-
-  @RequestMapping(value = "/subscribe", method = GET)
-  public ModelAndView listOfSubscribes(@SessionAttribute ("user") User  sessionUser, ModelAndView model) {
-    Subscribe subscribe = subscribeService.getSubscribe(sessionUser.getUsername());
-    List<UserDto> dtos = new ArrayList<>();
-    for (String userUsername: subscribe.getSubscribes()) {
-      dtos.add(new UserDto(userService.getUserByUsername(userUsername)));
-    }
-    model.addObject("users", dtos);
-    model.setViewName("subscribes");
-    return model;
-  }
-
 }

@@ -97,9 +97,8 @@ jQuery(document).ready(function ($) {
     });
 
 });
-var id = 0;
+
 function like(id, username, owner) {
-    this.id = id;
     jQuery(document).ready(function ($) {
         $.ajax({
             type: "GET",
@@ -116,13 +115,24 @@ function like(id, username, owner) {
                 console.log("DONE");
             }
         });
-    });/*
+    });
+}
+
+function subscribe(username) {
     jQuery(document).ready(function ($) {
         $.ajax({
-            type: "GET",
-            url: "tweet?id=" + id + "&username=" + username + "&owner=" + owner,
+            type: "POST",
+            url: "subscribe/" + username,
             timeout: 100000,
-            success: changeNumOfLikes(data , id),
+            success: function (data) {
+                if (!data) {
+                    $("#subscribe" + username).addClass("hidden");
+                    $("#unsubscribe" + username).removeClass("hidden");
+                } else {
+                    $("#subscribe" + username).removeClass("hidden");
+                    $("#unsubscribe" + username).addClass("hidden");
+                }
+            },
             error: function (e) {
                 console.log("ERROR: ", e);
             },
@@ -130,11 +140,27 @@ function like(id, username, owner) {
                 console.log("DONE");
             }
         });
-    });*/
+    });
 }
 
-function changeNumOfLikes(number) {
-    document.getElementById("likes" + this.id).textContent = number;
+function unsubscribe(username, url) {
+    console.log(url);
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            timeout: 100000,
+            success: function (data) {
+                $("#" + username).addClass("hidden");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });
 }
 
 function loadComments(tweetId) {

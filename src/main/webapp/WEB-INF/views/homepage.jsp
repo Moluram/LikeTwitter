@@ -90,7 +90,7 @@
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url
-                                        value="/${sessionScope.get('user').getUsername()}/subscribe"/>"><spring:message code="navbar.button.subscribes"/>
+                                        value="/subscribe"/>"><spring:message code="navbar.button.subscribes"/>
                                     </a></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
@@ -147,16 +147,10 @@
                     </a>
                     <h2>@${owner.username}</h2>
                     <c:if test="${!isOwner}">
-                        <form action="<c:url value="/${owner.username}/subscribe"/>" method="post">
-                            <c:if test="${!isSubscribes}">
-                                <button class="btn btn-success pull-left">Subscribe
-                                </button>
-                            </c:if>
-                            <c:if test="${isSubscribes}">
-                                <button class="btn btn-default pull-left">UnSubscribe
-                                </button>
-                            </c:if>
-                        </form>
+                        <button id="subscribe${owner.username}" onclick="subscribe('${owner.username}')" class="btn btn-success <c:if test="${isSubscribes}"> hidden </c:if>  pull-left">Subscribe
+                        </button>
+                        <button id="unsubscribe${owner.username}" onclick="subscribe('${owner.username}')" class="btn btn-default <c:if test="${!isSubscribes}"> hidden </c:if> pull-left">UnSubscribe
+                        </button>
                     </c:if>
                 </div>
                 <div class='row animated fadeInUp'>

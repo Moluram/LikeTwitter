@@ -25,39 +25,31 @@
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/mbr-additional.css" type="text/css">
+    <title><spring:message code="title.subscribes"/></title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/mobirise/css/style.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/mobirise/css/mbr-additional.css"
+          type="text/css">
     <link href="${pageContext.request.contextPath}/resources/animate.css/animate.min.css"
           rel="stylesheet" type="text/css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/ajax.js"></script>
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/typeahead.js"></script>
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/smooth-scroll/smooth-scroll.js"></script>
     <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
     <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
-
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-filestyle.min.js"></script>
-    <style>
-        input[type=text] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 3px solid #ccc;
-            -webkit-transition: 0.5s;
-            transition: 0.5s;
-            outline: none;
-        }
 
-        input[type=text]:focus {
-            border: 3px solid #555;
-        }
-    </style>
+    <script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
+    <link href="${pageContext.request.contextPath}/resources/css/custom.css"
+          rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <section class="mbr-navbar mbr-navbar--xs mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
@@ -115,7 +107,7 @@
         <hr class="colorgraph">
         <div class="row">
                 <c:forEach items="${users}" var="t">
-                    <div class="row animated fadeInUp delay">
+                    <div id="${t.username}" class="row animated fadeInUp delay">
                         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
 
                         <div class="well">
@@ -137,11 +129,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <form action="<c:url value="/${t.username}/subscribe"/>"
-                                          method="post">
-                                        <button class="btn btn-default pull-left">UnSubscribe
+                                        <button onclick="unsubscribe('${t.username}', '<c:url value="subscribe/${t.username}"/>')" class="btn btn-default pull-left">UnSubscribe
                                         </button>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -152,71 +141,3 @@
 </section>
 </body>
 </html>
-<script type="text/javascript">
-    var productsearcher;
-    jQuery(document).ready(function($) {
-        productsearcher = new Bloodhound({
-            datumTokenizer: function (d) {
-                return Bloodhound.tokenizers.whitespace(d.value);
-            },
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            replace: function (url, uriEncodedQuery) {
-                return url + "#" + uriEncodedQuery;
-                // the part after the hash is not sent to the server
-            },
-            remote: {
-                url: '/search' ,
-                ajax: {
-                    type: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        partialSearchString: 'fire',
-                        category: 'all'
-                    }),
-                    success: function (data) {
-                        console.log("Got data successfully");
-                        console.log(data);
-                    }
-                }
-            }
-        });
-
-        // initialize the bloodhound suggestion engine
-        productsearcher.initialize();
-
-        // instantiate the typeahead UI
-        $('#q').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            source: productsearcher.ttAdapter(),
-
-            // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
-            name: 'usersList',
-
-            // the key from the array we want to display (name,id,email,etc...)
-            templates: {
-                empty: [
-                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-                ],
-                header: [
-                    '<div class="list-group search-results-dropdown">'
-                ],
-                suggestion: function (data) {
-                    return '<a href="' + '/' + data +
-                        '" class="list-group-item pull-left">' + data +
-                        '</a>'
-                }
-            }
-        })
-        // Set the Options for "Bloodhound" suggestion engine
-
-    });
-
-    function goToPage() {
-        var url = document.getElementById("q").value;
-        document.location.href = "/" + url.value;
-    }
-</script>
