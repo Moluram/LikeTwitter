@@ -97,6 +97,45 @@ jQuery(document).ready(function ($) {
     });
 
 });
+var id = 0;
+function like(id, username, owner) {
+    this.id = id;
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "GET",
+            url: "tweet?id=" + id + "&username=" + username + "&owner=" + owner,
+            timeout: 100000,
+            success: function (data) {
+                console.log(data)
+                document.getElementById("likes" + id).textContent = "     " + data;
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });/*
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "GET",
+            url: "tweet?id=" + id + "&username=" + username + "&owner=" + owner,
+            timeout: 100000,
+            success: changeNumOfLikes(data , id),
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });*/
+}
+
+function changeNumOfLikes(number) {
+    document.getElementById("likes" + this.id).textContent = number;
+}
 
 function loadComments(tweetId) {
     jQuery(document).ready(function ($) {

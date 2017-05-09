@@ -238,15 +238,11 @@
                                             ${t.text}
                                     </div>
                                     <div class="row">
-                                        <a href="<c:url
-                                        value="/tweet/${t.id}/${sessionScope.get('user').getUsername()}/${owner.username}/${t.ownerUsername}"/> "
-                                           id="like"
-                                           onclick="return like()"
-                                           class="btn btn-sm btn-success">
-                                            <span id="likes" class="glyphicon glyphicon-thumbs-up">
+                                        <button class="btn btn-sm btn-success" onclick="like(${t.id},'${sessionScope.get('user').getUsername()}', '${t.ownerUsername}')">
+                                            <span id="likes${t.id}" class="glyphicon glyphicon-thumbs-up">
                                                     ${t.numberOfLikes}
                                             </span>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
 

@@ -2,8 +2,7 @@ package twitter.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import twitter.beans.Tweet;
 import twitter.service.tweet.TweetService;
 
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Created by Moluram on 5/1/2017.
  */
-@Controller
+@RestController
 @RequestMapping("/tweet")
 public class TweetController {
   private TweetService tweetService;
@@ -22,10 +21,10 @@ public class TweetController {
     this.tweetService = tweetService;
   }
 
-  @RequestMapping(value = "/{id}/{username}/{owner}/{tweetOwner}")
-  public String addLike(@PathVariable Long id, @PathVariable String username,
-                      @PathVariable String owner, @PathVariable String tweetOwner) {
-    List<Tweet> tweetList =  tweetService.getUserTweets(tweetOwner);//TODO: Search by id
+  @RequestMapping(method = RequestMethod.GET)
+  public @ResponseBody Integer addLike(@RequestParam Long id, @RequestParam String username, @RequestParam String owner) {
+    List<Tweet> tweetList =  tweetService.getUserTweets(owner);//TODO: Search by id
+    Integer number = 0;
     for (Tweet tweet: tweetList) {
       if (tweet.getId().equals(id)) {
         List<String> list = tweet.getUsernamesOfUserWhoLikes();
@@ -34,9 +33,10 @@ public class TweetController {
         } else {
           tweet.addUsernameToLikes(username);
         }
+        number = tweet.getUsernamesOfUserWhoLikes().size();
         break;
       }
     }
-    return "redirect:/" + owner;
+    return number;
   }
 }
