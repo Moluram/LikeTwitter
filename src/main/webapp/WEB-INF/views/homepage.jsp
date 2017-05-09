@@ -117,12 +117,12 @@
                         <div class="mbr-navbar__column center-block pull-right">
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--center btn-decorator mbr-buttons--active list-inline">
                                 <li class="mbr-navbar__item" style="margin-top: 8px">
-                                    <small class="text-center h3">You're not confirm your email!
+                                    <small id="resendEmail" class="text-center h3">You're not confirm your email!
                                     </small>
                                 </li>
                                 <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn btn-warning"
-                                        href="<c:url value="/signup/resendRegistrationToken"/>">RESEND
+                                        onclick="resendEmail('<spring:message code="navbar.text.resendEmail"/>')">RESEND
                                     EMAIL</a></li>
                             </ul>
                         </div>

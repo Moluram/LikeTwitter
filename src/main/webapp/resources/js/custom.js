@@ -118,6 +118,25 @@ function like(id, username, owner) {
     });
 }
 
+function resendEmail(text) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "GET",
+            url: "/signup/resendRegistrationToken",
+            timeout: 100000,
+            success: function (data) {
+                document.getElementById("resendEmail").textContent = text;
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });
+}
+
 function subscribe(username) {
     jQuery(document).ready(function ($) {
         $.ajax({

@@ -103,14 +103,14 @@ public class RegistrationController {
   }
 
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
-  public String resendRegistrationToken(Model model,
+  public @ResponseBody Boolean resendRegistrationToken(Model model,
       HttpServletRequest request, @SessionAttribute("user") User sessionUser) {
     VerificationToken newToken = userService.createVerificationToken(sessionUser, UUID.randomUUID
         ().toString());
     String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
     SimpleMailMessage email = constructResendVerificationToken(appUrl, request.getLocale(), newToken, sessionUser);
     mailSender.send(email);
-    return "redirect:/" + sessionUser.getUsername() + "/?lang=" + request.getLocale().getCountry();
+    return true;
   }
 
   @RequestMapping(value = "/confirm", method = RequestMethod.GET)
