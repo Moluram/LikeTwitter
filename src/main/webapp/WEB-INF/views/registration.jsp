@@ -61,7 +61,7 @@
         <div class="row animated fadeInUp">
             <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                 <form:form modelAttribute="user" method="POST" enctype="utf8" role="form">
-                    <font color="white"><h1 align="center">Please Sign Up</h1></font>
+                    <font color="white"><h1 align="center"><spring:message code="label.signup"/></h1></font>
                     <hr class="colorgraph">
                     <div class="form-group animated fadeInUp delay">
                         <spring:message code="label.user.username" var="username"/>
@@ -95,8 +95,8 @@
                     <hr class="colorgraph">
                     <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
                         <div class="col-xs-6 col-md-6"><a href="<c:url value="/signin"/>"
-                                                          class="btn btn-default btn-lg animated fadeInUp delay" tabindex="6">Sign In</a></div>
-                        <div class="col-xs-6 col-md-6"><input type="submit" value="Register"
+                                                          class="btn btn-default btn-lg animated fadeInUp delay" tabindex="6"><spring:message code="button.signin"/></a></div>
+                        <div class="col-xs-6 col-md-6"><input type="submit" value="<spring:message code="button.signup"/>"
                                                               class="btn btn-success btn-block btn-lg animated fadeInUp delay" tabindex="5"></div>
                     </div>
                 </form:form>

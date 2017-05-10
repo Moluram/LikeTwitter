@@ -71,15 +71,13 @@
 						<div class=" col-sm-6 col-sm-offset-6">
 							<div class="mbr-hero animated fadeInUp">
 								<h1 class="mbr-hero__text">Twitter</h1>
-								<p class="mbr-hero__subtext">Click any text to edit or style it. Click blue "Gear" icon in the top right
-									corner to hide/show buttons, text, title and change the block background.
-									Click red "+" in the bottom right corner to add a new block. Use the top left menu to create new pages, sites and add extensions.
+								<p class="mbr-hero__subtext"><spring:message code="message.welcome"/>
 								</p>
 							</div>
 							<div class="mbr-buttons btn-inverse mbr-buttons--left">
-								<a href="<c:url value="/signup"/>"  class="mbr-buttons__btn btn btn-lg btn-danger animated fadeInUp delay" >SIGN UP</a>
+								<a href="<c:url value="/signup"/>"  class="mbr-buttons__btn btn btn-lg btn-danger animated fadeInUp delay" ><spring:message code="button.signup"/></a>
 								<a href="<c:url value="/signin"/>"
-								   class="mbr-buttons__btn btn btn-lg btn-default animated fadeInUp delay" >SIGN IN</a>
+								   class="mbr-buttons__btn btn btn-lg btn-default animated fadeInUp delay" ><spring:message code="button.signin"/></a>
 							</div>
 						</div>
 					</div>

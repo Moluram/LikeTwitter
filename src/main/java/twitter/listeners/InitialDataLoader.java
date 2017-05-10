@@ -11,6 +11,7 @@ import twitter.beans.Privilege;
 import twitter.beans.Role;
 import twitter.beans.User;
 import twitter.constants.RolesAndPrivileges;
+import twitter.service.image.ImageService;
 import twitter.service.privilage.PrivilegeService;
 import twitter.service.role.RoleService;
 import twitter.service.user.UserService;
@@ -25,11 +26,20 @@ import java.util.List;
 @Component
 public class InitialDataLoader implements
     ApplicationListener<ContextRefreshedEvent> {
+  private static final String DEFAULT_IMAGE_NAME = "default.png";
+  private static final String DEFAULT_IMAGE_NAME_MIN = "default-mini.png";
   private boolean alreadySetup = false;
 
   private RoleService roleService;
 
   private PrivilegeService privilegeService;
+
+  private ImageService imageService;
+
+  @Autowired
+  public void setImageService(ImageService imageService) {
+    this.imageService = imageService;
+  }
 
   @Autowired
   @Qualifier("roleService")
@@ -47,6 +57,7 @@ public class InitialDataLoader implements
     if (alreadySetup) {
       return;
     }
+    imageService.saveImage(getClass().getClassLoader().getResource(DEFAULT_IMAGE_NAME), DEFAULT_IMAGE_NAME, DEFAULT_IMAGE_NAME_MIN);
     Privilege readPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.READ_PRIVILEGE);
     Privilege writePrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.WRITE_PRIVILEGE);
     Privilege viewPagesPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges

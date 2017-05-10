@@ -1,7 +1,9 @@
 package twitter.service.image;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,14 @@ public class FileSystemImageService implements ImageService {
   }
 
   @Override
+  public void saveImage(URL url, String nameOriginal, String nameMini) {
+    BufferedImage originalImage = getImage(url);
+    BufferedImage resizedImage = Scalr.resize(originalImage,IMG_WIDTH,IMG_HEIGHT);
+    storageService.storeImage(originalImage,nameOriginal);
+    storageService.storeImage(resizedImage,nameMini);
+  }
+
+  @Override
   public void storeImage(MultipartFile file, UserProfile userProfile) {
     String originalName = file.getOriginalFilename();
     BufferedImage originalImage=convertToImage(file);
@@ -45,6 +55,19 @@ public class FileSystemImageService implements ImageService {
     storageService.storeImage(originalImage,newNameOriginal);
     storageService.storeImage(resizedImage,newNameMini);
     userProfileService.updateUserProfile(userProfile);
+  }
+
+  private BufferedImage getImage(URL url) {
+    BufferedImage image;
+    try {
+      image = ImageIO.read(url);
+    } catch (IOException e) {
+      throw new ImageException("Can't convert MultipartFile to BuffereImage!", e);
+    }
+    if (image == null) {
+      throw new ImageException("Can't convert MultipartFile to BuffereImage: returned null!");
+    }
+    return image;
   }
 
   private BufferedImage convertToImage(MultipartFile file) {

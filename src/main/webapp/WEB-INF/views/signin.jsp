@@ -21,7 +21,7 @@
 
 </head>
 <body style="background-image:
-url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-women-child-baby-awesome/wallpaper-young-people-in-party.jpg); background-size: 100%;">
+url(${pageContext.request.contextPath}/resources/images/wallpaper-young-people-in-party.jpg); background-size: 100%;">
 
 <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--transparent mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
     <div class="mbr-navbar__section mbr-section">
@@ -77,8 +77,8 @@ url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-wom
                     <div class="row mbr-buttons btn-inverse mbr-buttons--left">
                         <div class="col-xs-6 col-md-6"><a href="<c:url value="/signup"/>"
                                                           class="btn btn-default btn-lg animated fadeInUp delay"
-                                                          tabindex="6">Sign Up</a></div>
-                        <div class="col-xs-6 col-md-6"><input type="submit" value="Sign In"
+                                                          tabindex="6"><spring:message code="button.signup"/> </a></div>
+                        <div class="col-xs-6 col-md-6"><input type="submit" value="<spring:message code="button.signin"/>"
                                                               class="btn btn-success btn-block btn-lg animated fadeInUp delay" onclick="validate()" tabindex="5"></div>
                     </div>
                 </form>

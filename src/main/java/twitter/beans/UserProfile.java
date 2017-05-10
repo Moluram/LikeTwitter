@@ -9,8 +9,8 @@ import java.util.List;
 public class UserProfile extends Entity {
   private String firstName="";
   private String lastName="";
-  private String photoUrl="default.jpg";
-  private String miniPhoto="default-mini.jpg";
+  private String photoUrl="default.png";
+  private String miniPhoto="default-mini.png";
   private List<String> links;
   private String status="";
 
