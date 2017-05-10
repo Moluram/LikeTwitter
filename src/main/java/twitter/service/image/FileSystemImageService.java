@@ -37,14 +37,6 @@ public class FileSystemImageService implements ImageService {
   }
 
   @Override
-  public void saveImage(URL url, String nameOriginal, String nameMini) {
-    BufferedImage originalImage = getImage(url);
-    BufferedImage resizedImage = Scalr.resize(originalImage,IMG_WIDTH,IMG_HEIGHT);
-    storageService.storeImage(originalImage,nameOriginal);
-    storageService.storeImage(resizedImage,nameMini);
-  }
-
-  @Override
   public void storeImage(MultipartFile file,UserProfile userProfile){
     String originalName = file.getOriginalFilename();
     String newNameOriginal=fileNamingService.generateNewFileName(originalName);
@@ -67,19 +59,6 @@ public class FileSystemImageService implements ImageService {
     BufferedImage originalImage=convertToImage(file);
     BufferedImage resizedImage= Scalr.resize(originalImage,width,height);
     storageService.storeImage(resizedImage,name);
-  }
-
-  private BufferedImage getImage(URL url) {
-    BufferedImage image;
-    try {
-      image = ImageIO.read(url);
-    } catch (IOException e) {
-      throw new ImageException("Can't convert MultipartFile to BuffereImage!", e);
-    }
-    if (image == null) {
-      throw new ImageException("Can't convert MultipartFile to BuffereImage: returned null!");
-    }
-    return image;
   }
 
   private BufferedImage convertToImage(MultipartFile file) {
