@@ -13,5 +13,9 @@ import java.net.URL;
 public interface ImageService {
   void storeImage(MultipartFile file, UserProfile userProfile);
 
+  void storeOriginalImage(MultipartFile file, String name);
+
+  void storeResizedImage(MultipartFile file, String name, Integer width, Integer height);
+
   void saveImage(URL url, String nameOriginal, String nameMini);
 }
