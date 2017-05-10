@@ -20,5 +20,7 @@ public interface CommentService {
 
     void removeComment(Long id);
 
+    Comment getById(Long id);
+
     JsonArray getCommentsByTweetId(Long tweetId);
 }
