@@ -11,4 +11,8 @@ import twitter.beans.UserProfile;
 @Service
 public interface ImageService {
   void storeImage(MultipartFile file, UserProfile userProfile);
+
+    void storeOriginalImage(MultipartFile file, String name);
+
+  void storeResizedImage(MultipartFile file, String name, Integer width, Integer height);
 }

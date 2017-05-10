@@ -258,7 +258,7 @@
                                     <form action="/comments" method="POST"
                                           class="add-comment-form hidden">
                                         <input type="text" name="text" placeholder="Input comment"
-                                               class="new-comment-text">
+                                               class="new-comment-text" autocomplete="off">
                                         <input type="hidden" name="author" value="${user.username}">
                                         <input type="hidden" name="tweetId" value="${t.id}">
                                         <input type="hidden" name="parentId" value="">

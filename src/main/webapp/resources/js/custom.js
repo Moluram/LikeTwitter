@@ -83,6 +83,7 @@ jQuery(document).ready(function ($) {
                 form[0].reset();
                 hideComments(data.tweetId);
                 loadComments(data.tweetId);
+                form.find("button").prop("disabled",true);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -267,6 +268,7 @@ jQuery(document).ready(function () {
         }
     })
 })
+
 
 function setCaretPosition(el, caretPos) {
 

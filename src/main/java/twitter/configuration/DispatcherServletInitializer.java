@@ -16,7 +16,7 @@ public class DispatcherServletInitializer extends
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
     FilterRegistration.Dynamic encodingFilter = servletContext
-        .addFilter("encoding-filter", new CharacterEncodingFilter());
+            .addFilter("encoding-filter", new CharacterEncodingFilter());
     encodingFilter.setInitParameter("encoding", "UTF-8");
     encodingFilter.setInitParameter("forceEncoding", "true");
     encodingFilter.addMappingForUrlPatterns(null, true, "/*");
