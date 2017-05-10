@@ -29,11 +29,17 @@ public class DatabaseConf {
 
   @Bean
   BasicDataSource dataSource() throws URISyntaxException {
+    URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+
+    String username = dbUri.getUserInfo().split(":")[0];
+    String password = dbUri.getUserInfo().split(":")[1];
+    String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
     BasicDataSource ds = new BasicDataSource();
     ds.setDriverClassName(env.getRequiredProperty("db.jdbc.driver"));
-    ds.setUrl(env.getRequiredProperty("db.url"));
-    ds.setUsername(env.getRequiredProperty("db.user"));
-    ds.setPassword(env.getRequiredProperty("db.password"));
+    ds.setUrl(dbUrl);
+    ds.setUsername(username);
+    ds.setPassword(password);
 
     ds.setMinIdle(5);
     ds.setMaxIdle(10);
