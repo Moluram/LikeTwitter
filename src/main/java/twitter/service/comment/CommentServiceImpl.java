@@ -52,6 +52,11 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
+  public Comment getById(Long id) {
+    return commentDAO.read(id);
+  }
+
+  @Override
   public JsonArray getCommentsByTweetId(Long tweetId) {
     List<Comment> comments = commentDAO.readByTweetId(tweetId);
     CommentsToJsonConverter converter = new CommentsToJsonConverter();
