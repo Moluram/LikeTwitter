@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
     <title><spring:message code="title.signin"/></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
@@ -21,7 +21,7 @@
 
 </head>
 <body style="background-image:
-url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-women-child-baby-awesome/wallpaper-young-people-in-party.jpg); background-size: 100%;">
+url(${pageContext.request.contextPath}/resources/images/wallpaper-young-people-in-party.jpg); background-size: 100%;">
 
 <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--transparent mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
     <div class="mbr-navbar__section mbr-section">
@@ -29,7 +29,7 @@ url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-wom
             <div class="mbr-navbar__container">
                 <div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
                     <span class="mbr-navbar__brand-link mbr-brand mbr-brand--inline">
-                        <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img src="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
+                        <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img src="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
                         <span class="mbr-brand__name"><a class="mbr-brand__name text-white" href="<c:url value="/"/>">LikeTwitter</a></span>
                     </span>
                 </div>
@@ -77,8 +77,8 @@ url(http://www.wallpaperawesome.com/wallpapers-awesome/wallpapers-people-men-wom
                     <div class="row mbr-buttons btn-inverse mbr-buttons--left">
                         <div class="col-xs-6 col-md-6"><a href="<c:url value="/signup"/>"
                                                           class="btn btn-default btn-lg animated fadeInUp delay"
-                                                          tabindex="6">Sign Up</a></div>
-                        <div class="col-xs-6 col-md-6"><input type="submit" value="Sign In"
+                                                          tabindex="6"><spring:message code="button.signup"/> </a></div>
+                        <div class="col-xs-6 col-md-6"><input type="submit" value="<spring:message code="button.signin"/>"
                                                               class="btn btn-success btn-block btn-lg animated fadeInUp delay" onclick="validate()" tabindex="5"></div>
                     </div>
                 </form>

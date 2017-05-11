@@ -12,6 +12,8 @@ import twitter.beans.Comment;
 import twitter.service.comment.CommentService;
 import twitter.web.dto.CommentDto;
 
+import javax.json.JsonValue;
+
 /**
  * Created by Nikolay on 01.05.2017.
  */

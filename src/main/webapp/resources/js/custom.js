@@ -1,6 +1,7 @@
 /**
  * Created by Nikolay on 01.05.2017.
  */
+
 jQuery(document).ready(function ($) {
     var productsearcher = new Bloodhound({
         datumTokenizer: function (d) {
@@ -61,10 +62,10 @@ jQuery(document).ready(function ($) {
 });
 
 jQuery(document).ready(function ($) {
-    $("#add-comment-form").submit(function (event) {
+    $(".add-comment-form").submit(function (event) {
         event.preventDefault();
-
-        var formData = $('#add-comment-form').serializeArray().reduce(
+        var form = $(this);
+        var formData = form.serializeArray().reduce(
             function (obj, item) {
                 obj[item.name] = item.value;
                 return obj;
@@ -79,18 +80,16 @@ jQuery(document).ready(function ($) {
             timeout: 100000,
             success: function (data) {
                 console.log("SUCCESS: ", data);
-                hideComments();
-                loadComments(
-                    $("#add-comment-form")
-                        .find("input[name='tweetId']")
-                        .val()
-                );
+                form[0].reset();
+                hideComments(data.tweetId);
+                loadComments(data.tweetId);
+                form.find("button").prop("disabled",true);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
             },
             done: function (e) {
-                console.log("DONE",e)
+                console.log("DONE", e)
             },
         });
 
@@ -188,7 +187,15 @@ function loadComments(tweetId) {
             type: "GET",
             url: "comments?tweetId=" + tweetId,
             timeout: 100000,
-            success: insertComments,
+            success: function insertComments(strComments) {
+                comments = JSON.parse(strComments);
+                var tweet = $("#tweet_" + tweetId);
+                var htmlComments = tweet.find("#comments");
+                tweet.find("#show-comments-btn").addClass("hidden");
+                tweet.find("#hide-comments-btn").removeClass("hidden");
+                tweet.find(".add-comment-form").removeClass("hidden");
+                insertAsTree(htmlComments, comments, 0);
+            },
             error: function (e) {
                 console.log("ERROR: ", e);
             },
@@ -199,51 +206,71 @@ function loadComments(tweetId) {
     });
 }
 
-function hideComments() {
-    var htmlComments = $("#comments");
-    $("#hide-comments-btn").addClass("hidden");
-    $("#show-comments-btn").removeClass("hidden");
-    $("#add-comment-form").addClass("hidden");
+function hideComments(tweetId) {
+    var tweet = $("#tweet_" + tweetId);
+    var htmlComments = tweet.find("#comments");
+    tweet.find("#hide-comments-btn").addClass("hidden");
+    tweet.find("#show-comments-btn").removeClass("hidden");
+    tweet.find("#add-comment-form").addClass("hidden");
     htmlComments.html("");
 }
 
-function insertComments(strComments) {
-    console.log(strComments)
-    comments = JSON.parse(strComments);
-    var htmlComments = $("#comments");
-    $("#show-comments-btn").addClass("hidden");
-    $("#hide-comments-btn").removeClass("hidden");
-    $("#add-comment-form").removeClass("hidden");
-    insertAsTree(comments, 0);
-}
 
-function insertAsTree(comments, depth) {
+function insertAsTree(divToInsert, comments, depth) {
 
     for (var i in comments) {
-        p = $(document.createElement("p"));
-        p.css("margin-left", depth * 30)
-            .html("<div class='media'> <p class='pull-right'><small>" + comments[i].date + "</small></p>" +
-                "<h4 class='media-heading user_name'>@" + comments[i].publisher + "</h4>" +
-                "<a class='media-left' href='#'> <img src='/files/" + comments[i].publisher_photo + "'></a>" +
-                "<div class='media-body'>"  + comments[i].text +
-                "</div> </div>")
-            .attr("id",comments[i].id)
-            .appendTo($("#comments"))
-            .click(responseToComment);
+        var htmlComment = makeComment(comments[i],depth);
+        htmlComment
+            .appendTo(divToInsert)
         if (comments[i].child) {
-            insertAsTree(comments[i].child, depth + 1)
+            insertAsTree(divToInsert, comments[i].child, depth + 1)
         }
     }
 }
 
-function responseToComment(){
-    parentId=$(this).attr("id");
-    $("#add-comment-form").find("input[name='parentId']").val(parentId);
-    setCaretPosition("new-comment-text",0);
+function makeComment(comment, depth) {
+    var div = $(document.createElement("div"));
+    var level;
+    if(depth<3){
+        level=depth;
+    }else{
+        level=3;
+    }
+    div
+        .addClass("comment-wrapper")
+        .addClass("comment-level-"+level)
+        .html("<div class='media'> <p class='pull-right'><small>" + comment.date + "</small></p>" +
+            "<h4 class='media-heading user_name'>@" + comment.publisher + "</h4>" +
+            "<a class='media-left' href='#'> <img class='img-circle comment-publisher-photo' src='/files/" + comment.publisher_photo + "'></a>" +
+            "<div class='media-body'>" + comment.text +
+            "</div> </div>")
+        .attr("id", comment.id)
+        .click(responseToComment);
+    return div;
 }
 
-function setCaretPosition(elemId, caretPos) {
-    var el = document.getElementById(elemId);
+function responseToComment() {
+    var parentComment = $(this);
+    var parentId = parentComment.attr("id");
+    var form = parentComment.closest(".tweet").find(".add-comment-form");
+    form.find("input[name='parentId']").val(parentId);
+    setCaretPosition(form.find(".new-comment-text")[0], 0);
+}
+
+jQuery(document).ready(function () {
+    $(".new-comment-text").keyup(function () {
+        text=$(this);
+        submitButton=text.siblings("button");
+        if(text.val().length>0){
+            submitButton.prop("disabled",false);
+        }else{
+            submitButton.prop("disabled",true);
+        }
+    })
+})
+
+
+function setCaretPosition(el, caretPos) {
 
     el.value = el.value;
     // ^ this is used to not only get "focus", but
@@ -267,10 +294,31 @@ function setCaretPosition(elemId, caretPos) {
                 return true;
             }
 
-            else  { // fail city, fortunately this never happens (as far as I've tested) :)
+            else { // fail city, fortunately this never happens (as far as I've tested) :)
                 el.focus();
                 return false;
             }
         }
     }
+}
+
+function resetPassword(message) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "POST",
+            url: "settings/reset-password",
+            timeout: 100000,
+            success: function insertComments(answer) {
+                if(answer) {
+                    document.getElementById("resetPasswordLabel").textContent = message;
+                }
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });
 }

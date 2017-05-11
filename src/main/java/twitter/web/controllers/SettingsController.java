@@ -9,10 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import twitter.beans.User;
 import twitter.service.security.SecurityService;
@@ -31,7 +29,7 @@ import java.util.UUID;
  */
 @Controller
 @PreAuthorize("hasRole('USER, ADMIN')")
-@RequestMapping("/{username}/settings")
+@RequestMapping("/settings")
 public class SettingsController {
   private UserService userService;
   private MailSender mailSender;
@@ -64,26 +62,17 @@ public class SettingsController {
     this.userService = userService;
   }
 
-  @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
-  public String resetPassword(HttpServletRequest request,
-                                    @PathVariable("username") String username) {
-    User user = userService.getUserByUsername(username);
-    if (user == null) {
-      throw new UserNotFoundException();
-    }
+  @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
+  public @ResponseBody Boolean resetPassword(HttpServletRequest request, @SessionAttribute("user") User user) {
     String token = UUID.randomUUID().toString();
     userService.createPasswordResetTokenForUser(user, token);
-    mailSender.send(constructResetTokenEmail(request.getContextPath(),
-        request.getLocale(), token, user));
-    ModelAndView model = new ModelAndView();
-    model.addObject("message",  messages.getMessage("auth.message.invalidToken",
-        null, request.getLocale()));
-    return "redirect:/badUser.jsp?lang=" + request.getLocale().getLanguage();
+    mailSender.send(constructResetTokenEmail(request.getContextPath(), request.getLocale(), token, user));
+    return true;
   }
 
   @RequestMapping(value = "/change-password", method = RequestMethod.GET)
-  public String changePassword(HttpServletRequest request, @PathVariable("username") String
-      username, @RequestParam("id") long id, @RequestParam("token") String token, Model model) {
+  public String changePassword(HttpServletRequest request, @RequestParam("id") long id,
+                               @RequestParam("token") String token, Model model) {
     String result = securityService.validatePasswordResetToken(id, token);
     if (result != null) {
       model.addAttribute("message",
@@ -94,11 +83,13 @@ public class SettingsController {
     return "updatePassword";
   }
 
-  @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
   @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-  public String changePassword(HttpServletRequest request,@PathVariable("username") String username,
-                               @RequestParam("passwords") @Valid PasswordDto passwordDto) {
-    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  public String changePassword(HttpServletRequest request, @SessionAttribute("user") User user, Model model,
+                               @RequestParam("passwords") @Valid PasswordDto passwordDto, BindingResult result) {
+    if (result.hasErrors()) {
+      model.addAttribute("passwords", passwordDto);
+      return "updatePassword";
+    }
     userService.changeUserPassword(user, passwordDto.getPassword());
     return "redirect:/signin?lang=" + request.getLocale().getLanguage();
   }
@@ -107,8 +98,7 @@ public class SettingsController {
       String contextPath, Locale locale, String token, User user) {
     String url = contextPath + "/" + user.getUsername() + "/change-password?id=" +
         user.getId() + "&token=" + token;
-    String message = messages.getMessage("message.resetPassword",
-        null, locale);
+    String message = messages.getMessage("message.resetPassword",null, locale);
     return constructEmail("Reset Password", message + " \r\n" + url, user);
   }
 
@@ -118,7 +108,7 @@ public class SettingsController {
     email.setSubject(subject);
     email.setText(body);
     email.setTo(user.getEmail());
-    email.setFrom(env.getProperty("mail.username"));
+    email.setFrom(env.getProperty("support.email"));
     return email;
   }
 }

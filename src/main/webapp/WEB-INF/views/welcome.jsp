@@ -12,9 +12,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="generator" content="Mobirise v3.12.1, mobirise.com">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
+	<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
 	<meta name="description" content="">
-
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
 	<link href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css"
 		  rel="stylesheet" type="text/css">
@@ -33,7 +32,7 @@
 			<div class="mbr-navbar__container">
 				<div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
                     <span class="mbr-navbar__brand-link mbr-brand mbr-brand--inline">
-                        <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img src="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
+                        <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img src="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
                         <span class="mbr-brand__name"><a class="mbr-brand__name text-white" href="<c:url value="/"/>">LikeTwitter</a></span>
                     </span>
 				</div>
@@ -64,7 +63,6 @@
 <section
 		class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header1-6" style="background-image: url(${pageContext.request.contextPath}/resources/images/mbr-2000x1333.jpg); background-size: 100%;">
 	<div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-box__magnet--center-left mbr-after-navbar">
-
 		<div class="mbr-box__container mbr-section__container container">
 			<div class="mbr-box mbr-box--stretched">
 				<div class="mbr-box__magnet mbr-box__magnet--center-left">
@@ -72,22 +70,19 @@
 						<div class=" col-sm-6 col-sm-offset-6">
 							<div class="mbr-hero animated fadeInUp">
 								<h1 class="mbr-hero__text">Twitter</h1>
-								<p class="mbr-hero__subtext">Click any text to edit or style it. Click blue "Gear" icon in the top right
-									corner to hide/show buttons, text, title and change the block background.
-									Click red "+" in the bottom right corner to add a new block. Use the top left menu to create new pages, sites and add extensions.
+								<p class="mbr-hero__subtext"><spring:message code="message.welcome"/>
 								</p>
 							</div>
 							<div class="mbr-buttons btn-inverse mbr-buttons--left">
-								<a href="<c:url value="/signup"/>"  class="mbr-buttons__btn btn btn-lg btn-danger animated fadeInUp delay" >SIGN UP</a>
+								<a href="<c:url value="/signup"/>"  class="mbr-buttons__btn btn btn-lg btn-danger animated fadeInUp delay" ><spring:message code="button.signup"/></a>
 								<a href="<c:url value="/signin"/>"
-								   class="mbr-buttons__btn btn btn-lg btn-default animated fadeInUp delay" >SIGN IN</a>
+								   class="mbr-buttons__btn btn btn-lg btn-default animated fadeInUp delay" ><spring:message code="button.signin"/></a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </section>
 

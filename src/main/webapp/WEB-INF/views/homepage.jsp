@@ -24,7 +24,7 @@
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon"
-          href="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png"
+          href="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png"
           type="image/x-icon">
     <title><spring:message code="title.home"/></title>
     <link rel="stylesheet"
@@ -65,7 +65,7 @@
                     <div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
                     <span class="mbr-navbar__brand-link mbr-brand mbr-brand--inline">
                         <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img
-                                src="https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png"
+                                src="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png"
                                 class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
                         <span class="mbr-brand__name"><a class="mbr-brand__name text-white"
                                                          href="<c:url value="/"/>">LikeTwitter</a></span>
@@ -98,17 +98,19 @@
                                     </a></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
-                                            href="<c:url value="/contact"/>"><spring:message code="navbar.button.contact"/></a></li>
+                                            href="<c:url value="/contact"/>"><spring:message
+                                            code="navbar.button.contact"/></a></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn btn-default text-white"
-                                            href="<c:url value="/logout"/>"><spring:message code="navbar.button.logout"/></a></li>
+                                            href="<c:url value="/logout"/>"><spring:message
+                                            code="navbar.button.logout"/></a></li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
                 </div>
             </div>
-        <c:if test="${!isEnabled}">
+            <c:if test="${!isEnabled}">
         </div>
         <div class="row">
             <div style="background:#FFE4B5;">
@@ -147,9 +149,13 @@
                     </a>
                     <h2>@${owner.username}</h2>
                     <c:if test="${!isOwner}">
-                        <button id="subscribe${owner.username}" onclick="subscribe('${owner.username}')" class="btn btn-success <c:if test="${isSubscribes}"> hidden </c:if>  pull-left">Subscribe
+                        <button id="subscribe${owner.username}" onclick="subscribe('${owner.username}')"
+                                class="btn btn-success <c:if test="${isSubscribes}"> hidden </c:if>  pull-left">
+                            Subscribe
                         </button>
-                        <button id="unsubscribe${owner.username}" onclick="subscribe('${owner.username}')" class="btn btn-default <c:if test="${!isSubscribes}"> hidden </c:if> pull-left">UnSubscribe
+                        <button id="unsubscribe${owner.username}" onclick="subscribe('${owner.username}')"
+                                class="btn btn-default <c:if test="${!isSubscribes}"> hidden </c:if> pull-left">
+                            UnSubscribe
                         </button>
                     </c:if>
                 </div>
@@ -158,14 +164,12 @@
                     <div class="list-group" style="margin-right: 20px">
                         <c:if test="${isOwner}">
                             <div class="list-group-item row">
-                                <label for="resetPassword"> <spring:message
+                                <label id="resetPasswordLabel" for="resetPassword"> <spring:message
                                         code="label.form.title.reset"/></label>
-                                <button type="submit" class="btn btn-default pull-right"
-                                        id="resetPassword"
-                                        value="<c:url
-                        value="/${owner.username}/settings/reset-password"/>" formmethod="post">
+                                <a class="btn btn-default pull-right" id="resetPassword" onclick="resetPassword('<spring:message
+                                        code="label.form.title.reset.success"/>')">
                                     <spring:message code="label.form.reset"/>
-                                </button>
+                                </a>
                             </div>
                             <div class="list-group-item row">
                                 <form enctype="multipart/form-data" method="post"
@@ -205,7 +209,7 @@
                 </c:if>
                 <hr class="colorgraph">
                 <c:forEach items="${tweets}" var="t">
-                    <div class="row animated fadeInUp delay">
+                    <div class="row animated fadeInUp delay tweet" id="tweet_${t.id}">
                         <link rel="stylesheet"
                               href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
 
@@ -217,7 +221,7 @@
                                              src="/files/${t.photoMin}">
                                     </a>
                                 </div>
-                            <div class="col-md-9">
+                                <div class="col-md-9">
                                     <div class="row">
                                         <div class="col-md-2">
                                             @${t.ownerUsername}
@@ -232,7 +236,8 @@
                                             ${t.text}
                                     </div>
                                     <div class="row">
-                                        <button class="btn btn-sm btn-success" onclick="like(${t.id},'${sessionScope.get('user').getUsername()}', '${t.ownerUsername}')">
+                                        <button class="btn btn-sm btn-success"
+                                                onclick="like(${t.id},'${sessionScope.get('user').getUsername()}', '${t.ownerUsername}')">
                                             <span id="likes${t.id}" class="glyphicon glyphicon-thumbs-up">
                                                     ${t.numberOfLikes}
                                             </span>
@@ -243,18 +248,19 @@
                                 <button class="btn btn-default" onclick="loadComments(${t.id})"
                                         id="show-comments-btn">Show Comments
                                 </button>
-                                <button class="btn btn-default hidden" onclick="hideComments()"
+                                <button class="btn btn-default hidden" onclick="hideComments(${t.id})"
                                         id="hide-comments-btn">Hide Comments
                                 </button>
                                 <div id="comments"></div>
                                 <div class="add-new-comment">
-                                    <form id="add-comment-form" action="/comments" method="POST"
-                                          class="hidden">
-                                        <input type="text" name="text" placeholder="Input comment" id="new-comment-text">
+                                    <form action="/comments" method="POST"
+                                          class="add-comment-form hidden">
+                                        <input type="text" name="text" placeholder="Input comment"
+                                               class="new-comment-text" autocomplete="off">
                                         <input type="hidden" name="author" value="${user.username}">
                                         <input type="hidden" name="tweetId" value="${t.id}">
                                         <input type="hidden" name="parentId" value="">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="submit" class="btn btn-success" disabled="true">Add</button>
                                     </form>
                                 </div>
                             </div>

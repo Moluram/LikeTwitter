@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import twitter.beans.*;
 import twitter.constants.RolesAndPrivileges;
 import twitter.dao.IUserProfileDAO;
@@ -12,6 +13,7 @@ import twitter.dao.IPasswordResetDAO;
 import twitter.dao.IRoleDAO;
 import twitter.dao.IUserDAO;
 import twitter.dao.IVerificationTokenDAO;
+import twitter.service.image.ImageService;
 import twitter.web.dto.SignUpDto;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
@@ -33,6 +35,12 @@ public class UserServiceImpl implements UserService {
   private IVerificationTokenDAO verificationTokenDAO;
   private IPasswordResetDAO passwordResetRepository;
   private PasswordEncoder passwordEncoder;
+  private ImageService imageService;
+
+  @Autowired
+  public void setImageService(ImageService imageService) {
+    this.imageService = imageService;
+  }
 
   @Autowired
   public void setUserProfileDAO(IUserProfileDAO userProfileDAO) {
