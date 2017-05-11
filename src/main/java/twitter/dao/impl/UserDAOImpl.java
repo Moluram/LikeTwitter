@@ -1,14 +1,9 @@
 package twitter.dao.impl;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import twitter.beans.User;
+import twitter.dao.IRoleDAO;
 import twitter.dao.IUserDAO;
 import twitter.dao.IUserProfileDAO;
 import twitter.dao.constant.EntityColumn;
@@ -16,12 +11,18 @@ import twitter.dao.constant.EntityType;
 import twitter.dao.exception.DAOException;
 import twitter.dao.mapper.UserRowMapper;
 import twitter.dao.query.SqlQuery;
-import twitter.dao.IRoleDAO;
+
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Nikolay on 14.04.2017.
  */
-@Component
+@Repository
 public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements IUserDAO {
 
   private final IRoleDAO roleDAO;
@@ -47,7 +48,7 @@ public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements IUserDA
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_USER);
-    setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
+    setColumnIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new UserRowMapper(roleDAO,userProfileDAO));
     super.initialize();
   }

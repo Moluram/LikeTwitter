@@ -54,8 +54,8 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
     this.objectType = objectType;
   }
 
-  protected void setColumIdNames(String[] columIdNames) {
-    this.columIdNames = columIdNames;
+  protected void setColumnIdNames(String[] columnIdNames) {
+    this.columIdNames = columnIdNames;
   }
 
   protected void setRowMapper(EntityRowMapper<T> rowMapper) {

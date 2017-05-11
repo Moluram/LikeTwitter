@@ -50,7 +50,7 @@ public class SubscribeController {
     } else {
       subscribe.addSubscribe(username);
     }
-    //TODO: save in the database
+    subscribeService.saveSubscribe(subscribe);
     return answer;
   }
 

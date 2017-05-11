@@ -2,6 +2,10 @@ package twitter.dao.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import twitter.beans.UserProfile;
 import twitter.dao.constant.EntityColumn;
 
@@ -18,8 +22,20 @@ public class UserProfileRowMapper extends EntityRowMapper<UserProfile> {
     userProfile.setLastName((resultSet.getString(EntityColumn.COLUMN_LAST_NAME)));
     userProfile.setPhotoUrl(resultSet.getString(EntityColumn.COLUMN_PHOTO_URL));
     userProfile.setMiniPhoto(resultSet.getString(EntityColumn.COLUMN_MINI_PHOTO));
-    userProfile.setLinks(resultSet.getString(EntityColumn.COLUMN_LINKS));
+    String lisks=resultSet.getString(EntityColumn.COLUMN_LINKS);
+    userProfile.setLinks(strToLinksList(lisks));
     userProfile.setStatus(resultSet.getString(EntityColumn.COLUMN_STATUS));
     return userProfile;
+  }
+
+  private List<String> strToLinksList(String links){
+    String[] array = links
+            .replace("[", "")
+            .replace("]", "")
+            .split(",");
+    List<String> list=Arrays
+            .stream(array)
+            .collect(Collectors.toList());
+    return list;
   }
 }

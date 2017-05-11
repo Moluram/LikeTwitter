@@ -13,13 +13,14 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import twitter.beans.Privilege;
 import twitter.dao.IPrivilegeDAO;
 
 /**
  * Created by Nikolay on 06.04.2017.
  */
-@Component
+@Repository
 public class PrivilegeDAOImpl implements IPrivilegeDAO {
 
   private static final String QUERY_INSERT_PRIVILEGE_ATTRIBUTES_VALUES =

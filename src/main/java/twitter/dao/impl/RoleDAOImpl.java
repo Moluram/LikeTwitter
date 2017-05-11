@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import twitter.beans.Entity;
 import twitter.beans.Role;
 import twitter.dao.IPrivilegeDAO;
@@ -21,7 +21,7 @@ import twitter.dao.query.SqlQuery;
 /**
  * Created by Nikolay on 06.04.2017.
  */
-@Component
+@Repository
 public class RoleDAOImpl extends AbstractGenericDAOImpl<Role> implements IRoleDAO {
 
   private final IPrivilegeDAO privilegeDAO;
@@ -35,7 +35,7 @@ public class RoleDAOImpl extends AbstractGenericDAOImpl<Role> implements IRoleDA
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_ROLE);
-    setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
+    setColumnIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new RoleRowMapper(privilegeDAO));
     super.initialize();
   }
