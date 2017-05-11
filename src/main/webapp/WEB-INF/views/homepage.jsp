@@ -164,14 +164,12 @@
                     <div class="list-group" style="margin-right: 20px">
                         <c:if test="${isOwner}">
                             <div class="list-group-item row">
-                                <label for="resetPassword"> <spring:message
+                                <label id="resetPasswordLabel" for="resetPassword"> <spring:message
                                         code="label.form.title.reset"/></label>
-                                <button type="submit" class="btn btn-default pull-right"
-                                        id="resetPassword"
-                                        value="<c:url
-                        value="/${owner.username}/settings/reset-password"/>" formmethod="post">
+                                <a class="btn btn-default pull-right" id="resetPassword" onclick="resetPassword('<spring:message
+                                        code="label.form.title.reset.success"/>')">
                                     <spring:message code="label.form.reset"/>
-                                </button>
+                                </a>
                             </div>
                             <div class="list-group-item row">
                                 <form enctype="multipart/form-data" method="post"

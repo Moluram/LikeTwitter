@@ -63,7 +63,6 @@
 <section
 		class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header1-6" style="background-image: url(${pageContext.request.contextPath}/resources/images/mbr-2000x1333.jpg); background-size: 100%;">
 	<div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-box__magnet--center-left mbr-after-navbar">
-
 		<div class="mbr-box__container mbr-section__container container">
 			<div class="mbr-box mbr-box--stretched">
 				<div class="mbr-box__magnet mbr-box__magnet--center-left">
@@ -84,7 +83,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </section>
 

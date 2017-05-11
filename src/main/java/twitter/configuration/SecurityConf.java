@@ -22,7 +22,7 @@ import twitter.service.MyUserDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConf extends WebSecurityConfigurerAdapter {
+public class  SecurityConf extends WebSecurityConfigurerAdapter {
 
   private MyUserDetailsService userDetailsService;
 
@@ -55,8 +55,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/resources/**", "/about", "/contact").permitAll()
         .antMatchers("/**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE)
-        .antMatchers("/{username}/settings/reset-password").hasAuthority("CHANGE_PASSWORD")
-        .antMatchers("/{username}/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
+        .antMatchers("/settings/reset-password").hasAuthority(RolesAndPrivileges.CHANGE_PASSWORD_PRIVILEGE)
+        .antMatchers("/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
 
     http.exceptionHandling().accessDeniedPage("/accessDenied");
 

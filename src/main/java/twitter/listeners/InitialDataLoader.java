@@ -19,7 +19,6 @@ import twitter.service.role.RoleService;
 import twitter.service.storage.StorageException;
 
 import java.io.*;
-import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,11 +60,12 @@ public class InitialDataLoader implements
           return;
       }
       Privilege readPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.READ_PRIVILEGE);
+      Privilege changePasswordPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.CHANGE_PASSWORD_PRIVILEGE);
       Privilege writePrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.WRITE_PRIVILEGE);
       Privilege viewPagesPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges
               .VIEW_PAGES_PRIVILEGE);
       List<Privilege> userPrivileges = Arrays
-              .asList(readPrivilege, writePrivilege, viewPagesPrivilege);
+              .asList(readPrivilege, writePrivilege, viewPagesPrivilege, changePasswordPrivilege);
       createRoleIfNotFound(RolesAndPrivileges.ROLE_ADMIN, userPrivileges);
       createRoleIfNotFound(RolesAndPrivileges.ROLE_USER, userPrivileges);
       createDefaultImgIfDoesNotExist(InitialPhotoSettings.DEFAULT_IMG_PATH);

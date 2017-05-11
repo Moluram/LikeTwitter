@@ -9,29 +9,25 @@
 <html>
 <head>
     <title><spring:message
-            code="label.updatePassword.title"></spring:message></title>
+            code="label.updatePassword.title"/></title>
 </head>
 <body>
 <form:form modelAttribute="passwords" method="POST" enctype="utf8">
-    <tr><td>
-        <label>
-            <spring:message code="label.user.password"></spring:message>
-        </label>
-    </td>
-        <td>
-            <form:input path="password" value="" type="password" /></td>
-        <form:errors path="password" element="div" />
+    <tr>
+        <spring:message code="label.user.password" var="password"/>
+        <form:errors cssClass="alert alert-danger" path="password" element="div"/>
+        <form:input path="password" value="" type="password" /></td>
     </tr>
     <tr><td>
         <label>
-            <spring:message code="label.user.confirmPass"></spring:message>
+            <spring:message code="label.user.confirmPass"/>
         </label>
     </td>
         <td><form:input path="matchingPassword" value="" type="password" /></td>
         <form:errors element="div" />
     </tr>
     <button type="submit">
-        <spring:message code="label.form.submit"></spring:message>
+        <spring:message code="label.form.submit"/>
     </button>
 </form:form>
 </body>

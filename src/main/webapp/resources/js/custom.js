@@ -301,3 +301,24 @@ function setCaretPosition(el, caretPos) {
         }
     }
 }
+
+function resetPassword(message) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "POST",
+            url: "settings/reset-password",
+            timeout: 100000,
+            success: function insertComments(answer) {
+                if(answer) {
+                    document.getElementById("resetPasswordLabel").textContent = message;
+                }
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });
+}
