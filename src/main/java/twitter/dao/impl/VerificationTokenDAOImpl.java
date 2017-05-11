@@ -41,7 +41,7 @@ public class VerificationTokenDAOImpl extends AbstractGenericDAOImpl<Verificatio
 
   @PostConstruct
   protected void initialize() {
-    setObjectType(EntityType.TYPE_ROLE);
+    setObjectType(EntityType.TYPE_VERIFICATION_TOKEN);
     setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new VerificationTokenRowMapper(userDAO, dateUtils));
     super.initialize();

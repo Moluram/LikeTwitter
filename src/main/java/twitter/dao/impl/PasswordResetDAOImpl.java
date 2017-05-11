@@ -48,7 +48,7 @@ public class PasswordResetDAOImpl extends AbstractGenericDAOImpl<PasswordResetTo
 
   @PostConstruct
   protected void initialize() {
-    setObjectType(EntityType.TYPE_ROLE);
+    setObjectType(EntityType.TYPE_PASSWORD_RESET_TOKEN);
     setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new PasswordResetRowMapper(userDAO, dateUtils));
     super.initialize();
