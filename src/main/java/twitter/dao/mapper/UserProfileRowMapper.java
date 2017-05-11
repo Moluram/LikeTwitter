@@ -35,6 +35,8 @@ public class UserProfileRowMapper extends EntityRowMapper<UserProfile> {
             .split(",");
     List<String> list=Arrays
             .stream(array)
+            .filter(s -> !s.isEmpty())
+            .map(String::trim)
             .collect(Collectors.toList());
     return list;
   }

@@ -15,6 +15,10 @@ public class Tweet extends Entity {
     return usernamesOfUserWhoLikes;
   }
 
+  public void setUsernamesOfUserWhoLikes(List<String> usernamesOfUserWhoLikes) {
+    this.usernamesOfUserWhoLikes = usernamesOfUserWhoLikes;
+  }
+
   public void addUsernameToLikes(String usernamesOfUserWhoLikes) {
     this.usernamesOfUserWhoLikes.add(usernamesOfUserWhoLikes);
   }

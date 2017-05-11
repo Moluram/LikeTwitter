@@ -41,11 +41,12 @@ public class TweetDAOImpl extends AbstractGenericDAOImpl<Tweet> implements ITwee
 
   @Override
   protected Map<String, String> getAttrValueMap(Tweet instance) {
-    Map<String, String> attributeValueMap = new HashMap<>(2);
+    Map<String, String> attributeValueMap = new HashMap<>(4);
     attributeValueMap.put(EntityColumn.COLUMN_TEXT, instance.getText());
     attributeValueMap
         .put(EntityColumn.COLUMN_DATE, dateUtils.dateToStr(instance.getDate()));
     attributeValueMap.put(EntityColumn.COLUMN_OWNER_USERNAME,instance.getOwnerUsername());
+    attributeValueMap.put(EntityColumn.COLUMN_USERNAMES_OF_WHO_LIKES,instance.getUsernamesOfUserWhoLikes().toString());
     return attributeValueMap;
   }
 

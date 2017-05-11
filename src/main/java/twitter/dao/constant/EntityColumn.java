@@ -33,5 +33,6 @@ public class EntityColumn {
   public static final String COLUMN_OWNER_TWEET_ID="owner_tweet_id";
 
   public static final String COLUMN_SUBSCRIBES="subscribes";
+  public static final String COLUMN_USERNAMES_OF_WHO_LIKES="username_who_likes";
 
 }
