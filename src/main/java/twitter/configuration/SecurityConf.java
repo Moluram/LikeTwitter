@@ -50,13 +50,10 @@ public class  SecurityConf extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable();
 
-    http.authorizeRequests().antMatchers( "/signin", "/", "/signup").anonymous();
-
     http.authorizeRequests()
-        .antMatchers("/resources/**", "/about", "/contact").permitAll()
-        .antMatchers("/**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE)
-        .antMatchers("/settings/reset-password").hasAuthority(RolesAndPrivileges.CHANGE_PASSWORD_PRIVILEGE)
-        .antMatchers("/settings/change-password").hasAuthority("RESEND_REGISTRATION_TOKEN");
+        .antMatchers( "/signin", "/", "/signup").anonymous()
+        .antMatchers("/resources/**", "/about", "/contact", "/settings/**").permitAll()
+        .antMatchers("/**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE);
 
     http.exceptionHandling().accessDeniedPage("/accessDenied");
 

@@ -167,7 +167,7 @@
                                 <label id="resetPasswordLabel" for="resetPassword"> <spring:message
                                         code="label.form.title.reset"/></label>
                                 <a class="btn btn-default pull-right" id="resetPassword" onclick="resetPassword('<spring:message
-                                        code="label.form.title.reset.success"/>')">
+                                        code="label.form.title.reset.success"/>', '${user.username}')">
                                     <spring:message code="label.form.reset"/>
                                 </a>
                             </div>

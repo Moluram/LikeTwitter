@@ -302,11 +302,14 @@ function setCaretPosition(el, caretPos) {
     }
 }
 
-function resetPassword(message) {
+function resetPassword(message, username) {
     jQuery(document).ready(function ($) {
         $.ajax({
             type: "POST",
             url: "settings/reset-password",
+            data: {
+                'username': username
+            },
             timeout: 100000,
             success: function insertComments(answer) {
                 if(answer) {

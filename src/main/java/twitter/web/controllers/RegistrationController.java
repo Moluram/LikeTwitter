@@ -157,7 +157,7 @@ public class RegistrationController {
   }
 
   private void trySendMessage(HttpServletRequest request, User registered) {
-    String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();;
+    String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
     eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
         registered, request.getLocale(), appUrl));
   }

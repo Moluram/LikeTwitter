@@ -28,7 +28,6 @@ import java.util.UUID;
  * Created by Moluram on 3/29/2017.
  */
 @Controller
-@PreAuthorize("hasRole('USER, ADMIN')")
 @RequestMapping("/settings")
 public class SettingsController {
   private UserService userService;
@@ -62,17 +61,24 @@ public class SettingsController {
     this.userService = userService;
   }
 
+  @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
+  public String resetPassword() {
+    return "resetPassword";
+  }
+
   @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
-  public @ResponseBody Boolean resetPassword(HttpServletRequest request, @SessionAttribute("user") User user) {
+  public @ResponseBody Boolean resetPassword(HttpServletRequest request, @RequestParam("username") String username) {
     String token = UUID.randomUUID().toString();
+    User user = userService.getUserByUsername(username);
     userService.createPasswordResetTokenForUser(user, token);
-    mailSender.send(constructResetTokenEmail(request.getContextPath(), request.getLocale(), token, user));
+    mailSender.send(constructResetTokenEmail(request, token, user));
     return true;
   }
 
   @RequestMapping(value = "/change-password", method = RequestMethod.GET)
   public String changePassword(HttpServletRequest request, @RequestParam("id") long id,
-                               @RequestParam("token") String token, Model model) {
+                               @RequestParam("token") String token, Model model,
+                               @RequestParam("username") String username) {
     String result = securityService.validatePasswordResetToken(id, token);
     if (result != null) {
       model.addAttribute("message",
@@ -80,25 +86,26 @@ public class SettingsController {
       return "redirect:/signin?lang=" + request.getLocale().getLanguage();
     }
     model.addAttribute("passwords", new PasswordDto());
+    model.addAttribute("username", username);
     return "updatePassword";
   }
 
   @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-  public String changePassword(HttpServletRequest request, @SessionAttribute("user") User user, Model model,
+  public String changePassword(HttpServletRequest request, Model model, @RequestParam("username") String username,
                                @RequestParam("passwords") @Valid PasswordDto passwordDto, BindingResult result) {
     if (result.hasErrors()) {
       model.addAttribute("passwords", passwordDto);
       return "updatePassword";
     }
-    userService.changeUserPassword(user, passwordDto.getPassword());
+    userService.changeUserPassword(userService.getUserByUsername(username), passwordDto.getPassword());
     return "redirect:/signin?lang=" + request.getLocale().getLanguage();
   }
 
   private SimpleMailMessage constructResetTokenEmail(
-      String contextPath, Locale locale, String token, User user) {
-    String url = contextPath + "/" + user.getUsername() + "/change-password?id=" +
-        user.getId() + "&token=" + token;
-    String message = messages.getMessage("message.resetPassword",null, locale);
+      HttpServletRequest request, String token, User user) {
+    String url = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath()
+        + "/settings/change-password?id=" + user.getId() + "&token=" + token + "&username=" + user.getUsername();
+    String message = messages.getMessage("message.resetPassword",null, request.getLocale());
     return constructEmail("Reset Password", message + " \r\n" + url, user);
   }
 
