@@ -31,10 +31,10 @@ public class VerificationTokenRowMapper extends EntityRowMapper<VerificationToke
     VerificationToken verificationToken = new VerificationToken();
     Long id = resultSet.getLong(EntityColumn.COLUMN_ID);
     verificationToken.setId(id);
-    verificationToken.setToken(resultSet.getString(EntityColumn.COLUMN_USERNAME));
+    verificationToken.setToken(resultSet.getString(EntityColumn.COLUMN_VERIFICATION_TOKEN));
     Date expireDate = null;
     try {
-      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_PASSWORD));
+      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_EXPIRE_DATE));
     } catch (ParseException e) {
       throw new SQLException("Can't parse expire date!");
     }

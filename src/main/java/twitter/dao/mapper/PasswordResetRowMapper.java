@@ -31,10 +31,10 @@ public class PasswordResetRowMapper extends EntityRowMapper<PasswordResetToken> 
     PasswordResetToken passwordResetToken = new PasswordResetToken();
     Long id = resultSet.getLong(EntityColumn.COLUMN_ID);
     passwordResetToken.setId(id);
-    passwordResetToken.setToken(resultSet.getString(EntityColumn.COLUMN_USERNAME));
+    passwordResetToken.setToken(resultSet.getString(EntityColumn.COLUMN_PASSWORD_RESET_TOKEN));
     Date expireDate = null;
     try {
-      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_PASSWORD));
+      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_EXPIRE_DATE));
     } catch (ParseException e) {
       throw new SQLException("Can't parse expire date!");
     }

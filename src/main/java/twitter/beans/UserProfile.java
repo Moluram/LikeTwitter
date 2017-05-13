@@ -42,10 +42,6 @@ public class UserProfile extends Entity {
     return links;
   }
 
-  public void setLinks(String links) {
-    this.links = strToLinksList(links);
-  }
-
   public void setLinks(List<String> links) {
     this.links = links;
   }
@@ -56,10 +52,6 @@ public class UserProfile extends Entity {
 
   public void setStatus(String status) {
     this.status = status;
-  }
-
-  private List<String> strToLinksList(String links){
-    return Arrays.asList(links.replace("[","").replace("]","").split(","));
   }
 
   @Override

@@ -3,8 +3,6 @@ package twitter.dao.mapper;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import twitter.beans.Entity;
-import twitter.dao.constant.EntityType;
 import twitter.dao.query.SqlQuery;
 
 /**
@@ -20,7 +18,7 @@ public abstract class EntityRowMapper<T> implements RowMapper<T> {
 
   protected List<Long> readRelatedObjectsId(Long objId, String objType, String relObjType) {
     List<Long> ids = jdbcTemplate
-        .queryForList(SqlQuery.READ_REFERENCIES_ID.getQuery(), Long.class, objId,
+        .queryForList(SqlQuery.READ_REFERENCES_ID.getQuery(), Long.class, objId,
             objType,
             relObjType);
     return ids;
