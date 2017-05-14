@@ -1,5 +1,6 @@
 package twitter.web.validators;
 
+import twitter.web.dto.PasswordDto;
 import twitter.web.dto.SignUpDto;
 
 import javax.validation.ConstraintValidator;
@@ -17,7 +18,6 @@ public class PasswordMatchesValidator
 
    @Override
    public boolean isValid(SignUpDto user, ConstraintValidatorContext context) {
-     SignUpDto signUpDto = user;
-     return signUpDto.getPassword().equals(signUpDto.getMatchingPassword());
+     return user.getPassword().equals(user.getMatchingPassword());
    }
 }

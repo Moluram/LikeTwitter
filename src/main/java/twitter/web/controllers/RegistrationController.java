@@ -23,6 +23,7 @@ import twitter.web.exceptions.UsernameExistsException;
 import twitter.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Locale;
@@ -72,7 +73,7 @@ public class RegistrationController {
   }
 
   @RequestMapping(method = RequestMethod.GET)
-  public String showRegistrationForm(WebRequest request, Model model, Authentication auth) {
+  public String showRegistrationForm(Model model) {
     SignUpDto signUpDto = new SignUpDto();
     model.addAttribute(USER_ATTRIBUTE_NAME, signUpDto);
     return REGISTRATION_PAGE_NAME;
@@ -83,28 +84,28 @@ public class RegistrationController {
       @ModelAttribute(USER_ATTRIBUTE_NAME) @Valid SignUpDto signUpDto,
       BindingResult result, HttpServletRequest request, Model model, Errors errors) {
     if (result.hasErrors()) {
-      model.addAttribute("user", signUpDto);
-      return "registration";
+      model.addAttribute(USER_ATTRIBUTE_NAME, signUpDto);
+      return REGISTRATION_PAGE_NAME;
     } else {
       User registered = tryRegisterUser(signUpDto, result);
       if (registered == null) {
-        model.addAttribute("user", signUpDto);
-        return "registration";
+        model.addAttribute(USER_ATTRIBUTE_NAME, signUpDto);
+        return REGISTRATION_PAGE_NAME;
       }
       try {
         trySendMessage(request, registered);
       } catch (Exception me) {
-        model.addAttribute("user", signUpDto);
+        model.addAttribute(USER_ATTRIBUTE_NAME, signUpDto);
         return "redirect:/emailError?lang=" + request.getLocale().getLanguage();
       }
-      model.addAttribute("user" , signUpDto);
+      model.addAttribute(USER_ATTRIBUTE_NAME , signUpDto);
       return "redirect:/signin?lang=" + request.getLocale().getLanguage();
     }
   }
 
   @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
   public @ResponseBody Boolean resendRegistrationToken(Model model,
-      HttpServletRequest request, @SessionAttribute("user") User sessionUser) {
+      HttpServletRequest request, @SessionAttribute(USER_ATTRIBUTE_NAME) User sessionUser) {
     VerificationToken newToken = userService.createVerificationToken(sessionUser, UUID.randomUUID
         ().toString());
     String appUrl = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath();
@@ -114,8 +115,7 @@ public class RegistrationController {
   }
 
   @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-  public String confirmRegistration(WebRequest request, Model model,
-                                    @RequestParam("token") String token) {
+  public String confirmRegistration(WebRequest request, HttpSession session, Model model, @RequestParam("token") String token) {
     Locale locale = request.getLocale();
 
     VerificationToken verificationToken = userService.getVerificationToken(token);
@@ -137,11 +137,18 @@ public class RegistrationController {
       model.addAttribute("token", token);
       return "redirect:/bad-user?lang=" + locale.getLanguage();
     }
-
+    updateSessionIfExist(session);
     user.setEnabled(true);
     userService.saveRegisteredUser(user);
     model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
     return "redirect:/signin?lang=" + request.getLocale().getLanguage();
+  }
+
+  private void updateSessionIfExist(HttpSession session) {
+    User sessionUser = (User) session.getAttribute(USER_ATTRIBUTE_NAME);
+    if (sessionUser != null) {
+      sessionUser.setEnabled(true);
+    }
   }
 
   private SimpleMailMessage constructResendVerificationToken(String contextPath, Locale locale,

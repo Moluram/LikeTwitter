@@ -42,7 +42,7 @@ public class RegistrationListener
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
     email.setSubject(subject);
-    email.setText(message + " rn" + event.getAppUrl() + confirmationUrl);
+    email.setText(message + "/r/n" + confirmationUrl);
     mailSender.send(email);
   }
  

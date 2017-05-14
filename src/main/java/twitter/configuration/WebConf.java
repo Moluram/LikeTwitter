@@ -29,6 +29,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @ComponentScan(basePackages = "twitter.web")
 @PropertySource("classpath:mail.properties")
 @Import({SecurityConf.class, DatabaseConf.class})

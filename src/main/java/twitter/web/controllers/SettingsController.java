@@ -85,19 +85,18 @@ public class SettingsController {
           messages.getMessage("auth.message." + result, null, request.getLocale()));
       return "redirect:/signin?lang=" + request.getLocale().getLanguage();
     }
-    model.addAttribute("passwords", new PasswordDto());
-    model.addAttribute("username", username);
+    model.addAttribute("passwords", new PasswordDto(username));
     return "updatePassword";
   }
 
   @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-  public String changePassword(HttpServletRequest request, Model model, @RequestParam("username") String username,
-                               @RequestParam("passwords") @Valid PasswordDto passwordDto, BindingResult result) {
+  public String changePassword(@ModelAttribute("passwords") @Valid PasswordDto passwordDto, BindingResult result,
+      HttpServletRequest request, Model model) {
     if (result.hasErrors()) {
       model.addAttribute("passwords", passwordDto);
       return "updatePassword";
     }
-    userService.changeUserPassword(userService.getUserByUsername(username), passwordDto.getPassword());
+    userService.changeUserPassword(userService.getUserByUsername(passwordDto.getUsername()), passwordDto.getPassword());
     return "redirect:/signin?lang=" + request.getLocale().getLanguage();
   }
 
