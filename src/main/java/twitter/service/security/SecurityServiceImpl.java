@@ -36,12 +36,6 @@ public class SecurityServiceImpl implements SecurityService {
     if ((passToken.getExpiryDate().getTime() - cal.getTime().getTime() <= 0)) {
       return "expired";
     }
-
-    User user = passToken.getUser();
-    Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
-        Arrays.asList(
-            new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
-    SecurityContextHolder.getContext().setAuthentication(auth);
     return null;
   }
 }
