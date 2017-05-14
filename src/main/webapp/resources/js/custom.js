@@ -325,3 +325,31 @@ function resetPassword(message, username) {
         });
     });
 }
+
+function postUsername(messageTrue, messageFalse) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "POST",
+            url: "reset-password",
+            data: {
+                'username': document.getElementById("username").value
+            },
+            timeout: 100000,
+            success: function insertComments(answer) {
+                if(answer) {
+                    $("resetPassword").removeClass("hidden");
+                    document.getElementById("resetPassword").innerHTML = messageTrue;
+                } else {
+                    $("resetPassword").removeClass("hidden");
+                    document.getElementById("resetPassword").innerHTML = messageFalse;
+                }
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    });
+}

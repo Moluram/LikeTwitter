@@ -51,8 +51,8 @@ public class  SecurityConf extends WebSecurityConfigurerAdapter {
         .disable();
 
     http.authorizeRequests()
-        .antMatchers( "/signin", "/", "/signup").anonymous()
         .antMatchers("/resources/**", "/about", "/contact", "/settings/**", "/signup/**").permitAll()
+        .antMatchers( "/signin", "/", "/signup").anonymous()
         .antMatchers("/**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE);
 
     http.exceptionHandling().accessDeniedPage("/accessDenied");

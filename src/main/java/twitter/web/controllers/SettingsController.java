@@ -67,9 +67,12 @@ public class SettingsController {
   }
 
   @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
-  public @ResponseBody Boolean resetPassword(HttpServletRequest request, @RequestParam("username") String username) {
-    String token = UUID.randomUUID().toString();
+  public @ResponseBody Boolean resetPassword(HttpServletRequest request, @ModelAttribute("username") String username) {
     User user = userService.getUserByUsername(username);
+    if (user == null) {
+      return false;
+    }
+    String token = UUID.randomUUID().toString();
     userService.createPasswordResetTokenForUser(user, token);
     mailSender.send(constructResetTokenEmail(request, token, user));
     return true;

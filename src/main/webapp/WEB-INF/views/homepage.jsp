@@ -47,7 +47,6 @@
     <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-filestyle.min.js"></script>
-
     <script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
     <link href="${pageContext.request.contextPath}/resources/css/custom.css"
           rel="stylesheet" type="text/css"/>
