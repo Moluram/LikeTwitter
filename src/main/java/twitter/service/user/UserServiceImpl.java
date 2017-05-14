@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void changeUserPassword(User user, String password) {
-    user.setPassword(password);
+    user.setPassword(passwordEncoder.encode(password));
     userDAO.update(user);
   }
 }
