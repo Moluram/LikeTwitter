@@ -235,7 +235,7 @@
                                     </div>
                                     <div class="row">
                                         <button class="btn btn-sm btn-success"
-                                                onclick="like(${t.id},'${sessionScope.get('user').getUsername()}', '${t.ownerUsername}')">
+                                                onclick="like(${t.id},'${sessionScope.get('user').getUsername()}')">
                                             <span id="likes${t.id}" class="glyphicon glyphicon-thumbs-up">
                                                     ${t.numberOfLikes}
                                             </span>

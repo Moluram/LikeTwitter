@@ -8,20 +8,25 @@ import org.springframework.stereotype.Component;
 import twitter.service.login.LoginAttemptService;
 
 /**
- * Created by berthold on 29.03.2017.
+ * Establishes that login succeed
+ *
+ * @author berthold
  */
 @Component
 public class AuthenticationSuccessEventListener
     implements ApplicationListener<AuthenticationSuccessEvent> {
 
+  private final LoginAttemptService loginAttemptService;
+
   @Autowired
-  private LoginAttemptService loginAttemptService;
+  public AuthenticationSuccessEventListener(LoginAttemptService loginAttemptService) {
+    this.loginAttemptService = loginAttemptService;
+  }
 
   @Override
   public void onApplicationEvent(AuthenticationSuccessEvent event) {
     WebAuthenticationDetails auth = (WebAuthenticationDetails)
         event.getAuthentication().getDetails();
-
     loginAttemptService.loginSucceeded(auth.getRemoteAddress());
   }
 }

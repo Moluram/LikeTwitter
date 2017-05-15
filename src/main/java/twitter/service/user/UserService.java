@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import twitter.beans.User;
 import twitter.beans.VerificationToken;
 import twitter.web.dto.SignUpDto;
-
-import java.util.List;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
+
+import java.util.List;
 
 /**
  * Represents an interface to work with users in app
@@ -62,8 +62,6 @@ public interface UserService {
   void updateUserPhoto(User user,String photo);
 
   List<String> getUsernamesStartsWith(String username, Integer maxSuggestions);
-
-  List<String> getUsernames();
 
   List<String> getUsernamesContains(String username, Integer maxSuggestions);
 }

@@ -6,7 +6,9 @@ import twitter.web.validators.PasswordMatches;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by Moluram on 3/29/2017.
+ * Dto serve for updating specific user password
+ *
+ * @author moluram
  */
 @PasswordMatches
 public class PasswordDto {
@@ -16,8 +18,7 @@ public class PasswordDto {
   private String username;
   private String matchingPassword;
 
-  public PasswordDto() {
-  }
+  public PasswordDto() {}
 
   public PasswordDto(String username) {
     this.username = username;

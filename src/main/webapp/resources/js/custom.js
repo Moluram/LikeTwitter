@@ -1,7 +1,6 @@
 /**
- * Created by Nikolay on 01.05.2017.
+ * Contains all our own js funtion
  */
-
 jQuery(document).ready(function ($) {
     var substringMatcher = function() {
         var strs = [];
@@ -26,7 +25,7 @@ jQuery(document).ready(function ($) {
             });
 
 
-            var matches, substringRegex;
+            var matches;
 
             // an array that will be populated with substring matches
             matches = [];
@@ -105,27 +104,27 @@ jQuery(document).ready(function ($) {
             },
             done: function (e) {
                 console.log("DONE", e)
-            },
+            }
         });
 
     });
 
 });
 
-function like(id, username, owner) {
+function like(id, username) {
     jQuery(document).ready(function ($) {
         $.ajax({
             type: "GET",
-            url: "tweet?id=" + id + "&username=" + username + "&owner=" + owner,
+            url: "tweet?id=" + id + "&username=" + username,
             timeout: 100000,
             success: function (data) {
-                console.log(data)
+                console.log(data);
                 document.getElementById("likes" + id).textContent = "     " + data;
             },
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });
@@ -138,13 +137,13 @@ function resendEmail(text) {
             type: "GET",
             url: "/signup/resendRegistrationToken",
             timeout: 100000,
-            success: function (data) {
+            success: function () {
                 document.getElementById("resendEmail").textContent = text;
             },
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });
@@ -169,7 +168,7 @@ function subscribe(username) {
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });
@@ -183,13 +182,13 @@ function unsubscribe(username, url) {
             type: "POST",
             url: url,
             timeout: 100000,
-            success: function (data) {
+            success: function () {
                 $("#" + username).addClass("hidden");
             },
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });
@@ -214,7 +213,7 @@ function loadComments(tweetId) {
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });
@@ -236,7 +235,7 @@ function insertAsTree(divToInsert, comments, depth) {
     for (var i in comments) {
         var htmlComment = makeComment(comments[i],depth);
         htmlComment
-            .appendTo(divToInsert)
+            .appendTo(divToInsert);
         if (comments[i].child) {
             insertAsTree(divToInsert, comments[i].child, depth + 1)
         }
@@ -282,7 +281,7 @@ jQuery(document).ready(function () {
             submitButton.prop("disabled",true);
         }
     })
-})
+});
 
 
 function setCaretPosition(el, caretPos) {
@@ -334,7 +333,7 @@ function resetPassword(message, username) {
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });
@@ -362,7 +361,7 @@ function postUsername(messageTrue, messageFalse) {
             error: function (e) {
                 console.log("ERROR: ", e);
             },
-            done: function (e) {
+            done: function () {
                 console.log("DONE");
             }
         });

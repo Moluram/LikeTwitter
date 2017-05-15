@@ -5,14 +5,12 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import twitter.beans.*;
+import twitter.beans.PasswordResetToken;
+import twitter.beans.User;
+import twitter.beans.UserProfile;
+import twitter.beans.VerificationToken;
 import twitter.constants.RolesAndPrivileges;
-import twitter.dao.IUserProfileDAO;
-import twitter.dao.IPasswordResetDAO;
-import twitter.dao.IRoleDAO;
-import twitter.dao.IUserDAO;
-import twitter.dao.IVerificationTokenDAO;
+import twitter.dao.*;
 import twitter.service.image.ImageService;
 import twitter.web.dto.SignUpDto;
 import twitter.web.exceptions.EmailExistsException;
@@ -111,15 +109,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<String> getUsernames() {
-    List<String> users = new ArrayList<>();
-    for (User user : userDAO.getAll()) {
-      users.add(user.getUsername());
-    }
-    return users;
-  }
-
-  @Override
   public List<String> getUsernamesContains(String username, Integer maxSuggestions) {
     List<String> list = new ArrayList<>();
     List<User> users = userDAO.getAll();
@@ -186,10 +175,10 @@ public class UserServiceImpl implements UserService {
   public VerificationToken generateNewVerificationToken(String existingToken) {
     VerificationToken token = verificationTokenDAO.findByTokenName(existingToken);
     if (token == null) {
-      return token;
+      return null;
     }
     token.setToken(UUID.randomUUID().toString());
-    return token; // null if not found pls
+    return token;
   }
 
   @Override

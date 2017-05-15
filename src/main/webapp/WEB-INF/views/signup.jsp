@@ -61,7 +61,7 @@
         <div class="row animated fadeInUp">
             <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                 <form:form modelAttribute="user" method="POST" enctype="utf8" role="form">
-                    <font color="white"><h1 align="center"><spring:message code="label.signup"/></h1></font>
+                    <span style="color: white; "><h1 align="center"><spring:message code="label.signup"/></h1></span>
                     <hr class="colorgraph">
                     <div class="form-group animated fadeInUp delay">
                         <spring:message code="label.user.username" var="username"/>

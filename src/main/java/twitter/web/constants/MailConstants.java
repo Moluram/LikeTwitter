@@ -1,7 +1,9 @@
 package twitter.web.constants;
 
 /**
- * Created by Moluram on 4/8/2017.
+ * Contains mail constants
+ *
+ * @author moluram
  */
 public class MailConstants {
   public static final String HOST 							  	= "mail.host";

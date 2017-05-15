@@ -1,7 +1,6 @@
 package twitter.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import twitter.beans.Tweet;
 import twitter.service.tweet.TweetService;
@@ -9,7 +8,9 @@ import twitter.service.tweet.TweetService;
 import java.util.List;
 
 /**
- * Created by Moluram on 5/1/2017.
+ * Responsible for getting output from tweets
+ *
+ * @author Aliaksei Chorny
  */
 @RestController
 @RequestMapping("/tweet")
@@ -21,9 +22,15 @@ public class TweetController {
         this.tweetService = tweetService;
     }
 
+    /**
+     * Adds like from specific user
+     *
+     * @param id - tweet id
+     * @param username - username of user who liked
+     * @return number of likes for this tweet
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
-    Integer addLike(@RequestParam Long id, @RequestParam String username, @RequestParam String owner) {
+    public @ResponseBody Integer addLike(@RequestParam Long id, @RequestParam String username) {
         Tweet tweet = tweetService.getTweetById(id);
         List<String> list = tweet.getUsernamesOfUserWhoLikes();
         if (list.contains(username)) {
@@ -32,7 +39,6 @@ public class TweetController {
             tweet.addUsernameToLikes(username);
         }
         tweetService.updateTweet(tweet);
-        Integer number = tweet.getUsernamesOfUserWhoLikes().size();
-        return number;
+        return tweet.getUsernamesOfUserWhoLikes().size();
     }
 }

@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import twitter.constants.RolesAndPrivileges;
 import twitter.service.MyUserDetailsService;
+import twitter.web.constants.AttributeNamesConstants;
+import twitter.web.constants.URLConstants;
+import twitter.web.constants.WebConstants;
 
 /**
  * Class configuration to a spring security
@@ -51,18 +54,21 @@ public class  SecurityConf extends WebSecurityConfigurerAdapter {
         .disable();
 
     http.authorizeRequests()
-        .antMatchers("/resources/**", "/about", "/contact", "/settings/**", "/signup/**").permitAll()
-        .antMatchers( "/signin", "/", "/signup").anonymous()
-        .antMatchers("/**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE);
+        .antMatchers("/resources/**", "/about", "/contact", "/settings/**",
+            WebConstants.SLASH + URLConstants.SIGNUP_PAGE + WebConstants.SLASH + "**").permitAll()
+        .antMatchers( WebConstants.SLASH + URLConstants.SIGNIN_PAGE,
+            WebConstants.SLASH, WebConstants.SLASH + URLConstants.SIGNUP_PAGE).anonymous()
+        .antMatchers(WebConstants.SLASH + "**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE);
 
-    http.exceptionHandling().accessDeniedPage("/accessDenied");
+    http.exceptionHandling().accessDeniedPage(WebConstants.SLASH + URLConstants.ACCESS_DENIED);
 
     http.formLogin()
-          .loginPage("/signin")
-          .successForwardUrl("/signin")
-          .failureUrl("/signin?error=true")
+          .loginPage(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+          .successForwardUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+          .failureUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
           .and()
-        .logout().logoutUrl("/logout").logoutSuccessUrl("/signin").deleteCookies("JSESSIONID");
+        .logout().logoutUrl("/logout").logoutSuccessUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+          .deleteCookies(AttributeNamesConstants.COOKIE_NAME);
   }
 
   @Bean

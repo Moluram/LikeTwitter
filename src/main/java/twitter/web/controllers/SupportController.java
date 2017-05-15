@@ -6,33 +6,39 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import twitter.web.constants.AttributeNamesConstants;
+import twitter.web.constants.PageNamesConstants;
+import twitter.web.constants.URLConstants;
+import twitter.web.constants.WebConstants;
 import twitter.web.dto.ContactDto;
 
 import javax.validation.Valid;
 
 /**
- * Created by Moluram on 4/27/2017.
+ * Serve for maintaining support pages
+ *
+ * @author Aliaksei Chorny
  */
 @Controller
 public class SupportController {
-  @RequestMapping(value = "/about", method = RequestMethod.GET)
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.ABOUT, method = RequestMethod.GET)
   public String getAbout() {
-    return "about";
+    return PageNamesConstants.PAGE_ABOUT;
   }
 
-  @RequestMapping(value = "/contact", method = RequestMethod.GET)
+  @RequestMapping(value =  WebConstants.SLASH + URLConstants.CONTACT, method = RequestMethod.GET)
   public String getContact(Model model) {
-    model.addAttribute("contacts", new ContactDto());
-    return "contact";
+    model.addAttribute(AttributeNamesConstants.CONTACTS, new ContactDto());
+    return PageNamesConstants.CONTACT_PAGE;
   }
 
-  @RequestMapping(value = "/contact", method = RequestMethod.POST)
-  public String getContact(@ModelAttribute("contacts") @Valid ContactDto contactDto, BindingResult result,
+  @RequestMapping(value =  WebConstants.SLASH + URLConstants.CONTACT, method = RequestMethod.POST)
+  public String getContact(@ModelAttribute(AttributeNamesConstants.CONTACTS) @Valid ContactDto contactDto, BindingResult result,
                            Model model) {
     if (result.hasErrors()) {
-      model.addAttribute("contats", contactDto);
-      return "contact";
+      model.addAttribute(AttributeNamesConstants.CONTACTS, contactDto);
+      return PageNamesConstants.CONTACT_PAGE;
     }
-    return "redirect:/signin";
+    return WebConstants.REDIRECT + URLConstants.SIGNIN_PAGE;
   }
 }
