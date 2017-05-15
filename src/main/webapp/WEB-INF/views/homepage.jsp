@@ -118,13 +118,12 @@
                         <div class="mbr-navbar__column center-block pull-right">
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--center btn-decorator mbr-buttons--active list-inline">
                                 <li class="mbr-navbar__item" style="margin-top: 8px">
-                                    <small id="resendEmail" class="text-center h3">You're not confirm your email!
-                                    </small>
+                                    <small id="resendEmail" class="text-center h3"><spring:message code="navbar.email.resendEmail"/></small>
                                 </li>
                                 <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn btn-warning"
-                                        onclick="resendEmail('<spring:message code="navbar.text.resendEmail"/>')">RESEND
-                                    EMAIL</a></li>
+                                        onclick="resendEmail('<spring:message code="navbar.text.resendEmail"/>')">
+                                    <spring:message code="navbar.email.resend.button"/></a></li>
                             </ul>
                         </div>
                     </div>
@@ -150,16 +149,16 @@
                     <c:if test="${!isOwner}">
                         <button id="subscribe${owner.username}" onclick="subscribe('${owner.username}')"
                                 class="btn btn-success <c:if test="${isSubscribes}"> hidden </c:if>  pull-left">
-                            Subscribe
+                            <spring:message code="label.button.subscribe"/>
                         </button>
                         <button id="unsubscribe${owner.username}" onclick="subscribe('${owner.username}')"
                                 class="btn btn-default <c:if test="${!isSubscribes}"> hidden </c:if> pull-left">
-                            UnSubscribe
+                            <spring:message code="label.button.unsubscribe"/>
                         </button>
                     </c:if>
                 </div>
                 <div class='row animated fadeInUp'>
-                    <p class="lead">Settings</p>
+                    <p class="lead"><spring:message code="label.settings.title"/></p>
                     <div class="list-group" style="margin-right: 20px">
                         <c:if test="${isOwner}">
                             <div class="list-group-item row">
@@ -173,12 +172,12 @@
                             <div class="list-group-item row">
                                 <form enctype="multipart/form-data" method="post"
                                       action="/${user.username}/upload-photo">
-                                    <label for="file"> Upload your own icon!</label>
+                                    <label for="file"><spring:message code="label.settings.upload.title"/></label>
                                     <input type="file" name="file" id="file" data-size="sm"
                                            data-buttonBefore="true" class="btn-group-sm filestyle"
                                            data-buttonName="btn-primary"/>
                                     <button type="submit" class="btn btn-success pull-right"
-                                            id="uploadFile">Upload
+                                            id="uploadFile"><spring:message code="label.settings.upload.button"/>
                                     </button>
                                 </form>
                             </div>
@@ -199,7 +198,7 @@
                                                 placeholder="${inputText}"/>
 
                                     <button type="submit" class="btn btn-success pull-right"><i
-                                            class="fa fa-share"></i> Share
+                                            class="fa fa-share"></i><spring:message code="label.tweets.share"/>
                                     </button>
                                 </div>
                             </div><!-- Widget Area -->
@@ -245,10 +244,10 @@
                                 </div>
 
                                 <button class="btn btn-default" onclick="loadComments(${t.id})"
-                                        id="show-comments-btn">Show Comments
+                                        id="show-comments-btn"><spring:message code="label.button.comments.show"/>
                                 </button>
                                 <button class="btn btn-default hidden" onclick="hideComments(${t.id})"
-                                        id="hide-comments-btn">Hide Comments
+                                        id="hide-comments-btn"><spring:message code="label.button.comments.hide"/>
                                 </button>
                                 <div id="comments"></div>
                                 <div class="add-new-comment">

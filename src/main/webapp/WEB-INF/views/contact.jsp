@@ -66,8 +66,8 @@
                 <div class="col-md-8 col-md-offset-2">
                     <form:form modelAttribute="contacts" commandName="contacts" class="form-horizontal">
                         <div class="form-group">
-                            <h2>Contact Us</h2>
-                            <p>Feel free to shout us by feeling the contact form.</p>
+                            <h2><spring:message code="label.contactus.title"/></h2>
+                            <p><spring:message code="label.contactus.message"/></p>
                         </div>
                         <div class="form-group animated fadeInUp delay">
                             <spring:message code="label.user.name" var="name"/>

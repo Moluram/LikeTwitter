@@ -65,7 +65,7 @@
     <div class="mbr-section__container mbr-section__container--std-padding container text-white" style="padding-top: 100px; padding-bottom: 93px;">
         <div class="row animated fadeInUp delay">
             <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                <font color="white"><h1 align="center">Please enter your username</h1></font>
+                <font color="white"><h1 align="center"><spring:message code="label.reset.title"/></h1></font>
                 <hr class="colorgraph">
                 <div class="form-group animated fadeInUp delay">
                     <spring:message code="label.user.username" var="username"/>
@@ -82,7 +82,7 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <label id="resetPassword" class="label pull-right text-white"><h4>Awaiting for submit</h4></label>
+                        <label id="resetPassword" class="label pull-right text-white"><h4><spring:message code="label.reset.submit"/></h4></label>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
-    <title><spring:message code="title.about"/></title>
+    <title><spring:message code="title.error.page"/></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/style.css">
@@ -48,7 +48,7 @@
                                 </li>
                                 <li class="mbr-navbar__item">
                                     <a class="mbr-buttons__link btn btn-success" href="<c:url
-                                    value="/"/>"><spring:message code="navbar.button.home"/></a>
+                                    value="/"/>"></a>
                                 </li>
                             </ul>
                         </div>
@@ -64,9 +64,7 @@
         <!-- Introduction Row -->
         <div class="row ">
             <div class="col-lg-12">
-                <h1 class="page-header">About Us
-                    <small>Something goes wrong!</small>
-                </h1>
+                <h1 class="page-header"><spring:message code="label.error.page"/></h1>
                 <p>${param.message}</p>
             </div>
         </div>

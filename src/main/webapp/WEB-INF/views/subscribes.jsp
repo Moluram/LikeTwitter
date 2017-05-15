@@ -102,7 +102,7 @@
 <section class="mbr-section mbr-section--relative mbr-section--fixed-size mbr-parallax-background mbr-after-navbar" id="form1-9" >
     <div class="mbr-section__container mbr-section__container--std-padding container" style="padding-top: 50px; padding-bottom: 93px;">
         <div class="row text-center">
-            <h2>Your subscribes</h2>
+            <h2><spring:message code="title.subscribes"/></h2>
         </div>
         <hr class="colorgraph">
         <div class="row">
@@ -129,7 +129,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                        <button onclick="unsubscribe('${t.username}', '<c:url value="subscribe/${t.username}"/>')" class="btn btn-default pull-left">UnSubscribe
+                                        <button onclick="unsubscribe('${t.username}', '<c:url value="subscribe/${t.username}"/>')" class="btn btn-default pull-left">
+                                            <spring:message code="label.button.unsubscribe"/>
                                         </button>
                                 </div>
                             </div>

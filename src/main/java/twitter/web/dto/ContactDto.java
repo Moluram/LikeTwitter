@@ -1,10 +1,7 @@
 package twitter.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 import twitter.web.validators.ValidEmail;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by moluram on 15.5.17.

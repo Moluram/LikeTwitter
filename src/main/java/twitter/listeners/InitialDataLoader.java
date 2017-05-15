@@ -83,14 +83,13 @@ public class InitialDataLoader implements
   }
 
   @Transactional
-  private Role createRoleIfNotFound(
+  private void createRoleIfNotFound(
           String name, List<Privilege> privileges) {
       Role role = roleService.findByName(name);
       if (role == null) {
           role = new Role(name, privileges);
           roleService.addRole(role);
       }
-      return role;
   }
 
   @Transactional

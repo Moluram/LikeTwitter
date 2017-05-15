@@ -10,15 +10,12 @@
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" type="image/x-icon">
-    <title><spring:message code="title.about"/></title>
+    <title><spring:message code="title.error.page"/></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mobirise/css/mbr-additional.css" type="text/css">
-    <link href="${pageContext.request.contextPath}/resources/animate.css/animate.min.css"
-          rel="stylesheet" type="text/css">
-
-
+    <link href="${pageContext.request.contextPath}/resources/animate.css/animate.min.css" rel="stylesheet" type="text/css">
 </head>
 <body style="background-image: url(${pageContext.request.contextPath}/resources/images/gnome-backgrounds_3.jpg);">
 
@@ -64,10 +61,8 @@
         <!-- Introduction Row -->
         <div class="row ">
             <div class="col-lg-12">
-                <h1 class="page-header">About Us
-                    <small>Something goes wrong!</small>
-                </h1>
-                <p>Problem with sending message to your email!</p>
+                <h1 class="page-header"><spring:message code="label.error.page"/></h1>
+                <p><spring:message code="label.error.mail"/></p>
             </div>
         </div>
     </div>
