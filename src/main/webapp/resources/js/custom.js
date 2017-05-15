@@ -3,43 +3,55 @@
  */
 
 jQuery(document).ready(function ($) {
-    var productsearcher = new Bloodhound({
-        datumTokenizer: function (d) {
-            return Bloodhound.tokenizers.whitespace(d.value);
-        },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        replace: function (url, uriEncodedQuery) {
-            return url + "#" + uriEncodedQuery;
-            // the part after the hash is not sent to the server
-        },
-        remote: {
-            url: '/search',
-            ajax: {
+    var substringMatcher = function() {
+        var strs = [];
+        return function findMatches(q, cb) {
+            $.ajax({
                 type: "GET",
-                dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
-                    partialSearchString: 'fire',
-                    category: 'all'
-                }),
+                url: '/search',
+                data: "username=" + q,
+                dataType: 'json',
+                async: false,
+                timeout: 100000,
                 success: function (data) {
-                    console.log("Got data successfully");
-                    console.log(data);
+                    strs = data
+                },
+                error: function (e) {
+                    console.log("ERROR: ", e);
+                },
+                done: function (e) {
+                    console.log("DONE", e)
                 }
-            }
-        }
-    });
+            });
 
-    // initialize the bloodhound suggestion engine
-    productsearcher.initialize();
 
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    matches.push(str);
+                }
+            });
+
+            cb(matches);
+        };
+    };
     // instantiate the typeahead UI
     $('#q').typeahead({
         hint: true,
         highlight: true,
         minLength: 1
     }, {
-        source: productsearcher.ttAdapter(),
+        source: substringMatcher(),
 
         // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
         name: 'usersList',
@@ -53,13 +65,16 @@ jQuery(document).ready(function ($) {
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-                return '<a href="' + '/' + data + '" class="list-group-item">' + data + '</a>'
+                return '<a href="' + '/' + data + '" class="pull-left">' + data + '</a>'
             }
         }
     })
     // Set the Options for "Bloodhound" suggestion engine
 
 });
+
+
+
 
 jQuery(document).ready(function ($) {
     $(".add-comment-form").submit(function (event) {
@@ -338,10 +353,10 @@ function postUsername(messageTrue, messageFalse) {
             success: function insertComments(answer) {
                 if(answer) {
                     $("resetPassword").removeClass("hidden");
-                    document.getElementById("resetPassword").innerHTML = messageTrue;
+                    document.getElementById("resetPassword").innerHTML = '<h4>' + messageTrue + '</h4>';
                 } else {
                     $("resetPassword").removeClass("hidden");
-                    document.getElementById("resetPassword").innerHTML = messageFalse;
+                    document.getElementById("resetPassword").innerHTML = '<h4>' + messageFalse + '</h4>';
                 }
             },
             error: function (e) {

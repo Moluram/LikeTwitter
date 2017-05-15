@@ -64,4 +64,6 @@ public interface UserService {
   List<String> getUsernamesStartsWith(String username, Integer maxSuggestions);
 
   List<String> getUsernames();
+
+  List<String> getUsernamesContains(String username, Integer maxSuggestions);
 }

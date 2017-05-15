@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RestController
 public class SearchController {
-  private static final Integer MAX_SUGGESTIONS = 10;
+  private static final Integer MAX_SUGGESTIONS = 5;
   private UserService userService;
 
   @Autowired
@@ -25,8 +25,11 @@ public class SearchController {
   }
 
   @RequestMapping(value = "/search", method = RequestMethod.GET)
-  public @ResponseBody List getUserPage() throws IOException {
-    List<String> list = userService.getUsernames();
+  public @ResponseBody List getUserPage(@RequestParam("username") String username) throws IOException {
+    List<String> list = userService.getUsernamesStartsWith(username, MAX_SUGGESTIONS);
+    if (list.isEmpty()) {
+      list = userService.getUsernamesContains(username, MAX_SUGGESTIONS);
+    }
     return list;
   }
 }

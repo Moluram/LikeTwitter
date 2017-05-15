@@ -64,27 +64,38 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <form class="form-horizontal">
+                    <form:form modelAttribute="contacts" commandName="contacts" class="form-horizontal">
                         <div class="form-group">
                             <h2>Contact Us</h2>
                             <p>Feel free to shout us by feeling the contact form.</p>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputName2">Name</label>
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                        <div class="form-group animated fadeInUp delay">
+                            <spring:message code="label.user.name" var="name"/>
+                            <form:errors cssClass="alert alert-danger" path="name" element="div"/>
+                            <form:input path="name" type="text"
+                                        class="form-control input-lg" placeholder="${name}"
+                                        tabindex="1"/>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail2">Email</label>
-                            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+                        <div class="form-group animated fadeInUp delay">
+                            <spring:message code="label.user.email" var="email"/>
+                            <form:errors cssClass="alert alert-danger" path="email" element="div"/>
+                            <form:input path="email" type="email" name="email" id="email"
+                                        class="form-control input-lg" placeholder="${email}"
+                                        tabindex="2"/>
                         </div>
-                        <div class="form-group ">
-                            <label for="exampleInputText">Your Message</label>
-                            <textarea  class="form-control" placeholder="Description"></textarea>
+                        <div class="form-group animated fadeInUp delay">
+                            <spring:message code="label.user.text" var="text"/>
+                            <form:errors cssClass="alert alert-danger" path="text" element="div"/>
+                            <form:textarea path="text" type="text" name="text" id="text"
+                                        class="form-control input-lg" placeholder="${text}"
+                                        tabindex="3"/>
                         </div>
-                        <div class="form-group ">
-                            <button type="submit" class="btn btn-success">Send Message</button>
-                         </div>
-                    </form>
+                        <hr class="colorgraph">
+                        <div class="row btn-inverse mbr-buttons--left ">
+                            <div class="col-xs-6 col-md-6"><input type="submit" value="<spring:message code="label.form.submit"/>"
+                                                                  class="btn btn-success btn-block btn-lg animated fadeInUp delay" tabindex="5"></div>
+                        </div>
+                    </form:form>
                 </div>
             </div>
         </div>

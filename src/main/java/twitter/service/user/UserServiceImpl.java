@@ -101,11 +101,11 @@ public class UserServiceImpl implements UserService {
     for (User user: users) {
       if (user.getUsername().startsWith(username)) {
         list.add(user.getUsername());
+        counter++;
       }
       if (counter >= maxSuggestions) {
         break;
       }
-      counter++;
     }
     return list;
   }
@@ -117,6 +117,23 @@ public class UserServiceImpl implements UserService {
       users.add(user.getUsername());
     }
     return users;
+  }
+
+  @Override
+  public List<String> getUsernamesContains(String username, Integer maxSuggestions) {
+    List<String> list = new ArrayList<>();
+    List<User> users = userDAO.getAll();
+    int counter = 0;
+    for (User user: users) {
+      if (user.getUsername().contains(username)) {
+        list.add(user.getUsername());
+        counter++;
+      }
+      if (counter >= maxSuggestions) {
+        break;
+      }
+    }
+    return list;
   }
 
   public void removeUser(Long id) {
