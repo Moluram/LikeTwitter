@@ -15,4 +15,5 @@ public class PageNamesConstants {
   public static final String CONTACT_PAGE = "contact";
   public static final String PAGE_ABOUT = "about";
   public static final String NEWS = "news";
+  public static final String USERS="admin/users";
 }

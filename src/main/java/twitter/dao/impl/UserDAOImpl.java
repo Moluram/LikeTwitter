@@ -66,6 +66,7 @@ public class UserDAOImpl extends AbstractGenericDAOImpl<User> implements IUserDA
     attributeValueMap.put(EntityColumn.COLUMN_EMAIL, instance.getEmail());
     attributeValueMap.put(EntityColumn.COLUMN_ENABLED, instance.isEnabled().toString());
     attributeValueMap.put(EntityColumn.COLUMN_TOKEN_EXPIRED, instance.isTokenExpired().toString());
+    attributeValueMap.put(EntityColumn.COLUMN_IS_BANED,instance.getBaned().toString());
     return attributeValueMap;
   }
 

@@ -12,6 +12,7 @@ public class EntityColumn {
   public static final String COLUMN_EMAIL = "email";
   public static final String COLUMN_ENABLED = "enabled";
   public static final String COLUMN_TOKEN_EXPIRED = "token_expired";
+  public static final String COLUMN_IS_BANED="is_baned";
 
   public static final String COLUMN_FIRST_NAME="first_name";
   public static final String COLUMN_LAST_NAME="last_name";

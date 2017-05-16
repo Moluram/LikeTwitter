@@ -37,6 +37,8 @@ public class UserRowMapper extends EntityRowMapper<User> {
     user.setEnabled(enabled);
     Boolean tokenExpired = Boolean.valueOf(resultSet.getString(EntityColumn.COLUMN_TOKEN_EXPIRED));
     user.setTokenExpired(tokenExpired);
+    Boolean isBaned = Boolean.valueOf(resultSet.getString(EntityColumn.COLUMN_IS_BANED));
+    user.setBaned(isBaned);
     user.setRole(readRole(id));
     user.setUserProfile(readUserProfile(id));
     return user;

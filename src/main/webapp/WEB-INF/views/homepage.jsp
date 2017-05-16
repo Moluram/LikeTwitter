@@ -95,6 +95,13 @@
                                         href="<c:url
                                         value="/news"/>"><spring:message code="navbar.button.news"/>
                                 </a></li>
+                                    <c:if test="${owner.role=='ROLE_ADMIN'}">
+                                    <li class="mbr-navbar__item"><a
+                                            class="mbr-buttons__link btn text-white"
+                                            href="<c:url
+                                        value="/admin/users?page=1"/>"><spring:message code="navbar.button.users"/>
+                                    </a></li>
+                                    </c:if>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url value="/about"/> "><spring:message code="navbar.button.about"/>

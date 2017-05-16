@@ -31,6 +31,9 @@ public interface UserService {
    */
   List<User> listUser();
 
+
+  List<User> listUser(Long limit, Long offset);
+
   /**
    * Removes user from app
    * @param id - user id
@@ -64,4 +67,12 @@ public interface UserService {
   List<String> getUsernamesStartsWith(String username, Integer maxSuggestions);
 
   List<String> getUsernamesContains(String username, Integer maxSuggestions);
+
+  Long count();
+
+  Long count(String attr,String value);
+
+  User getById(Long id);
+
+  void updateUserBan(Long id,Boolean newValue);
 }

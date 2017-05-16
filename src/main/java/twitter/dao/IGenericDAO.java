@@ -17,4 +17,10 @@ public interface IGenericDAO<T extends Entity> {
   void delete(Long id);
 
   List<T> getAll();
+
+  List<T> getAll(Long limit, Long offset);
+
+  Long count();
+
+  Long count(String attribute,String value);
 }

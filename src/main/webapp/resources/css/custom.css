@@ -84,3 +84,12 @@ input[type=text]:focus {
 .tt-suggestion p {
     margin: 0;
 }
+
+.user-list-wrapper{
+    margin: 0 auto;
+}
+
+.user-mini-photo{
+    height: 100px;
+    width: 100px;
+}

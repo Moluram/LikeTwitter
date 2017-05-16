@@ -134,6 +134,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public List<User> listUser(Long limit, Long offset) {
+    return userDAO.getAll(limit,offset);
+  }
+
+  @Override
   public User registerNewUserAccount(SignUpDto accountDto) {
     if (null != userDAO.findByUsername(accountDto.getUsername())) {
       throw new UsernameExistsException();
@@ -195,6 +200,28 @@ public class UserServiceImpl implements UserService {
   @Override
   public void changeUserPassword(User user, String password) {
     user.setPassword(passwordEncoder.encode(password));
+    userDAO.update(user);
+  }
+
+  @Override
+  public Long count() {
+    return userDAO.count();
+  }
+
+  @Override
+  public Long count(String attr, String value) {
+    return userDAO.count(attr,value);
+  }
+
+  @Override
+  public User getById(Long id) {
+    return userDAO.read(id);
+  }
+
+  @Override
+  public void updateUserBan(Long id,Boolean newValue) {
+    User user=userDAO.read(id);
+    user.setBaned(newValue);
     userDAO.update(user);
   }
 }

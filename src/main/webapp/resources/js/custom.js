@@ -2,7 +2,7 @@
  * Contains all our own js funtion
  */
 jQuery(document).ready(function ($) {
-    var substringMatcher = function() {
+    var substringMatcher = function () {
         var strs = [];
         return function findMatches(q, cb) {
             $.ajax({
@@ -35,7 +35,7 @@ jQuery(document).ready(function ($) {
 
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function(i, str) {
+            $.each(strs, function (i, str) {
                 if (substrRegex.test(str)) {
                     matches.push(str);
                 }
@@ -73,8 +73,6 @@ jQuery(document).ready(function ($) {
 });
 
 
-
-
 jQuery(document).ready(function ($) {
     $(".add-comment-form").submit(function (event) {
         event.preventDefault();
@@ -97,7 +95,7 @@ jQuery(document).ready(function ($) {
                 form[0].reset();
                 hideComments(data.tweetId);
                 loadComments(data.tweetId);
-                form.find("button").prop("disabled",true);
+                form.find("button").prop("disabled", true);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -233,7 +231,7 @@ function hideComments(tweetId) {
 function insertAsTree(divToInsert, comments, depth) {
 
     for (var i in comments) {
-        var htmlComment = makeComment(comments[i],depth);
+        var htmlComment = makeComment(comments[i], depth);
         htmlComment
             .appendTo(divToInsert);
         if (comments[i].child) {
@@ -245,17 +243,18 @@ function insertAsTree(divToInsert, comments, depth) {
 function makeComment(comment, depth) {
     var div = $(document.createElement("div"));
     var level;
-    if(depth<3){
-        level=depth;
-    }else{
-        level=3;
+    if (depth < 3) {
+        level = depth;
+    } else {
+        level = 3;
     }
     div
         .addClass("comment-wrapper")
-        .addClass("comment-level-"+level)
+        .addClass("comment-level-" + level)
         .html("<div class='media'> <p class='pull-right'><small>" + comment.date + "</small></p>" +
             "<h4 class='media-heading user_name'>@" + comment.publisher + "</h4>" +
-            "<a class='media-left' href='#'> <img class='img-circle comment-publisher-photo' src='/files/" + comment.publisher_photo + "'></a>" +
+
+
             "<div class='media-body'>" + comment.text +
             "</div> </div>")
         .attr("id", comment.id)
@@ -273,12 +272,12 @@ function responseToComment() {
 
 jQuery(document).ready(function () {
     $(".new-comment-text").keyup(function () {
-        text=$(this);
-        submitButton=text.siblings("button");
-        if(text.val().length>0){
-            submitButton.prop("disabled",false);
-        }else{
-            submitButton.prop("disabled",true);
+        text = $(this);
+        submitButton = text.siblings("button");
+        if (text.val().length > 0) {
+            submitButton.prop("disabled", false);
+        } else {
+            submitButton.prop("disabled", true);
         }
     })
 });
@@ -326,7 +325,7 @@ function resetPassword(message, username) {
             },
             timeout: 100000,
             success: function insertComments(answer) {
-                if(answer) {
+                if (answer) {
                     document.getElementById("resetPasswordLabel").textContent = message;
                 }
             },
@@ -350,7 +349,7 @@ function postUsername(messageTrue, messageFalse) {
             },
             timeout: 100000,
             success: function insertComments(answer) {
-                if(answer) {
+                if (answer) {
                     $("resetPassword").removeClass("hidden");
                     document.getElementById("resetPassword").innerHTML = '<h4>' + messageTrue + '</h4>';
                 } else {
@@ -381,7 +380,7 @@ function more(username, hideButton, showButton) {
             success: function insertTweets(data) {
                 var text = document.getElementById("news");
                 for (var i in data) {
-                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id +"'>" +
+                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id + "'>" +
                         "<link rel='stylesheet'" +
                         "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
                         "<div class='well'>" +
@@ -437,7 +436,8 @@ function more(username, hideButton, showButton) {
                         "</div>" +
                         "</div>" +
                         "</div>"
-                };
+                }
+                ;
 
             },
             error: function (e) {
@@ -464,7 +464,7 @@ function updateNews(username, hideButton, showButton) {
                 var text = document.getElementById("news");
                 text.innerHTML = "";
                 for (var i in data) {
-                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id +"'>" +
+                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id + "'>" +
                         "<link rel='stylesheet'" +
                         "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
                         "<div class='well'>" +
@@ -520,7 +520,8 @@ function updateNews(username, hideButton, showButton) {
                         "</div>" +
                         "</div>" +
                         "</div>"
-                };
+                }
+                ;
 
             },
             error: function (e) {
@@ -531,4 +532,95 @@ function updateNews(username, hideButton, showButton) {
             }
         });
     });
+}
+
+function banUser(userId) {
+    jQuery(document).ready(function ($) {
+        var data = new Object();
+        data.userId = userId;
+        $.ajax({
+            type: "POST",
+            url: "/admin/ban",
+            data: {
+                "userId": userId
+            },
+            timeout: 100000,
+            success: function () {
+                $("#user_" + userId).find("#ban-btn").removeClass("btn-danger")
+                    .addClass("btn-success")
+                    .attr("id","unban-btn")
+                    .attr("onclick","UnBanUser("+userId+")")
+                    .html("Unban");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function () {
+                console.log("DONE");
+            }
+        });
+    });
+}
+
+
+function UnBanUser(userId) {
+    jQuery(document).ready(function ($) {
+        var data = new Object();
+        data.userId = userId;
+        $.ajax({
+            type: "POST",
+            url: "/admin/unban",
+            data: {
+                "userId": userId
+            },
+            timeout: 100000,
+            success: function () {
+                $("#user_" + userId).find("#unban-btn").removeClass("btn-success")
+                    .addClass("btn-danger")
+                    .attr("id","ban-btn")
+                    .attr("onclick","banUser("+userId+")")
+                    .html("Ban");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function () {
+                console.log("DONE");
+            }
+        });
+    });
+}
+
+function pagination(strCount, strCurrentPage) {
+    jQuery(document).ready(function ($) {
+        var pagination = $("#user-pagination");
+        var pageCount = parseInt(strCount);
+        var currentPage = parseInt(strCurrentPage);
+
+        if (pageCount <= 1) {
+            return;
+        }
+        for (var i = 1; i <= pageCount; i++) {
+            // var page=i+1;
+            // if(pageCount>10) {
+            //     if(pageCount-currentPage+1<=10){
+            //         if(currentPage)
+            //         page=pageCount-9+i;
+            //     }else{
+            //         page=currentPage+i;
+            //     }
+            // }else{
+            //     if(i>pageCount-1){
+            //         return;
+            //     }
+            // }
+            pagination.append(createPagnatioinLi(i))
+        }
+    });
+}
+
+function createPagnatioinLi(page) {
+    var li = $(document.createElement("li"));
+    var a = $(document.createElement("a")).attr("href", "/admin/users?page=" + page).html(page);
+    return li.html(a);
 }
