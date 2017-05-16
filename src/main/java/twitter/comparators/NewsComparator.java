@@ -12,6 +12,6 @@ import java.util.Comparator;
 public class NewsComparator implements Comparator<Tweet> {
   @Override
   public int compare(Tweet tweet, Tweet t1) {
-    return tweet.getDate().compareTo(t1.getDate());
+    return t1.getDate().compareTo(tweet.getDate());
   }
 }

@@ -90,7 +90,11 @@
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url
                                         value="/subscribe"/>"><spring:message code="navbar.button.subscribes"/>
-                                    </a></li>
+                                    </a></li><li class="mbr-navbar__item"><a
+                                        class="mbr-buttons__link btn text-white"
+                                        href="<c:url
+                                        value="/news"/>"><spring:message code="navbar.button.news"/>
+                                </a></li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url value="/about"/> "><spring:message code="navbar.button.about"/>

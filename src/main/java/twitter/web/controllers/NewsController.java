@@ -1,6 +1,5 @@
 package twitter.web.controllers;
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +43,7 @@ public class NewsController {
   public String getPage(Model model, @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
     List<Tweet> news = newsService.getLatest(user);
     if (NUMBER_OF_NEWS < news.size()) {
-      news.subList(0, NUMBER_OF_NEWS);
+      news = news.subList(0, NUMBER_OF_NEWS);
     }
     model.addAttribute(AttributeNamesConstants.NEWS, listOfDto(news));
     return PageNamesConstants.NEWS;
@@ -70,6 +69,6 @@ public class NewsController {
     for ( Tweet tweet: userTweets) {
       tweetDtos.add(new TweetDto(tweet, userDAO.findByUsername(tweet.getOwnerUsername())));
     }
-    return Lists.reverse(tweetDtos);
+    return tweetDtos;
   }
 }

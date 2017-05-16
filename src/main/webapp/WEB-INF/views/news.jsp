@@ -51,7 +51,7 @@
     <link href="${pageContext.request.contextPath}/resources/css/custom.css"
           rel="stylesheet" type="text/css"/>
 </head>
-<body>
+<body >
 <section class="mbr-navbar mbr-navbar--xs mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
     <div class="mbr-navbar__section mbr-section">
         <div class="mbr-section__container container">
@@ -113,7 +113,7 @@
             <spring:message code="button.news.update"/></button>
         </div>
         <hr class="colorgraph">
-        <div class="row" id="news">
+        <div class="row" id="news" >
             <c:forEach items="${news}" var="t">
                 <div class="row animated fadeInUp delay tweet" id="tweet_${t.id}">
                     <link rel="stylesheet"
@@ -122,7 +122,7 @@
                     <div class="well">
                         <div class="media">
                             <div class="col-md-3">
-                                <a class="pull-left" href="#">
+                              text-center  <a class="pull-left" href="#">
                                     <img class="media-object img-rounded img-thumbnail img-responsive"
                                          src="/files/${t.photoMin}">
                                 </a>
@@ -173,6 +173,11 @@
                     </div>
                 </div>
             </c:forEach>
+        </div>
+        <div class="row text-center">
+            <button onclick="more('${sessionScope.get('user').getUsername()}', '<spring:message code="label.button.comments.hide"/>',
+                    '<spring:message code="label.button.comments.show"/>')" class="mbr-buttons__link btn btn-default text-white">
+                <spring:message code="button.news.more"/></button>
         </div>
     </div>
 </section>
