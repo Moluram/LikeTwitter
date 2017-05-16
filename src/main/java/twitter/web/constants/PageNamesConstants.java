@@ -14,4 +14,5 @@ public class PageNamesConstants {
   public static final String NOT_FOUND = "errors/404error";
   public static final String CONTACT_PAGE = "contact";
   public static final String PAGE_ABOUT = "about";
+  public static final String NEWS = "news";
 }

@@ -16,4 +16,6 @@ public class URLConstants {
   public static final String ACCESS_DENIED = "accessDenied";
   public static final String ABOUT = "about";
   public static final String CONTACT = "contact";
+  public static final String NEWS_PAGE = "news";
+  public static final String GET_NEWS = "get";
 }

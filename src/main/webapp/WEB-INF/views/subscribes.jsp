@@ -80,6 +80,11 @@
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url
+                                        value="/news"/>"><spring:message code="navbar.button.news"/>
+                                    </a></li>
+                                    <li class="mbr-navbar__item"><a
+                                            class="mbr-buttons__link btn text-white"
+                                            href="<c:url
                                         value="/${sessionScope.get('user').getUsername()}"/>"><spring:message code="navbar.button.home"/>
                                     </a></li>
                                     <li class="mbr-navbar__item"><a

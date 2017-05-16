@@ -13,4 +13,6 @@ public class AttributeNamesConstants {
   public static final String USERNAME = "username";
   public static final String COOKIE_NAME = "JSESSIONID";
   public static final String CONTACTS = "contacts";
+  public static final String NEWS = "news";
+  public static final String PAGE_NUMBER = "page";
 }

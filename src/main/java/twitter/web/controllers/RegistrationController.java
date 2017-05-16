@@ -1,6 +1,5 @@
 package twitter.web.controllers;
 
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -114,7 +113,7 @@ public class RegistrationController {
   }
 
   @RequestMapping(value = WebConstants.SLASH + URLConstants.CONFIRM_REGISTRATION, method = RequestMethod.GET)
-  public String confirmRegistration(HttpSession session, Model model, Request request,
+  public String confirmRegistration(HttpSession session, Model model,
                                     @RequestParam(AttributeNamesConstants.REGISTRATION_TOKEN) String token) {
     Locale locale = (Locale) session.getAttribute(
         SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);

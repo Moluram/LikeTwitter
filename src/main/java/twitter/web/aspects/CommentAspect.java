@@ -10,6 +10,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import twitter.beans.User;
+import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
 import twitter.web.constants.MessagesConstant;
 import twitter.web.dto.CommentDto;
@@ -28,6 +29,12 @@ public class CommentAspect {
   private MessageSource messages;
   private Environment env;
   private UserService userService;
+  private TweetService  tweetService;
+
+  @Autowired
+  public void setTweetService(TweetService tweetService) {
+    this.tweetService = tweetService;
+  }
 
   @Autowired
   @Qualifier("userService")
@@ -66,7 +73,7 @@ public class CommentAspect {
     String message2 = messages.getMessage(MessagesConstant.MESSAGE_COMMENTED_TEXT_PART2,null, request.getLocale());
     return constructEmail(messages.getMessage(MessagesConstant.MESSAGE_COMMENTED_SUBJECT, null, request.getLocale()) ,
         message1 + commentDto.getAuthor() + message2 +"\r\n" + commentDto.getText() ,
-        userService.getUserByUsername(commentDto.getAuthor()));
+        userService.getUserByUsername(tweetService.getTweetById(commentDto.getTweetId()).getOwnerUsername()));
   }
 
   private SimpleMailMessage constructEmail(String subject, String body,

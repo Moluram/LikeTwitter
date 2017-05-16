@@ -367,3 +367,168 @@ function postUsername(messageTrue, messageFalse) {
         });
     });
 }
+
+function updateNews(username, hideButton, showButton) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "GET",
+            url: "/news/get",
+            data: {
+                'page': 0
+            },
+            timeout: 100000,
+            success: function insertComments(data) {
+                var text = document.getElementById("news");
+                text.innerHTML = "";
+                for (var i in data) {
+                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id +"'>" +
+                        "<link rel='stylesheet'" +
+                        "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
+                        "<div class='well'>" +
+                        "<div class='media'>" +
+                        "<div class='col-md-3'>" +
+                        "<a class='pull-left' href='#'>" +
+                        "<img class='media-object img-rounded img-thumbnail img-responsive'" +
+                        "src='/files/" + data[i].photoOwner + "'>" +
+                        "</a>" +
+                        "</div>" +
+                        "<div class='col-md-9'>" +
+                        "<div class='row'>" +
+                        "<div class='col-md-2'>" +
+                        "@" + data[i].ownerUsername +
+                        "</div>" +
+                        "<div class='col-md-10'>|" +
+                        "<span><i class='glyphicon glyphicon-calendar'></i>" +
+                        data[i] +
+                        "</span>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='row'>" +
+                        data[i].text +
+                        "</div>" +
+                        "<div class='row'>" +
+                        "<button class='btn btn-sm btn-success'" +
+                        "onclick='like(" + data[i].id + ",'" + username + "')'>" +
+                        "<span id='likes${data[i].id}' class='glyphicon glyphicon-thumbs-up'>" +
+                        data[i].numberOfLikes +
+                        "</span>" +
+                        "</button>" +
+                        "</div>" +
+                        "</div>" +
+
+                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ")'" +
+                        "id='show-comments-btn'>" + showButton +
+                        "</button>" +
+                        "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
+                        "id='hide-comments-btn'>" + hideButton +
+                        "</button>" +
+                        "<div id='comments'></div>" +
+                        "<div class='add-new-comment'>" +
+                        "<form action='/comments' method='POST'" +
+                        "class='add-comment-form hidden'>" +
+                        "<input type='text' name='text' placeholder='Input comment'" +
+                        "class='new-comment-text' autocomplete='off'>" +
+                        "<input type='hidden' name='author' value='" + username + "'>" +
+                        "<input type='hidden' name='tweetId' value='" + data[i].id + "'>" +
+                        "<input type='hidden' name='parentId' value=''>" +
+                        "<button type='submit' class='btn btn-success'>Add</button>" +
+                        "</form>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>"
+                };
+
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function () {
+                console.log("DONE");
+            }
+        });
+    });
+}
+/*
+function updateNews(username) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "GET",
+            url: "/news/",
+            data: {
+                'page': 0
+            },
+            timeout: 100000,
+            success: function insertComments(data) {
+                document.getElementById("news").innerHTML = function (data) {
+                    var text = "";
+                    data.forEachforEach(function (item, i, arr) {
+                        text += "<div class='row animated fadeInUp delay tweet' id='tweet_${t.id}'>" +
+                            "<link rel='stylesheet'" +
+                            "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
+                            "<div class='well'>" +
+                            "<div class='media'>" +
+                            "<div class='col-md-3'>" +
+                            "<a class='pull-left' href='#'>" +
+                            "<img class='media-object img-rounded img-thumbnail img-responsive'" +
+                            "src='/files/" + item.photoOwner + "'>" +
+                            "</a>" +
+                            "</div>" +
+                            "<div class='col-md-9'>" +
+                            "<div class='row'>" +
+                            "<div class='col-md-2'>" +
+                            "@" + item.ownerUsername +
+                            "</div>" +
+                            "<div class='col-md-10'>|" +
+                            "<span><i class='glyphicon glyphicon-calendar'></i>" +
+                            item.date +
+                            "</span>" +
+                            "</div>" +
+                            "</div>" +
+                            "<div class='row'>" +
+                            item.text +
+                            "</div>" +
+                            "<div class='row'>" +
+                            "<button class='btn btn-sm btn-success'" +
+                            "onclick='like(" + item.id + ",'" + username + "')'>" +
+                            "<span id='likes${item.id}' class='glyphicon glyphicon-thumbs-up'>" +
+                            item.numberOfLikes +
+                            "</span>" +
+                            "</button>" +
+                            "</div>" +
+                            "</div>" +
+
+                            "<button class='btn btn-default' onclick='loadComments(" + item.id + ")'" +
+                            "id='show-comments-btn'><spring:message code='label.button.comments.show'/>" +
+                            "</button>" +
+                            "<button class='btn btn-default hidden' onclick='hideComments(" + item.id + ")'" +
+                            "id='hide-comments-btn'><spring:message code='label.button.comments.hide'/>" +
+                            "</button>" +
+                            "<div id='comments'></div>" +
+                            "<div class='add-new-comment'>" +
+                            "<form action='/comments' method='POST'" +
+                            "class='add-comment-form hidden'>" +
+                            "<input type='text' name='text' placeholder='Input comment'" +
+                            "class='new-comment-text' autocomplete='off'>" +
+                            "<input type='hidden' name='author' value='" + username + "'>" +
+                            "<input type='hidden' name='tweetId' value='" + item.id + "'>" +
+                            "<input type='hidden' name='parentId' value=''>" +
+                            "<button type='submit' class='btn btn-success' disabled='true'>Add</button>" +
+                            "</form>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>"
+                    });
+                    return text;
+                }
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+            done: function () {
+                console.log("DONE");
+            }
+        });
+    }
+}*/
