@@ -2,13 +2,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Moluram
-  Date: 3/29/2017
-  Time: 9:48 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -19,7 +12,6 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <!-- Site made with Mobirise Website Builder v3.12.1, https://mobirise.com -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
@@ -78,9 +70,9 @@
                                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
                                 </li>
                                 <li class="mbr-navbar__item"><a
-                                        class="mbr-buttons__link btn text-white"
-                                        href="<c:url
-                                        value="/news"/>"><spring:message code="navbar.button.news"/>
+                                    class="mbr-buttons__link btn text-white"
+                                    href="<c:url
+                                        value="/subscribe"/>"><spring:message code="navbar.button.subscribes"/>
                                 </a></li>
                                 <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn text-white"

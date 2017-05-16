@@ -18,8 +18,6 @@
     <title><spring:message code="title.subscribes"/></title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <!-- Site made with Mobirise Website Builder v3.12.1, https://mobirise.com -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
