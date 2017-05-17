@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
     List<User> users = userDAO.getAll();
     int counter = 0;
     for (User user: users) {
-      if (user.getUsername().startsWith(username)) {
+      if (user.getUsername().toLowerCase().startsWith(username.toLowerCase())) {
         list.add(user.getUsername());
         counter++;
       }

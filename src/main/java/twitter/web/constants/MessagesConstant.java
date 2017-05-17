@@ -15,4 +15,5 @@ public class MessagesConstant {
   public static final String MESSAGE_COMMENTED_TEXT_PART1 = "message.commented.text.part1";
   public static final String MESSAGE_COMMENTED_TEXT_PART2 = "message.commented.text.part2";
   public static final String MESSAGE_COMMENTED_SUBJECT = "message.commented.subject";
+  public static final String REGISTRATION_CONFIRMATIN = "message.reg.confirmation";
 }

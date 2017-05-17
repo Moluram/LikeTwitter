@@ -59,7 +59,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     String token = UUID.randomUUID().toString();
     service.createVerificationToken(user, token);
     String recipientAddress = user.getEmail();
-    String subject = messages.getMessage(MessagesConstant.RESEND_TOKEN_TITLE, null, event.getLocale());
+    String subject = messages.getMessage(MessagesConstant.REGISTRATION_CONFIRMATIN, null, event.getLocale());
     String confirmationUrl = event.getAppUrl() + WebConstants.SLASH + URLConstants.SIGNUP_PAGE
         + WebConstants.SLASH + URLConstants.CONFIRM_REGISTRATION
         + "?" + AttributeNamesConstants.REGISTRATION_TOKEN + "=" + token;
@@ -68,7 +68,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
     email.setSubject(subject);
-    email.setText(message + "/r/n" + confirmationUrl);
+    email.setText(message + "\r\n" + confirmationUrl);
     mailSender.send(email);
   }
 }

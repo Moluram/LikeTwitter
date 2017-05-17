@@ -18,7 +18,6 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <!-- Site made with Mobirise Website Builder v3.12.1, https://mobirise.com -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="generator" content="Mobirise v3.12.1, mobirise.com">
@@ -90,10 +89,12 @@
                                             class="mbr-buttons__link btn text-white"
                                             href="<c:url
                                         value="/subscribe"/>"><spring:message code="navbar.button.subscribes"/>
-                                    </a></li><li class="mbr-navbar__item"><a
+                                    </a></li>
+                                    <li class="mbr-navbar__item"><a
                                         class="mbr-buttons__link btn text-white"
                                         href="<c:url
                                         value="/news"/>"><spring:message code="navbar.button.news"/>
+                                    </a></li>
                                 </a></li>
                                     <c:if test="${owner.role=='ROLE_ADMIN'}">
                                     <li class="mbr-navbar__item"><a
