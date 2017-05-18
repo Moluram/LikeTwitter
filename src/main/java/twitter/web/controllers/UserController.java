@@ -16,6 +16,7 @@ import twitter.service.image.ImageService;
 import twitter.service.subscribe.SubscribeService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
+import twitter.web.constants.AttributeNamesConstants;
 import twitter.web.dto.TweetDto;
 import twitter.web.dto.UserDto;
 
@@ -67,7 +68,7 @@ public class UserController {
       HttpSession session) {
     User user = userService.getUserByUsername(username);
     if (user == null) {
-      model.setViewName("errors/404error");
+      model.setViewName("404error");
       return model;
     }
     model.addObject("owner" , new UserDto(user));
@@ -84,7 +85,7 @@ public class UserController {
       model.addObject("isSubscribes", isSubscribes);
     }
 
-    model.addObject("isEnabled", sessionUser.isEnabled());
+    session.setAttribute(AttributeNamesConstants.IS_ENABLED, sessionUser.isEnabled());
     model.addObject("tweets", listOfDto(tweet_service.getUserTweets(username), user));
     model.setViewName("homepage");
     return model;

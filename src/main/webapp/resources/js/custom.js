@@ -136,7 +136,7 @@ function resendEmail(text) {
             url: "/signup/resendRegistrationToken",
             timeout: 100000,
             success: function () {
-                document.getElementById("resendEmail").textContent = text;
+                document.getElementById("resendEmail").innerHTML = text;
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -253,7 +253,7 @@ function makeComment(comment, depth) {
         .addClass("comment-level-" + level)
         .html("<div class='media'> <p class='pull-right'><small>" + comment.date + "</small></p>" +
             "<h4 class='media-heading user_name'>@" + comment.publisher + "</h4>" +
-
+            "<a class='media-left' href='#'> <img class='img-circle comment-publisher-photo' src='/files/" + comment.publisher_photo + "'></a>" +
 
             "<div class='media-body'>" + comment.text +
             "</div> </div>")
@@ -388,7 +388,7 @@ function more(username, hideButton, showButton) {
                         "<div class='col-md-3'>" +
                         "<a class='pull-left' href='#'>" +
                         "<img class='media-object img-rounded img-thumbnail img-responsive'" +
-                        "src='/files/" + data[i].photoOwner + "'>" +
+                        "src='/files/" + data[i].photoMin + "'>" +
                         "</a>" +
                         "</div>" +
                         "<div class='col-md-9'>" +

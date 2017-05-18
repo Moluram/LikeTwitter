@@ -34,7 +34,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   public ModelAndView handleUserNotFound(RuntimeException ex) {
     logger.error("404 Status Code", ex);
     ModelAndView mav = new ModelAndView();
-    mav.setViewName("errors/404error");
+    mav.setViewName("404error");
     return mav;
   }
 

@@ -11,9 +11,9 @@ public class PageNamesConstants {
   public static final String EMAIL_ERROR_PAGE_NAME = "emailError";
   public static final String WELCOME_PAGE = "welcome";
   public static final String BAD_USER = "badUser";
-  public static final String NOT_FOUND = "errors/404error";
+  public static final String NOT_FOUND = "404error";
   public static final String CONTACT_PAGE = "contact";
   public static final String PAGE_ABOUT = "about";
   public static final String NEWS = "news";
-  public static final String USERS="admin/users";
+  public static final String USERS="users";
 }

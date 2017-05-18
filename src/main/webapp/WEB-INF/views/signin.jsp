@@ -19,72 +19,46 @@
 
 
 </head>
-<body style="background-image:
-url(${pageContext.request.contextPath}/resources/images/wallpaper-young-people-in-party.jpg); background-size: 100%;">
-
-<section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--transparent mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-3">
-    <div class="mbr-navbar__section mbr-section">
-        <div class="mbr-section__container container">
-            <div class="mbr-navbar__container">
-                <div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
-                    <span class="mbr-navbar__brand-link mbr-brand mbr-brand--inline">
-                        <span class="mbr-brand__logo"><a href="<c:url value="/"/>"><img src="${pageContext.request.contextPath}/resources/images/twitter-icon-circle-blue-logo-preview.png" class="mbr-navbar__brand-img mbr-brand__img" alt="LikeTwitter"></a></span>
-                        <span class="mbr-brand__name"><a class="mbr-brand__name text-white" href="<c:url value="/"/>">LikeTwitter</a></span>
-                    </span>
-                </div>
-                <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
-                <div class="mbr-navbar__column mbr-navbar__menu">
-                    <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
-                        <div class="mbr-navbar__column">
-                            <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
-                                <li class="mbr-navbar__item">
-                                    <a class="mbr-buttons__link btn text-white"
-                                       href="<c:url value="/about"/>"><spring:message code="navbar.button.about"/>
-                                    </a>
-                                </li>
-                                <li class="mbr-navbar__item">
-                                    <a class="mbr-buttons__link btn text-white" href="<c:url
-                                    value="/contact"/>"><spring:message code="navbar.button.contact"/></a>
-                                </li>
-                            </ul>
+<body>
+<c:import url="includes/simpleHeader.jsp"/>
+<section
+        class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header1-6" style="background-image:
+        url(${pageContext.request.contextPath}/resources/images/wallpaper-young-people-in-party.jpg); background-size: 100%;">
+    <div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-box__magnet--center-left mbr-after-navbar">
+        <div class="mbr-box__container mbr-section__container container">
+            <div class="mbr-box mbr-box--stretched">
+                <div class="mbr-box__magnet mbr-box__magnet--center-left">
+                    <div class="row animated fadeInUp delay">
+                        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                            <form name="f" method="POST" href="<c:url value="/signup"/>" role="form">
+                                <font color="white"><h1 align="center"><spring:message code="label.signin.title"/></h1></font>
+                                <hr class="colorgraph">
+                                <div class="form-group animated fadeInUp delay">
+                                    <spring:message code="label.user.username" var="username"/>
+                                    <input type="text" name="username" id="username"
+                                           class="form-control input-lg" placeholder="${username}" tabindex="1">
+                                </div>
+                                <div class="form-group animated fadeInUp delay">
+                                    <spring:message code="label.user.password" var="password"/>
+                                    <input type="password" name="password" id="password"
+                                           class="form-control input-lg" placeholder="${password}" tabindex="2">
+                                </div>
+                                <hr class="colorgraph">
+                                <div class="row mbr-buttons btn-inverse mbr-buttons--left">
+                                    <div class="col-xs-4 col-md-4"><a href="<c:url value="/signup"/>"
+                                                                      class="btn btn-default btn-md animated fadeInUp delay"
+                                                                      tabindex="6"><spring:message code="button.signup"/> </a></div>
+                                    <div class="col-xs-4 col-md-4"><a href="<c:url value="/settings/reset-password"/>"
+                                                                      class="btn btn-default btn-md animated fadeInUp delay"
+                                                                      tabindex="6"><spring:message code="button.forgotPassword"/> </a></div>
+                                    <div class="col-xs-4 col-md-4"><input type="submit" value="<spring:message code="button.signin"/>"
+                                                                          class="btn btn-success btn-block btn-md animated fadeInUp delay"
+                                                                          onclick="validate()" tabindex="5"></div>
+                                </div>
+                            </form>
                         </div>
-                    </nav>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="mbr-section mbr-section--relative mbr-section--fixed-size mbr-parallax-background mbr-after-navbar" id="form1-9" >
-    <div class="mbr-section__container mbr-section__container--std-padding container" style="padding-top: 100px; padding-bottom: 93px;">
-        <div class="row animated fadeInUp delay">
-            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                <form name="f" method="POST" href="<c:url value="/signup"/>" role="form">
-                    <font color="white"><h1 align="center"><spring:message code="label.signin.title"/></h1></font>
-                    <hr class="colorgraph">
-                    <div class="form-group animated fadeInUp delay">
-                        <spring:message code="label.user.username" var="username"/>
-                        <input type="text" name="username" id="username"
-                               class="form-control input-lg" placeholder="${username}" tabindex="1">
-                    </div>
-                    <div class="form-group animated fadeInUp delay">
-                        <spring:message code="label.user.password" var="password"/>
-                        <input type="password" name="password" id="password"
-                               class="form-control input-lg" placeholder="${password}" tabindex="2">
-                    </div>
-                    <hr class="colorgraph">
-                    <div class="row mbr-buttons btn-inverse mbr-buttons--left">
-                        <div class="col-xs-4 col-md-4"><a href="<c:url value="/signup"/>"
-                                                          class="btn btn-default btn-md animated fadeInUp delay"
-                                                          tabindex="6"><spring:message code="button.signup"/> </a></div>
-                        <div class="col-xs-4 col-md-4"><a href="<c:url value="/settings/reset-password"/>"
-                                                          class="btn btn-default btn-md animated fadeInUp delay"
-                                                          tabindex="6"><spring:message code="button.forgotPassword"/> </a></div>
-                        <div class="col-xs-4 col-md-4"><input type="submit" value="<spring:message code="button.signin"/>"
-                                                              class="btn btn-success btn-block btn-md animated fadeInUp delay"
-                                                              onclick="validate()" tabindex="5"></div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

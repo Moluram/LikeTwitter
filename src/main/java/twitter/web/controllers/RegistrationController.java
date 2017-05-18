@@ -145,6 +145,8 @@ public class RegistrationController {
     User sessionUser = (User) session.getAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME);
     if (sessionUser != null) {
       sessionUser.setEnabled(true);
+      Boolean isEnabled = (Boolean) session.getAttribute(AttributeNamesConstants.IS_ENABLED);
+      session.setAttribute(AttributeNamesConstants.IS_ENABLED, isEnabled);
     }
   }
 

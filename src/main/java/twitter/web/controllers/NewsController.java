@@ -45,7 +45,7 @@ public class NewsController {
     if (NUMBER_OF_NEWS < news.size()) {
       news = news.subList(0, NUMBER_OF_NEWS);
     }
-    model.addAttribute(AttributeNamesConstants.NEWS, listOfDto(news));
+    model.addAttribute(AttributeNamesConstants.TWEETS, listOfDto(news));
     return PageNamesConstants.NEWS;
   }
 

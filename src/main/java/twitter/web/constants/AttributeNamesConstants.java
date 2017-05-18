@@ -16,4 +16,6 @@ public class AttributeNamesConstants {
     public static final String NEWS = "news";
     public static final String PAGE_NUMBER = "page";
     public static final String USERS = "users";
+    public static final String IS_ENABLED = "isEnabled";
+    public static final String TWEETS = "tweets";
 }

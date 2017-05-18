@@ -23,7 +23,9 @@ import twitter.service.role.RoleService;
 import twitter.service.storage.StorageException;
 import twitter.service.user.UserService;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -116,7 +118,7 @@ public class InitialDataLoader implements
 
     @Transactional
     private void createAdminIfNotExists() {
-        User user = userService.getUserByUsername("Admin2");
+        User user = userService.getUserByUsername("admin");
         if (user == null) {
             user = new User();
             UserProfile userProfile = new UserProfile();
@@ -124,7 +126,7 @@ public class InitialDataLoader implements
             user.setUserProfile(userProfile);
             user.setEmail("liketwidsftter.admdfsdfsdin@gmail.com");
             user.setPassword(passwordEncoder.encode("admin"));
-            user.setUsername("Admin2");
+            user.setUsername("admin");
             user.setRole(roleService.findByName(RolesAndPrivileges.ROLE_ADMIN));
             userService.addUser(user);
         }

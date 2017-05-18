@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class  AdminController {
 
     private static final Long LIMIT_USERS_ON_PAGE = 2L;
 
