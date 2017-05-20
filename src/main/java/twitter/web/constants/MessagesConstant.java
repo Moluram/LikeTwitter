@@ -16,4 +16,6 @@ public class MessagesConstant {
   public static final String MESSAGE_COMMENTED_TEXT_PART2 = "message.commented.text.part2";
   public static final String MESSAGE_COMMENTED_SUBJECT = "message.commented.subject";
   public static final String REGISTRATION_CONFIRMATIN = "message.reg.confirmation";
+  public static final String SOMEONE_SEND_A_MESSAGE = "message.someone.sent";
+  public static final String SOMEONE_SEND_A_MESSAGE_PART_2 = "message.someone.sent.2";
 }
