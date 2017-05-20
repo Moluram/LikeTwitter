@@ -30,19 +30,24 @@
                 <div class="mbr-box__magnet mbr-box__magnet--center-left">
                     <div class="row animated fadeInUp delay">
                         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                            <form name="f" method="POST" href="<c:url value="/signup"/>" role="form">
+                            <spring:message code="error.exist" var="errorExist"/>
+                            <form name="f" onsubmit="validateSubmit(['password', 'username'], '${errorExist}');" method="POST" href="<c:url value="/signin"/>" role="form">
                                 <h1>${error}</h1>
                                 <font color="white"><h1 align="center"><spring:message code="label.signin.title"/></h1></font>
                                 <hr class="colorgraph">
-                                <div class="form-group animated fadeInUp delay">
+                                <div class="form-group animated fadeInUp delay" id="usernameDiv">
+                                    <spring:message code="NotEmpty.username" var="notEmptyUsername"/>
                                     <spring:message code="label.user.username" var="username"/>
                                     <input type="text" name="username" id="username"
-                                           class="form-control input-lg" placeholder="${username}" tabindex="1">
+                                           class="form-control input-lg" placeholder="${username}"
+                                           onblur="validate('username', this, '${notEmptyUsername}')" tabindex="1">
                                 </div>
-                                <div class="form-group animated fadeInUp delay">
+                                <div class="form-group animated fadeInUp delay" id="passwordDiv">
+                                    <spring:message code="NotEmpty.password" var="notEmptyPassword"/>
                                     <spring:message code="label.user.password" var="password"/>
                                     <input type="password" name="password" id="password"
-                                           class="form-control input-lg" placeholder="${password}" tabindex="2">
+                                           class="form-control input-lg" placeholder="${password}"
+                                           onblur="validate('password', this, '${notEmptyPassword}')" tabindex="2">
                                 </div>
                                 <hr class="colorgraph">
                                 <div class="row mbr-buttons btn-inverse mbr-buttons--left">
@@ -54,7 +59,7 @@
                                                                       tabindex="6"><spring:message code="button.forgotPassword"/> </a></div>
                                     <div class="col-xs-4 col-md-4"><input type="submit" value="<spring:message code="button.signin"/>"
                                                                           class="btn btn-success btn-block btn-md animated fadeInUp delay"
-                                                                          onclick="validate()" tabindex="5"></div>
+                                                                          tabindex="5"></div>
                                 </div>
                             </form>
                         </div>
@@ -72,27 +77,8 @@
 <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/validations.js"></script>
 
 
 </body>
 </html>
-
-<script type="text/javascript">
-    function validate() {
-        if (document.f.username.value == "" && document.f.password.value == "") {
-            alert("Username and password are required");
-            document.f.username.focus();
-            return false;
-        }
-        if (document.f.username.value == "") {
-            alert("Username is required");
-            document.f.username.focus();
-            return false;
-        }
-        if (document.f.password.value == "") {
-            alert("Password is required");
-            document.f.password.focus();
-            return false;
-        }
-    }
-</script>

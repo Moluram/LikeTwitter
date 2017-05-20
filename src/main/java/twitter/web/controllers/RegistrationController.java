@@ -141,6 +141,11 @@ public class RegistrationController {
     return WebConstants.REDIRECT + PageNamesConstants.SIGNIN_PAGE;
   }
 
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.TEST_USERNAME, method = RequestMethod.GET)
+  public @ResponseBody Boolean testUsername(@RequestParam(AttributeNamesConstants.USERNAME) String username) {
+    return userService.getUserByUsername(username) == null;
+  }
+
   private void updateSessionIfExist(HttpSession session) {
     User sessionUser = (User) session.getAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME);
     if (sessionUser != null) {

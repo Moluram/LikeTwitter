@@ -25,42 +25,55 @@
 <c:import url="includes/simpleHeader.jsp"/>
 
 <section
-        class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header1-6" style="background-image: url(${pageContext.request.contextPath}/resources/images/joy.png); background-size: 100%;">
-    <div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-box__magnet--center-left mbr-after-navbar">
+        class="mbr-box mbr-section mbr-section--relative mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header1-6" style="background-image: url(${pageContext.request.contextPath}/resources/images/joy.png); background-size: 100%;">
+    <div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-box__magnet--center-left">
         <div class="mbr-box__container mbr-section__container container">
             <div class="mbr-box mbr-box--stretched">
                 <div class="mbr-box__magnet mbr-box__magnet--center-left">
                     <div class="row animated fadeInUp">
                         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                            <form:form modelAttribute="user" method="POST" enctype="utf8" role="form">
+                            <spring:message code="error.exist" var="errorExist"/>
+                            <form:form id="f" onsubmit="validateSubmit(['username', 'password', 'email', 'confirmPass'], '${errorExist}');" modelAttribute="user" method="POST" enctype="utf8" role="form">
                                 <span style="color: white; "><h1 align="center"><spring:message code="label.signup"/></h1></span>
                                 <hr class="colorgraph">
-                                <div class="form-group animated fadeInUp delay">
+                                <div class="form-group animated fadeInUp delay" id="usernameDiv">
+                                    <spring:message code="username.exist" var="usernameExist"/>
+                                    <spring:message code="NotEmpty.username" var="notEmptyUsername"/>
                                     <spring:message code="label.user.username" var="username"/>
                                     <form:errors cssClass="alert alert-danger" path="username" element="div"/>
-                                    <form:input path="username" type="username" name="user_name"
+                                    <form:input path="username" type="username" name="user_name" id="usernameInput"
                                                 class="form-control input-lg" placeholder="${username}"
+                                                onblur="if (validate('username', this, '${notEmptyUsername}')) {
+                                                validateUsername('username', this, '${usernameExist}') }"
                                                 tabindex="1"/>
                                 </div>
-                                <div class="form-group animated fadeInUp delay">
+                                <div class="form-group animated fadeInUp delay" id="emailDiv">
+                                    <spring:message code="email.not.valid" var="notValidEmail"/>
+                                    <spring:message code="NotEmpty.email" var="notEmptyEmail"/>
                                     <spring:message code="label.user.email" var="email"/>
                                     <form:errors cssClass="alert alert-danger" path="email" element="div"/>
-                                    <form:input path="email" type="email" name="email" id="email"
+                                    <form:input path="email" type="email" name="email" id="emailInput"
                                                 class="form-control input-lg" placeholder="${email}"
+                                                onblur="if (validate('email', this, '${notEmptyEmail}')) {
+                                                 validateEmail('email', this, '${notValidEmail}') }"
                                                 tabindex="2"/>
                                 </div>
-                                <div class="form-group animated fadeInUp delay">
+                                <div class="form-group animated fadeInUp delay" id="passwordDiv">
+                                    <spring:message code="NotEmpty.password" var="notEmptyPassword"/>
                                     <spring:message code="label.user.password" var="password"/>
                                     <form:errors cssClass="alert alert-danger" path="password" element="div"/>
-                                    <form:input path="password" type="password" name="password" id="password"
+                                    <form:input path="password" type="password" name="password" id="passwordInput"
                                                 class="form-control input-lg" placeholder="${password}"
-                                                tabindex="3" onchange="test()"/>
+                                                onblur="validate('password', this, '${notEmptyPassword}')"
+                                                tabindex="3"/>
                                 </div>
-                                <div class="form-group animated fadeInUp delay">
+                                <div class="form-group animated fadeInUp delay" id="confirmPassDiv">
+                                    <spring:message code="passwords.not.matches" var="notMatchesPassword"/>
                                     <spring:message code="label.user.confirmPass" var="confirmPass"/>
                                     <form:errors cssClass="alert alert-danger" path="matchingPassword" element="div"/>
-                                    <form:input path="matchingPassword" type="password" name="confirmPass" id="confirmPass"
+                                    <form:input path="matchingPassword" type="password" name="confirmPass" id="confirmPassInput"
                                                 class="form-control input-lg" placeholder="${confirmPass}"
+                                                onblur="validatePasswords('confirmPass', 'password', this, '${notMatchesPassword}')"
                                                 tabindex="4"/>
                                 </div>
 
@@ -86,7 +99,7 @@
 <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/validations.js"></script>
 
 
 </body>

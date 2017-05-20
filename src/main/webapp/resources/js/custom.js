@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 url: '/search',
-                data: "username=" + q,
+                data: "search_username=" + q,
                 dataType: 'json',
                 async: false,
                 timeout: 100000,
@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
         };
     };
     // instantiate the typeahead UI
-    $('#q').typeahead({
+    $('#search_username').typeahead({
         hint: true,
         highlight: true,
         minLength: 1

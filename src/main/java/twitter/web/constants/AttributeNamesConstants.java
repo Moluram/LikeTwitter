@@ -18,4 +18,5 @@ public class AttributeNamesConstants {
     public static final String USERS = "users";
     public static final String IS_ENABLED = "isEnabled";
     public static final String TWEETS = "tweets";
+    public static final String SEARCH_USERNAME = "search_username";
 }

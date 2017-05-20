@@ -19,4 +19,6 @@ public class URLConstants {
   public static final String NEWS_PAGE = "news";
   public static final String LOCKED_USER="locked";
   public static final String GET_NEWS = "get";
+  public static final String SEARCH = "search";
+  public static final String TEST_USERNAME = "test-username";
 }
