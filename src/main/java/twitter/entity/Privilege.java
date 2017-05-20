@@ -1,6 +1,4 @@
-package twitter.beans;
-
-import java.util.Collection;
+package twitter.entity;
 
 /**
  * Created by moluram on 24.3.17.

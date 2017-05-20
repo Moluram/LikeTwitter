@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import twitter.beans.Tweet;
-import twitter.beans.User;
+import twitter.entity.Tweet;
+import twitter.entity.User;
 import twitter.service.image.ImageService;
 import twitter.service.subscribe.SubscribeService;
 import twitter.service.tweet.TweetService;
@@ -122,7 +122,7 @@ public class UserController {
   public String uploadFile(@RequestParam("file") MultipartFile file, WebRequest request,
       @SessionAttribute("user") User sessionUser) {
     if (file.getSize() != 0) {
-      imageService.storeImage(file, sessionUser.getUserProfile());
+      imageService.storeImage(file, sessionUser);
     }
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
   }

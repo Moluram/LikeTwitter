@@ -2,8 +2,7 @@ package twitter.dao;
 
 import java.util.Collection;
 import java.util.List;
-import twitter.beans.Privilege;
-import twitter.beans.Role;
+import twitter.entity.Privilege;
 
 /**
  * Created by Nikolay on 06.04.2017.

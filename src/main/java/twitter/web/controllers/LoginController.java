@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import twitter.beans.User;
+import twitter.entity.User;
 import twitter.service.user.UserService;
 import twitter.web.constants.AttributeNamesConstants;
 import twitter.web.constants.PageNamesConstants;

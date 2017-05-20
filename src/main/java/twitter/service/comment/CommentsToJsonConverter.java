@@ -6,7 +6,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import twitter.beans.Comment;
+import twitter.entity.Comment;
 import twitter.service.constants.CommentJsonFields;
 
 /**

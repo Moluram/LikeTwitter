@@ -2,7 +2,7 @@ package twitter.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import twitter.beans.Subscribe;
+import twitter.entity.Subscribe;
 import twitter.dao.ISubscribeDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;

@@ -1,7 +1,7 @@
 package twitter.dao;
 
-import twitter.beans.User;
-import twitter.beans.VerificationToken;
+import twitter.entity.User;
+import twitter.entity.VerificationToken;
 import twitter.dao.exception.DAOException;
 
 /**

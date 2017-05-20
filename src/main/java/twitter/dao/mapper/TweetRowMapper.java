@@ -8,8 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import twitter.beans.Tweet;
-import twitter.dao.IUserDAO;
+import twitter.entity.Tweet;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.utils.DateUtils;
 

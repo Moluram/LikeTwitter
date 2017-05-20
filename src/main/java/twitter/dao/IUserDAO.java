@@ -1,6 +1,6 @@
 package twitter.dao;
 
-import twitter.beans.User;
+import twitter.entity.User;
 import twitter.dao.exception.DAOException;
 
 /**

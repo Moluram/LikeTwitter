@@ -1,6 +1,6 @@
 package twitter.web.dto;
 
-import twitter.beans.User;
+import twitter.entity.User;
 
 /**
  * Created by Moluram on 4/28/2017.

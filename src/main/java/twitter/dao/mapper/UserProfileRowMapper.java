@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import twitter.beans.UserProfile;
+import twitter.entity.UserProfile;
 import twitter.dao.constant.EntityColumn;
 
 /**

@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Repository;
-import twitter.beans.UserProfile;
+import twitter.entity.UserProfile;
 import twitter.dao.IUserProfileDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;

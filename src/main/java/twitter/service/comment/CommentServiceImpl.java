@@ -1,8 +1,8 @@
 package twitter.service.comment;
 
 import org.springframework.stereotype.Service;
-import twitter.beans.Comment;
-import twitter.beans.User;
+import twitter.entity.Comment;
+import twitter.entity.User;
 import twitter.dao.ICommentDAO;
 import twitter.service.user.UserService;
 import twitter.web.dto.CommentDto;

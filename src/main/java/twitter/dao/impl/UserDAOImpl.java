@@ -2,7 +2,7 @@ package twitter.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import twitter.beans.User;
+import twitter.entity.User;
 import twitter.dao.IRoleDAO;
 import twitter.dao.IUserDAO;
 import twitter.dao.IUserProfileDAO;

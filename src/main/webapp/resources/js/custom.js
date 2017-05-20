@@ -223,7 +223,7 @@ function hideComments(tweetId) {
     var htmlComments = tweet.find("#comments");
     tweet.find("#hide-comments-btn").addClass("hidden");
     tweet.find("#show-comments-btn").removeClass("hidden");
-    tweet.find("#add-comment-form").addClass("hidden");
+    tweet.find(".add-comment-form").addClass("hidden");
     htmlComments.html("");
 }
 
@@ -546,10 +546,11 @@ function banUser(userId) {
             },
             timeout: 100000,
             success: function () {
+                console.log("log")
                 $("#user_" + userId).find("#ban-btn").removeClass("btn-danger")
                     .addClass("btn-success")
                     .attr("id","unban-btn")
-                    .attr("onclick","UnBanUser("+userId+")")
+                    .attr("onclick","unBanUser("+userId+")")
                     .html("Unban");
             },
             error: function (e) {
@@ -563,7 +564,7 @@ function banUser(userId) {
 }
 
 
-function UnBanUser(userId) {
+function unBanUser(userId) {
     jQuery(document).ready(function ($) {
         var data = new Object();
         data.userId = userId;
@@ -614,13 +615,17 @@ function pagination(strCount, strCurrentPage) {
             //         return;
             //     }
             // }
-            pagination.append(createPagnatioinLi(i))
+            pagination.append(createPaginatioinLi(i))
         }
     });
 }
 
-function createPagnatioinLi(page) {
+function createPaginatioinLi(page) {
     var li = $(document.createElement("li"));
     var a = $(document.createElement("a")).attr("href", "/admin/users?page=" + page).html(page);
     return li.html(a);
+}
+
+function test(){
+    console.log("TEST");
 }

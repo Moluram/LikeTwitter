@@ -9,9 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import twitter.beans.Privilege;
-import twitter.beans.Role;
-import twitter.beans.User;
+import twitter.entity.Privilege;
+import twitter.entity.Role;
+import twitter.entity.User;
 import twitter.service.user.UserService;
 
 import java.util.ArrayList;
@@ -43,9 +43,9 @@ public class MyUserDetailsService implements UserDetailsService {
                 "Username does not exist: " + username);
       }
       return new org.springframework.security.core.userdetails.User(
-              user.getUsername(), user.getPassword(), !user.getBaned(),
+              user.getUsername(), user.getPassword(), true,
               true, true,
-              true, getAuthorities(Arrays.asList(user.getRole())));
+              !user.getBaned(), getAuthorities(Arrays.asList(user.getRole())));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

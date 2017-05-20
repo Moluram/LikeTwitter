@@ -2,7 +2,7 @@ package twitter.service.subscribe;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import twitter.beans.Subscribe;
+import twitter.entity.Subscribe;
 import twitter.dao.ISubscribeDAO;
 
 import java.util.ArrayList;

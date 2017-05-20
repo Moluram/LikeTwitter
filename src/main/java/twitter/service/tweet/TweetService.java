@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import twitter.beans.Tweet;
+import twitter.entity.Tweet;
 import twitter.dao.ITweetDao;
 import twitter.web.dto.TweetDto;
 

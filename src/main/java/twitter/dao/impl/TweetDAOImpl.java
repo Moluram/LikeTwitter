@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import twitter.beans.Tweet;
+import twitter.entity.Tweet;
 import twitter.dao.ITweetDao;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;

@@ -2,7 +2,7 @@ package twitter.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import twitter.beans.Tweet;
+import twitter.entity.Tweet;
 import twitter.service.tweet.TweetService;
 
 import java.util.List;

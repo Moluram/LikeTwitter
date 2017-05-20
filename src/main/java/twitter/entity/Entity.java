@@ -1,4 +1,4 @@
-package twitter.beans;
+package twitter.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

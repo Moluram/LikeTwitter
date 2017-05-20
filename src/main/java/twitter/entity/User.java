@@ -1,4 +1,4 @@
-package twitter.beans;
+package twitter.entity;
 
 /**
  * Represent a single user in the application

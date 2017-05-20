@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import twitter.beans.User;
+import twitter.entity.User;
 import twitter.service.comment.CommentService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class  AdminController {
 
-    private static final Long LIMIT_USERS_ON_PAGE = 2L;
+    private static final Long LIMIT_USERS_ON_PAGE = 10L;
 
     private UserService userService;
     private CommentService commentServie;

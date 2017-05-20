@@ -1,12 +1,10 @@
 package twitter.dao.mapper;
 
-import twitter.beans.Entity;
-import twitter.beans.Subscribe;
+import twitter.entity.Subscribe;
 import twitter.dao.constant.EntityColumn;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

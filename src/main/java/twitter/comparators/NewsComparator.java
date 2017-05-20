@@ -1,6 +1,6 @@
 package twitter.comparators;
 
-import twitter.beans.Tweet;
+import twitter.entity.Tweet;
 
 import java.util.Comparator;
 

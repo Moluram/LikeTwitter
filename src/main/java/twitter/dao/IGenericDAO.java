@@ -1,7 +1,7 @@
 package twitter.dao;
 
 import java.util.List;
-import twitter.beans.Entity;
+import twitter.entity.Entity;
 import twitter.dao.exception.DAOException;
 
 /**

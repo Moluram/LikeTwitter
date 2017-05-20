@@ -5,23 +5,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import twitter.beans.User;
+import twitter.entity.User;
 import twitter.service.security.SecurityService;
-import twitter.service.security.SecurityServiceImpl;
 import twitter.web.dto.PasswordDto;
-import twitter.web.exceptions.UserNotFoundException;
 import twitter.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Locale;
 import java.util.UUID;
 
 /**

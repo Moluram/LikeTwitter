@@ -2,8 +2,8 @@ package twitter.service.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import twitter.beans.Tweet;
-import twitter.beans.User;
+import twitter.entity.Tweet;
+import twitter.entity.User;
 import twitter.comparators.NewsComparator;
 import twitter.service.subscribe.SubscribeService;
 import twitter.service.tweet.TweetService;

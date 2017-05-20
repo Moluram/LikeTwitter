@@ -36,5 +36,10 @@ public class ErrorController {
   public String badUser() {
     return PageNamesConstants.BAD_USER;
   }
+
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.LOCKED_USER,method = RequestMethod.GET)
+  public String lockedUser() {
+    return PageNamesConstants.LOCKED_USER;
+  }
 }
 

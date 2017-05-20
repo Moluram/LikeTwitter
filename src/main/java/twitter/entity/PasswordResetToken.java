@@ -1,4 +1,4 @@
-package twitter.beans;
+package twitter.entity;
 
 import java.sql.Timestamp;
 import java.util.Calendar;

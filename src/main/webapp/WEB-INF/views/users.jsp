@@ -13,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><spring:message code="title.subscribes"/></title>
+    <title><spring:message code="title.users"/></title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -48,8 +48,8 @@
          style="padding-top: 50px; padding-bottom: 93px;">
         <hr class="colorgraph">
         <div class="row" id="users" class="user-list-wrapper">
-            <c:forEach items="${users}" var="user">
-                <div class="row animated fadeInUp delay tweet user-list-wrapper" id="user_${user.id}">
+            <c:forEach items="${users}" var="u">
+                <div class="row animated fadeInUp delay tweet user-list-wrapper" id="user_${u.id}">
                     <link rel="stylesheet"
                           href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
 
@@ -58,29 +58,30 @@
                             <div class="col-md-2">
                                 <a class="pull-left" href="#">
                                     <img class="media-object img-rounded img-thumbnail img-responsive user-mini-photo"
-                                         src="/files/${user.photoMin}">
+                                         src="/files/${u.photoMin}">
                                 </a>
                             </div>
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a href="/${user.username}">@${user.username}</a>
+                                        <a href="/${u.username}">@${u.username}</a>
                                     </div>
                                 </div>
                             </div>
-
-                            <c:choose>
-                                <c:when test="${user.baned}">
-                                    <div class="col-md-2">
-                                        <button class="btn btn-success" id="unban-btn" onclick="UnBanUser(${user.id})">Unban</button>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-danger" id="ban-btn" onclick="banUser(${user.id})">Ban</button>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
+                            <c:if test="${user.id!=u.id}">
+                                <c:choose>
+                                    <c:when test="${u.baned}">
+                                        <div class="col-md-2">
+                                            <button class="btn btn-success" id="unban-btn" onclick="unBanUser(${u.id})">Unban</button>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-danger" id="ban-btn" onclick="banUser(${u.id})">Ban</button>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
 
                         </div>
                     </div>

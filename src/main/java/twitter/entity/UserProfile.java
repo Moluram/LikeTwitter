@@ -1,6 +1,5 @@
-package twitter.beans;
+package twitter.entity;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

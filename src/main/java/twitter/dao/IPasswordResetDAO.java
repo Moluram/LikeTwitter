@@ -1,7 +1,7 @@
 package twitter.dao;
 
-import twitter.beans.PasswordResetToken;
-import twitter.beans.User;
+import twitter.entity.PasswordResetToken;
+import twitter.entity.User;
 import twitter.dao.exception.DAOException;
 
 /**

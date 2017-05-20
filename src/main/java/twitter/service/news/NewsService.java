@@ -1,7 +1,7 @@
 package twitter.service.news;
 
-import twitter.beans.Tweet;
-import twitter.beans.User;
+import twitter.entity.Tweet;
+import twitter.entity.User;
 
 import java.util.List;
 

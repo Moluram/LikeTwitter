@@ -54,7 +54,7 @@
                                     <form:errors cssClass="alert alert-danger" path="password" element="div"/>
                                     <form:input path="password" type="password" name="password" id="password"
                                                 class="form-control input-lg" placeholder="${password}"
-                                                tabindex="3"/>
+                                                tabindex="3" onchange="test()"/>
                                 </div>
                                 <div class="form-group animated fadeInUp delay">
                                     <spring:message code="label.user.confirmPass" var="confirmPass"/>
@@ -86,6 +86,7 @@
 <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
 
 
 </body>

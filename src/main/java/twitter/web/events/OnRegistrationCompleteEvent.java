@@ -1,7 +1,7 @@
 package twitter.web.events;
 
 import org.springframework.context.ApplicationEvent;
-import twitter.beans.User;
+import twitter.entity.User;
 
 import java.util.Locale;
 

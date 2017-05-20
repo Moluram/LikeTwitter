@@ -11,11 +11,10 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import twitter.beans.Entity;
+import twitter.entity.Entity;
 import twitter.dao.IGenericDAO;
 import twitter.dao.exception.DAOException;
 import twitter.dao.mapper.EntityRowMapper;
@@ -27,10 +26,6 @@ import twitter.dao.query.SqlQuery;
 public abstract class AbstractGenericDAOImpl<T extends Entity> extends
         JdbcDaoSupport implements
         IGenericDAO<T> {
-
-    private enum INSERT_TYPE {
-        CREATE, UPDATE
-    }
 
     private EntityRowMapper<T> rowMapper;
 
@@ -65,7 +60,7 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
 
     public Long create(T instance) {
         createEntity(instance);
-        createOrUpdateAttrs(instance, INSERT_TYPE.CREATE);
+        createAttrs(instance);
         insertReferences(instance);
         return null;
     }
@@ -82,16 +77,25 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
         return (Long) kh.getKey();
     }
 
-    private void createOrUpdateAttrs(T instance, INSERT_TYPE insertType) {
+    private void createAttrs(T instance) {
         Set<Entry<String, String>> entrySet = getAttrValueMap(instance).entrySet();
-        boolean isCreate = insertType == INSERT_TYPE.CREATE;
-        String query =
-                isCreate ? SqlQuery.INSERT_ATTRIBUTE.getQuery() : SqlQuery.UPDATE_ATTRIBUTE.getQuery();
+        String query = SqlQuery.INSERT_ATTRIBUTE.getQuery();
         getJdbcTemplate().batchUpdate(query, entrySet, entrySet.size(),
                 (preparedStatement, entry) -> {
-                    preparedStatement.setLong(isCreate ? 1 : 2, instance.getId());
-                    preparedStatement.setString(isCreate ? 2 : 3, entry.getKey());
-                    preparedStatement.setString(isCreate ? 3 : 1, entry.getValue());
+                    preparedStatement.setLong(1, instance.getId());
+                    preparedStatement.setString(2, entry.getKey());
+                    preparedStatement.setString(3, entry.getValue());
+                });
+    }
+
+    private void updateAttrs(T instance) {
+        Set<Entry<String, String>> entrySet = getAttrValueMap(instance).entrySet();
+        String query = SqlQuery.UPDATE_ATTRIBUTE.getQuery();
+        getJdbcTemplate().batchUpdate(query, entrySet, entrySet.size(),
+                (preparedStatement, entry) -> {
+                    preparedStatement.setString(1, entry.getValue());
+                    preparedStatement.setLong(2, instance.getId());
+                    preparedStatement.setString(3, entry.getKey());
                 });
     }
 
@@ -151,7 +155,7 @@ public abstract class AbstractGenericDAOImpl<T extends Entity> extends
 
     @Override
     public void update(T instance) {
-        createOrUpdateAttrs(instance, INSERT_TYPE.UPDATE);
+        updateAttrs(instance);
     }
 
     //TODO: related obj

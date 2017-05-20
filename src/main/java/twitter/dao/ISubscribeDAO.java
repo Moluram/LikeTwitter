@@ -1,6 +1,6 @@
 package twitter.dao;
 
-import twitter.beans.Subscribe;
+import twitter.entity.Subscribe;
 
 /**
  * Created by nborsuk on 11.05.2017.

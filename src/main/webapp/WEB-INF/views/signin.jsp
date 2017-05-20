@@ -31,6 +31,7 @@
                     <div class="row animated fadeInUp delay">
                         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                             <form name="f" method="POST" href="<c:url value="/signup"/>" role="form">
+                                <h1>${error}</h1>
                                 <font color="white"><h1 align="center"><spring:message code="label.signin.title"/></h1></font>
                                 <hr class="colorgraph">
                                 <div class="form-group animated fadeInUp delay">

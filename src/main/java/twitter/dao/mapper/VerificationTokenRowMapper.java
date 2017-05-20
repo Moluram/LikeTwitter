@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import twitter.beans.Role;
-import twitter.beans.User;
-import twitter.beans.VerificationToken;
+
+import twitter.entity.User;
+import twitter.entity.VerificationToken;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;

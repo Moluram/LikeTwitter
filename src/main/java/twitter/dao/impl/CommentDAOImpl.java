@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import twitter.beans.Comment;
+import twitter.entity.Comment;
 import twitter.dao.ICommentDAO;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;

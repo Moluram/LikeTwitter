@@ -1,11 +1,9 @@
 package twitter.service.storage;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,13 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
   private final Path rootLocation;
-  private final FileNamingService fileNamingService;
+  private final ImageNamingService imageNamingService;
 
   @Autowired
   public FileSystemStorageService(StorageProperties properties,
-      FileNamingService fileNamingService) {
+                                  ImageNamingService imageNamingService) {
     this.rootLocation = Paths.get(properties.getLocation());
-    this.fileNamingService = fileNamingService;
+    this.imageNamingService = imageNamingService;
   }
 
   @Override
@@ -51,7 +49,7 @@ public class FileSystemStorageService implements StorageService {
   public void storeImage(BufferedImage image, String filename) {
     try {
       File file = Files.createFile(this.rootLocation.resolve(filename)).toFile();
-      ImageIO.write(image, fileNamingService.getFileFormat(filename), file);
+      ImageIO.write(image, imageNamingService.getFileFormat(filename), file);
     }catch (IOException e){
       throw new StorageException("Failed to store image " + filename, e);
     }

@@ -2,6 +2,7 @@ package twitter.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +17,7 @@ import twitter.service.MyUserDetailsService;
 import twitter.web.constants.AttributeNamesConstants;
 import twitter.web.constants.URLConstants;
 import twitter.web.constants.WebConstants;
+import twitter.web.handlers.LockedUserHandler;
 
 /**
  * Class configuration to a spring security
@@ -25,54 +27,62 @@ import twitter.web.constants.WebConstants;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class  SecurityConf extends WebSecurityConfigurerAdapter {
+@ComponentScan(basePackages = "twitter.web.handlers")
+public class SecurityConf extends WebSecurityConfigurerAdapter {
 
-  private MyUserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
+    private LockedUserHandler lockedUserHandler;
 
-  @Bean
-  public DaoAuthenticationProvider authProvider() {
-    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(userDetailsService);
-    authProvider.setPasswordEncoder(passwordEncoder());
-    return authProvider;
-  }
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 
-  @Autowired
-  public void setUserDetailsService(MyUserDetailsService userDetailsService) {
-    this.userDetailsService = userDetailsService;
-  }
+    @Autowired
+    public void setUserDetailsService(MyUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(authProvider());
-  }
+    @Autowired
+    public void setLockedUserHandler(LockedUserHandler lockedUserHandler) {
+        this.lockedUserHandler = lockedUserHandler;
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authProvider());
+    }
 
-    http.csrf()
-        .disable();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-    http.authorizeRequests()
-        .antMatchers("/resources/**", "/about", "/contact", "/settings/**",
-            WebConstants.SLASH + URLConstants.SIGNUP_PAGE + WebConstants.SLASH + "**").permitAll()
-        .antMatchers( WebConstants.SLASH + URLConstants.SIGNIN_PAGE,
-            WebConstants.SLASH, WebConstants.SLASH + URLConstants.SIGNUP_PAGE).anonymous()
-        .antMatchers(WebConstants.SLASH + "**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE);
+        http.csrf()
+                .disable();
 
-    http.exceptionHandling().accessDeniedPage(WebConstants.SLASH + URLConstants.ACCESS_DENIED);
+        http.authorizeRequests()
+                .antMatchers("/resources/**", "/about", "/contact", "/settings/**", "/locked",
+                        WebConstants.SLASH + URLConstants.SIGNUP_PAGE + WebConstants.SLASH + "**").permitAll()
+                .antMatchers(WebConstants.SLASH + URLConstants.SIGNIN_PAGE,
+                        WebConstants.SLASH, WebConstants.SLASH + URLConstants.SIGNUP_PAGE).anonymous()
+                .antMatchers(WebConstants.SLASH + "**").hasAuthority(RolesAndPrivileges.VIEW_PAGES_PRIVILEGE);
 
-    http.formLogin()
-          .loginPage(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
-          .successForwardUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
-          .failureUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
-          .and()
-        .logout().logoutUrl("/logout").logoutSuccessUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
-          .deleteCookies(AttributeNamesConstants.COOKIE_NAME);
-  }
+        http.exceptionHandling().accessDeniedPage(WebConstants.SLASH + URLConstants.ACCESS_DENIED);
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+        http.formLogin()
+                .loginPage(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+                .successForwardUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+                //.failureUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+                .failureHandler(lockedUserHandler)
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+                .deleteCookies(AttributeNamesConstants.COOKIE_NAME);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

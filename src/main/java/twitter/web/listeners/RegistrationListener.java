@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
-import twitter.beans.User;
+import twitter.entity.User;
 import twitter.service.user.UserService;
 import twitter.web.constants.AttributeNamesConstants;
 import twitter.web.constants.MessagesConstant;

@@ -1,15 +1,9 @@
 package twitter.service.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import twitter.beans.PasswordResetToken;
-import twitter.beans.User;
+import twitter.entity.PasswordResetToken;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import twitter.dao.IPasswordResetDAO;
 

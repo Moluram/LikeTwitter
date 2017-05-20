@@ -1,4 +1,4 @@
-package twitter.beans;
+package twitter.entity;
 
 import java.util.Collection;
 import java.util.List;
