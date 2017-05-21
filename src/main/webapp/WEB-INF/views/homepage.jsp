@@ -147,12 +147,13 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-default" onclick="loadComments(${t.id})"
+                                <button class="btn btn-default" onclick="loadComments(${t.id},'${user.username}')"
                                         id="show-comments-btn"><spring:message code="label.button.comments.show"/>
                                 </button>
                                 <button class="btn btn-default hidden" onclick="hideComments(${t.id})"
                                         id="hide-comments-btn"><spring:message code="label.button.comments.hide"/>
                                 </button>
+                                <div class="row"></div>
                                 <div id="comments"></div>
                                 <div id="add-new-comment">
                                     <form action="/comments" method="POST"

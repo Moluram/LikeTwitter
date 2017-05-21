@@ -193,7 +193,7 @@ function unsubscribe(username, url) {
     });
 }
 
-function loadComments(tweetId) {
+function loadComments(tweetId, sessionUsername) {
     jQuery(document).ready(function ($) {
         $.ajax({
             type: "GET",
@@ -206,7 +206,7 @@ function loadComments(tweetId) {
                 tweet.find("#show-comments-btn").addClass("hidden");
                 tweet.find("#hide-comments-btn").removeClass("hidden");
                 tweet.find(".add-comment-form").removeClass("hidden");
-                insertAsTree(htmlComments, comments, 0);
+                insertAsTree(htmlComments, comments, 0, sessionUsername);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -228,19 +228,19 @@ function hideComments(tweetId) {
 }
 
 
-function insertAsTree(divToInsert, comments, depth) {
+function insertAsTree(divToInsert, comments, depth, sessionUsername) {
 
     for (var i in comments) {
-        var htmlComment = makeComment(comments[i], depth);
+        var htmlComment = makeComment(comments[i], depth, sessionUsername);
         htmlComment
             .appendTo(divToInsert);
         if (comments[i].child) {
-            insertAsTree(divToInsert, comments[i].child, depth + 1)
+            insertAsTree(divToInsert, comments[i].child, depth + 1, sessionUsername)
         }
     }
 }
 
-function makeComment(comment, depth) {
+function makeComment(comment, depth, sessionUsername) {
     var div = $(document.createElement("div"));
     var level;
     if (depth < 3) {
@@ -248,26 +248,64 @@ function makeComment(comment, depth) {
     } else {
         level = 3;
     }
+    divHtml = "<div class='media row'>" +
+        "<div class='col-md-1'>" +
+        "<a class='media-left' href='/" + comment.publisher + "'> " +
+        "<img class='img-circle comment-publisher-photo' src='/files/" + comment.publisher_photo + "'>" +
+        "</a>" +
+        "</div>" +
+        "<div class='col-md-8'>" +
+        "<a class='media-left' href='/" + comment.publisher + "'> " + "@" + comment.publisher + "</a>" +
+        "</br>" +
+        "<p>" + comment.text +
+        "</p>" +
+        "</div>";
+    if (comment.publisher === sessionUsername) {
+        divHtml += "<div class='col-md-1'>" +
+            "<a onclick='deleteComment(" + comment.id + ")' class='delete-comment-btn pull-right'>&#10006;</a>" +
+            "</div>";
+    }
+    divHtml += "<div class='col-md-2 pull-right'>" +
+        "<p><small>" + comment.date + "</small></p>" +
+        "</div>" +
+        " </div>";
     div
         .addClass("comment-wrapper")
         .addClass("comment-level-" + level)
-        .html("<div class='media'> <p class='pull-right'><small>" + comment.date + "</small></p>" +
-            "<h4 class='media-heading user_name'>@" + comment.publisher + "</h4>" +
-            "<a class='media-left' href='#'> <img class='img-circle comment-publisher-photo' src='/files/" + comment.publisher_photo + "'></a>" +
-
-            "<div class='media-body'>" + comment.text +
-            "</div> </div>")
-        .attr("id", comment.id)
+        .html(divHtml)
+        .attr("id", "comment_" + comment.id)
         .click(responseToComment);
     return div;
 }
 
 function responseToComment() {
     var parentComment = $(this);
-    var parentId = parentComment.attr("id");
+    var parentId = parentComment.attr("id").split('_')[1];
     var form = parentComment.closest(".tweet").find(".add-comment-form");
     form.find("input[name='parentId']").val(parentId);
     setCaretPosition(form.find(".new-comment-text")[0], 0);
+}
+
+function deleteComment(commentId) {
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            type: "POST",
+            url: "/comments/" + commentId + "/delete",
+            timeout: 100000,
+            success: function () {
+                $("#comment_" + commentId).remove();
+            }
+            ,
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+            ,
+            done: function () {
+                console.log("DONE");
+            }
+        })
+        ;
+    });
 }
 
 jQuery(document).ready(function () {
@@ -415,12 +453,13 @@ function more(username, hideButton, showButton) {
                         "</div>" +
                         "</div>" +
 
-                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ")'" +
+                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",'" + username + "')'" +
                         "id='show-comments-btn'>" + showButton +
                         "</button>" +
                         "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
                         "id='hide-comments-btn'>" + hideButton +
                         "</button>" +
+                        "<div class='row'></div>" +
                         "<div id='comments'></div>" +
                         "<div class='add-new-comment'>" +
                         "<form action='/comments' method='POST'" +
@@ -499,12 +538,13 @@ function updateNews(username, hideButton, showButton) {
                         "</div>" +
                         "</div>" +
 
-                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ")'" +
+                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",'" + username + "')'" +
                         "id='show-comments-btn'>" + showButton +
                         "</button>" +
                         "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
                         "id='hide-comments-btn'>" + hideButton +
                         "</button>" +
+                        "<div class='row'></div>" +
                         "<div id='comments'></div>" +
                         "<div class='add-new-comment'>" +
                         "<form action='/comments' method='POST'" +
@@ -536,8 +576,6 @@ function updateNews(username, hideButton, showButton) {
 
 function banUser(userId) {
     jQuery(document).ready(function ($) {
-        var data = new Object();
-        data.userId = userId;
         $.ajax({
             type: "POST",
             url: "/admin/ban",
@@ -549,8 +587,8 @@ function banUser(userId) {
                 console.log("log")
                 $("#user_" + userId).find("#ban-btn").removeClass("btn-danger")
                     .addClass("btn-success")
-                    .attr("id","unban-btn")
-                    .attr("onclick","unBanUser("+userId+")")
+                    .attr("id", "unban-btn")
+                    .attr("onclick", "unBanUser(" + userId + ")")
                     .html("Unban");
             },
             error: function (e) {
@@ -578,8 +616,8 @@ function unBanUser(userId) {
             success: function () {
                 $("#user_" + userId).find("#unban-btn").removeClass("btn-success")
                     .addClass("btn-danger")
-                    .attr("id","ban-btn")
-                    .attr("onclick","banUser("+userId+")")
+                    .attr("id", "ban-btn")
+                    .attr("onclick", "banUser(" + userId + ")")
                     .html("Ban");
             },
             error: function (e) {
@@ -626,6 +664,6 @@ function createPaginatioinLi(page) {
     return li.html(a);
 }
 
-function test(){
+function test() {
     console.log("TEST");
 }
