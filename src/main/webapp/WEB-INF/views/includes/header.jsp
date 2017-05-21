@@ -23,11 +23,13 @@
                             <div class="mbr-navbar__column">
                                 <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons btn-inverse mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
                                     <li class="mbr-navbar__item input-group typeahead">
-                                        <input type="search" id="q" name="q"
-                                               placeholder="Search for user"
-                                               autocomplete="off"
-                                               class="form-control input-sm">
-                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                        <form method="post" action="/search">
+                                                <input type="search" id="search_username" name="search_username"
+                                                       placeholder="Search for user"
+                                                       autocomplete="off"
+                                                       class="input-sm">
+                                                <button type="submit" class="glyphicon hidden glyphicon-search"></button>
+                                        </form>
                                     </li>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"

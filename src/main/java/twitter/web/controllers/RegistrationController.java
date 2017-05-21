@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -40,16 +39,10 @@ public class RegistrationController {
   private ApplicationEventPublisher eventPublisher;
   private MessageSource messages;
   private MailSender mailSender;
-  private Environment env;
 
   @Autowired
   public void setMailSender(MailSender mailSender) {
     this.mailSender = mailSender;
-  }
-
-  @Autowired
-  public void setEnvironment(Environment environment) {
-    this.env = environment;
   }
 
   @Autowired
@@ -139,6 +132,11 @@ public class RegistrationController {
     user.setEnabled(true);
     userService.saveRegisteredUser(user);
     return WebConstants.REDIRECT + PageNamesConstants.SIGNIN_PAGE;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.TEST_USERNAME, method = RequestMethod.GET)
+  public @ResponseBody Boolean testUsername(@RequestParam(AttributeNamesConstants.USERNAME) String username) {
+    return userService.getUserByUsername(username) == null;
   }
 
   private void updateSessionIfExist(HttpSession session) {
