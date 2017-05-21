@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class  AdminController {
 
-    private static final Long LIMIT_USERS_ON_PAGE = 10L;
+    private static final Long LIMIT_USERS_ON_PAGE = 2L;
 
     private UserService userService;
     private CommentService commentServie;
