@@ -43,28 +43,6 @@
         </div>
         <div class="row">
             <spring:message code="error.exist" var="errorExist"/>
-            <form onsubmit="if (validateSubmit(['username'], '${errorExist}'))
-                send('username', '<spring:message code="settings.username.success"/>')"
-                  class="animated fadeInUp delay col-md-6">
-                <hr class="colorgraph">
-                <spring:message code="username.exist" var="usernameExist"/>
-                <spring:message code="NotEmpty.username" var="notEmptyUsername"/>
-                <spring:message code="label.user.username" var="username"/>
-                <label class="text-center h3">${username}</label>
-                <div class="form-group animated fadeInUp delay" id="usernameDiv">
-                    <input type="text" name="user_name" id="usernameInput"
-                                class="form-control" placeholder="${username}"
-                                onblur="if (validate('username', this, '${notEmptyUsername}')) {
-                                                validateUsername('username', this, '${usernameExist}') }"
-                                tabindex="1"/>
-                </div>
-                <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
-                    <button type="submit" id="usernameBtn"
-                           class="btn btn-success animated fadeInUp delay" tabindex="5">
-                        <spring:message code="label.form.submit"/>
-                    </button>
-                </div>
-            </form>
             <form onsubmit="if (validateSubmit('email', '${errorExist}'))
                     send('email', '<spring:message code="settings.email.success"/>')"
                   class="animated fadeInUp delay col-md-6">
@@ -87,8 +65,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-        <div class="row">
             <form onsubmit="if (validateSubmit('status', '${errorExist}'))
                     send('status', '<spring:message code="settings.status.success"/>')"
                   class="animated fadeInUp delay col-md-6">
@@ -98,8 +74,8 @@
                 <label class="text-center h3">${var}</label>
                 <div class="form-group" id="status">
                     <input type="text" id="statusInput"
-                                class="form-control" placeholder="${var}"
-                                onblur="validate('status', this, '${emptyInput}')"/>
+                           class="form-control" placeholder="${var}"
+                           onblur="validate('status', this, '${emptyInput}')"/>
                 </div>
                 <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
                     <button type="submit" id="statusBtn"
@@ -108,6 +84,8 @@
                     </button>
                 </div>
             </form>
+        </div>
+        <div class="row">
             <form onsubmit="if (validateSubmit('lastName', '${errorExist}'))
                     send('lastName', '<spring:message code="settings.lastName.success"/>')"
                   class="animated fadeInUp delay col-md-6">
@@ -127,8 +105,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-        <div class="row">
             <form onsubmit="if (validateSubmit('firstName', '${errorExist}'))
                     send('firstName', '<spring:message code="settings.firstName.success"/>')"
                   class="animated fadeInUp delay col-md-6">
@@ -138,8 +114,8 @@
                 <label class="text-center h3">${var}</label>
                 <div class="form-group" id="firstName">
                     <input type="text" name="firstName" id="firstNameInput"
-                                class="form-control" placeholder="${var}"
-                                onblur="validate('firstName', this, '${emptyInput}')"/>
+                           class="form-control" placeholder="${var}"
+                           onblur="validate('firstName', this, '${emptyInput}')"/>
                 </div>
                 <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
                     <button type="submit" id="firstNameBtn"
@@ -148,6 +124,8 @@
                     </button>
                 </div>
             </form>
+        </div>
+        <div class="row">
             <div class="animated fadeInUp delay col-md-6">
                 <hr class="colorgraph">
                 <div class="row">
@@ -161,8 +139,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="animated fadeInUp delay col-md-6">
                 <hr class="colorgraph">
                 <form enctype="multipart/form-data" method="post"
