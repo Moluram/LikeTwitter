@@ -629,3 +629,24 @@ function createPaginatioinLi(page) {
 function test(){
     console.log("TEST");
 }
+
+function send(id, message) {
+    event.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "/settings/" + id,
+        data: {
+            value: document.getElementById(id + "Input").value
+        },
+        timeout: 100000,
+        success: function () {
+            document.getElementById(id + "Btn").innerHTML = message;
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        },
+        done: function () {
+            console.log("DONE");
+        }
+    });
+}

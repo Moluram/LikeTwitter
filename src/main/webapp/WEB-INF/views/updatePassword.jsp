@@ -26,18 +26,28 @@
     <div class="mbr-section__container mbr-section__container--std-padding container text-white" style="padding-top: 100px; padding-bottom: 93px;">
         <div class="row animated fadeInUp delay">
             <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                <form:form action='/settings/change-password' cssClass="form" modelAttribute="passwords" method="POST" enctype="utf8">
+                <spring:message code="error.exist" var="errorExist"/>
+                <form:form action='/settings/change-password' cssClass="form" modelAttribute="passwords" method="POST" enctype="utf8"
+                    onsubmit="validateSubmit(['password', 'confirmPass'], '${errorExist}');">
                     <font color="white"><h1 align="center"><spring:message code="label.title.update.password"/></h1></font>
                     <hr class="colorgraph">
-                    <div class="form-group animated fadeInUp delay">
+                    <div class="form-group animated fadeInUp delay" id="passwordDiv">
+                        <spring:message code="NotEmpty.password" var="notEmptyPassword"/>
                         <spring:message code="label.user.password" var="password"/>
-                        <form:input path="password" type="password" name="password" id="password"
-                               class="form-control input-lg" placeholder="${password}" tabindex="1"/>
+                        <form:errors cssClass="alert alert-danger" path="password" element="div"/>
+                        <form:input path="password" type="password" name="password" id="passwordInput"
+                                    class="form-control input-lg" placeholder="${password}"
+                                    onblur="validate('password', this, '${notEmptyPassword}')"
+                                    tabindex="1"/>
                     </div>
-                    <div class="form-group animated fadeInUp delay">
-                        <spring:message code="label.user.matchingPassword" var="matchingPassword"/>
-                        <form:input path="matchingPassword" type="password" name="matchingPassword"
-                                    class="form-control input-lg" placeholder="${matchingPassword}" tabindex="2"/>
+                    <div class="form-group animated fadeInUp delay" id="confirmPassDiv">
+                        <spring:message code="passwords.not.matches" var="notMatchesPassword"/>
+                        <spring:message code="label.user.confirmPass" var="confirmPass"/>
+                        <form:errors cssClass="alert alert-danger" path="matchingPassword" element="div"/>
+                        <form:input path="matchingPassword" type="password" name="confirmPass" id="confirmPassInput"
+                                    class="form-control input-lg" placeholder="${confirmPass}"
+                                    onblur="validatePasswords('confirmPass', 'password', this, '${notMatchesPassword}')"
+                                    tabindex="2"/>
                     </div>
                     <form:input path="username" cssClass="hidden" value="${passwords.username}"/>
                     <hr class="colorgraph">
@@ -58,6 +68,7 @@
 <script src="${pageContext.request.contextPath}/resources/jarallax/jarallax.js"></script>
 <script src="${pageContext.request.contextPath}/resources/mobirise/js/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/formoid/formoid.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/validations.js"></script>
 
 
 </body>

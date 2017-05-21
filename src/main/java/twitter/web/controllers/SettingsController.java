@@ -11,8 +11,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import twitter.entity.User;
 import twitter.service.security.SecurityService;
-import twitter.web.dto.PasswordDto;
 import twitter.service.user.UserService;
+import twitter.service.userprofile.UserProfileService;
+import twitter.web.constants.AttributeNamesConstants;
+import twitter.web.constants.PageNamesConstants;
+import twitter.web.constants.WebConstants;
+import twitter.web.dto.PasswordDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,6 +33,12 @@ public class SettingsController {
   private MessageSource messages;
   private Environment env;
   private SecurityService securityService;
+  private UserProfileService userProfile;
+
+  @Autowired
+  public void setUserProfile(UserProfileService userProfile) {
+    this.userProfile = userProfile;
+  }
 
   @Autowired
   public void setSecurityService(SecurityService securityService) {
@@ -96,6 +106,55 @@ public class SettingsController {
     userService.changeUserPassword(userService.getUserByUsername(passwordDto.getUsername()), passwordDto.getPassword());
     return "redirect:/signin?lang=" + request.getLocale().getLanguage();
   }
+
+  @RequestMapping(method = RequestMethod.GET)
+  public String getPage() {
+    return PageNamesConstants.USER_SETTINGS;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.SETTING_USERNAME, method = RequestMethod.POST)
+  public @ResponseBody Boolean setUsername(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String username,
+                                           @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    if (userService.getUserByUsername(username) != null) {
+      return false;
+    }
+    user.setUsername(username);
+    userService.saveRegisteredUser(user);
+    return true;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.EMAIL, method = RequestMethod.POST)
+  public @ResponseBody Boolean setEmail(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String email,
+                                           @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    user.setEmail(email);
+    userService.saveRegisteredUser(user);
+    return true;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.SETTING_STATUS, method = RequestMethod.POST)
+  public @ResponseBody Boolean setStatus(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String status,
+                                         @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    user.getUserProfile().setStatus(status);
+    userProfile.updateUserProfile(user.getUserProfile());
+    return true;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.SETTING_FIRST_NAME, method = RequestMethod.POST)
+  public @ResponseBody Boolean setFirstName(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String firstName,
+                                            @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    user.getUserProfile().setFirstName(firstName);
+    userProfile.updateUserProfile(user.getUserProfile());
+    return true;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.SETTING_LAST_NAME, method = RequestMethod.POST)
+  public @ResponseBody Boolean setLastName(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String lastName,
+                                           @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    user.getUserProfile().setLastName(lastName);
+    userProfile.updateUserProfile(user.getUserProfile());
+    return true;
+  }
+
 
   private SimpleMailMessage constructResetTokenEmail(
       HttpServletRequest request, String token, User user) {

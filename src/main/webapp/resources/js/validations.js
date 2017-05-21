@@ -12,6 +12,7 @@ function notEmptyTest(id, errorDiv, inputDiv, emptyMessage) {
 function validate(id, inputDiv, emptyMessage) {
     var errorDiv = document.getElementById(id + ".errors");
     return notEmptyTest(id, errorDiv, inputDiv, emptyMessage);
+
 }
 
 function makeErrorDiv(id, message) {
@@ -82,4 +83,5 @@ function validateSubmit(arrayId, message) {
             return false;
         }
     }
+    return true;
 }

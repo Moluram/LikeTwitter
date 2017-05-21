@@ -17,4 +17,5 @@ public class PageNamesConstants {
   public static final String NEWS = "news";
   public static final String USERS="users";
   public static final String LOCKED_USER="locked";
+  public static final String USER_SETTINGS = "userSettings";
 }

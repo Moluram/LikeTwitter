@@ -1,16 +1,17 @@
 package twitter.service.userprofile;
 
-import java.util.List;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import twitter.entity.UserProfile;
 import twitter.dao.IUserProfileDAO;
+import twitter.entity.UserProfile;
+
+import java.util.List;
 
 /**
  * Created by Nikolay on 26.04.2017.
  */
-@Service("userProfileService")
+@Service
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class UserProfileServiceImpl implements UserProfileService {
 

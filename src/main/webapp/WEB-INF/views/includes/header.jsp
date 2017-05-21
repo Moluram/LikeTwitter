@@ -50,6 +50,10 @@
                                     </c:if>
                                     <li class="mbr-navbar__item"><a
                                             class="mbr-buttons__link btn text-white"
+                                            href="<c:url value="/settings"/> "><spring:message code="navbar.button.settings"/>
+                                    </a></li>
+                                    <li class="mbr-navbar__item"><a
+                                            class="mbr-buttons__link btn text-white"
                                             href="<c:url value="/about"/> "><spring:message code="navbar.button.about"/>
                                     </a></li>
                                     <li class="mbr-navbar__item"><a

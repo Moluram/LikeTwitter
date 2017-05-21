@@ -42,8 +42,7 @@
         id="form1-9">
     <div class="mbr-section__container mbr-section__container--std-padding container"
          style="padding-top: 50px; padding-bottom: 93px;">
-        <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class='row animated fadeInUp'>
                     <a class="pull-left" href="#">
                         <img class='user-photo img-circle'
@@ -62,35 +61,19 @@
                     </c:if>
                 </div>
                 <div class='row animated fadeInUp'>
-                    <p class="lead"><spring:message code="label.settings.title"/></p>
+                    <p class="lead"><spring:message code="label.information.title"/></p>
                     <div class="list-group" style="margin-right: 20px">
-                        <c:if test="${isOwner}">
                             <div class="list-group-item row">
-                                <label id="resetPasswordLabel" for="resetPassword"> <spring:message
-                                        code="label.form.title.reset"/></label>
-                                <a class="btn btn-default pull-right" id="resetPassword" onclick="resetPassword('<spring:message
-                                        code="label.form.title.reset.success"/>', '${user.username}')">
-                                    <spring:message code="label.form.reset"/>
-                                </a>
+
                             </div>
                             <div class="list-group-item row">
-                                <form enctype="multipart/form-data" method="post"
-                                      action="/${user.username}/upload-photo">
-                                    <label for="file"><spring:message code="label.settings.upload.title"/></label>
-                                    <input type="file" name="file" id="file" data-size="sm"
-                                           data-buttonBefore="true" class="btn-group-sm filestyle"
-                                           data-buttonName="btn-primary"/>
-                                    <button type="submit" class="btn btn-success pull-right"
-                                            id="uploadFile"><spring:message code="label.settings.upload.button"/>
-                                    </button>
-                                </form>
+
                             </div>
-                        </c:if>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <c:if test="${isOwner}">
                     <form:form modelAttribute="tweet" method="POST" acceptCharset="UTF-8">
                         <div class="row">
@@ -170,7 +153,7 @@
                     </div>
                 </c:forEach>
             </div>
-        </div>
+
     </div>
 </section>
 

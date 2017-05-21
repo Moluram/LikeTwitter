@@ -19,4 +19,10 @@ public class AttributeNamesConstants {
     public static final String IS_ENABLED = "isEnabled";
     public static final String TWEETS = "tweets";
     public static final String SEARCH_USERNAME = "search_username";
+  public static final String SETTINGS = "settings";
+    public static final String SETTING_FIRST_NAME = "firstName";
+    public static final String SETTING_LAST_NAME = "lastName";
+    public static final String SETTING_STATUS = "status";
+    public static final String SETTING_USERNAME = USERNAME;
+  public static final String SETTING_VALUE = "value";
 }

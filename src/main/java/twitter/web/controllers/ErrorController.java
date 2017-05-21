@@ -1,10 +1,11 @@
 package twitter.web.controllers;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import twitter.entity.User;
+import twitter.web.constants.AttributeNamesConstants;
 import twitter.web.constants.PageNamesConstants;
 import twitter.web.constants.URLConstants;
 import twitter.web.constants.WebConstants;
@@ -27,9 +28,8 @@ public class ErrorController {
   }
 
   @RequestMapping(value = WebConstants.SLASH + URLConstants.ACCESS_DENIED)
-  public String accessDenied() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    return WebConstants.REDIRECT + auth.getName();
+  public String accessDenied(@SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    return WebConstants.REDIRECT + user.getUsername();
   }
 
   @RequestMapping(value = WebConstants.SLASH + URLConstants.BAD_USER,method = RequestMethod.GET)
