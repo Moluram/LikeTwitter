@@ -57,7 +57,7 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        @${t.ownerUsername}
+                                        <a href="/${t.ownerUsername}">@${t.ownerUsername}</a>
                                     </div>
                                     <div class="col-md-10">|
                                         <span><i class="glyphicon glyphicon-calendar"></i>

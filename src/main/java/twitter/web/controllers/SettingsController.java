@@ -118,8 +118,7 @@ public class SettingsController {
     if (userService.getUserByUsername(username) != null) {
       return false;
     }
-    user.setUsername(username);
-    userService.saveRegisteredUser(user);
+    user.setUsername(username);userService.saveRegisteredUser(user);
     return true;
   }
 

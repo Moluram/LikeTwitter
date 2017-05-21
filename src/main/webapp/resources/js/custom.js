@@ -425,14 +425,14 @@ function more(username, hideButton, showButton) {
                         "<div class='media'>" +
                         "<div class='col-md-3'>" +
                         "<a class='pull-left' href='#'>" +
-                        "<img class='media-object img-rounded img-thumbnail img-responsive'" +
+                        "<img class='img-circle user-mini-photo-tweet'" +
                         "src='/files/" + data[i].photoMin + "'>" +
                         "</a>" +
                         "</div>" +
                         "<div class='col-md-9'>" +
                         "<div class='row'>" +
                         "<div class='col-md-2'>" +
-                        "@" + data[i].ownerUsername +
+                        "<a href='" + data[i].ownerUsername + "'@" + data[i].ownerUsername +
                         "</div>" +
                         "<div class='col-md-10'>|" +
                         "<span><i class='glyphicon glyphicon-calendar'></i>" +
@@ -517,7 +517,7 @@ function updateNews(username, hideButton, showButton) {
                         "<div class='col-md-9'>" +
                         "<div class='row'>" +
                         "<div class='col-md-2'>" +
-                        "@" + data[i].ownerUsername +
+                        "<a href='" + data[i].ownerUsername + "'@" + data[i].ownerUsername +
                         "</div>" +
                         "<div class='col-md-10'>|" +
                         "<span><i class='glyphicon glyphicon-calendar'></i>" +
@@ -662,10 +662,6 @@ function createPaginatioinLi(page) {
     var li = $(document.createElement("li"));
     var a = $(document.createElement("a")).attr("href", "/admin/users?page=" + page).html(page);
     return li.html(a);
-}
-
-function test() {
-    console.log("TEST");
 }
 
 function send(id, message) {

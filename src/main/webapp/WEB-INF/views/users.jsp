@@ -52,7 +52,6 @@
                 <div class="row animated fadeInUp delay tweet user-list-wrapper" id="user_${u.id}">
                     <link rel="stylesheet"
                           href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
-
                     <div class="well">
                         <div class="media">
                             <div class="col-md-2">

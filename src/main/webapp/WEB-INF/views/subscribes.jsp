@@ -51,7 +51,7 @@
                             <div class="media">
                                 <div class="col-md-3">
                                     <a class="pull-left" href="#">
-                                        <img class="media-object img-rounded img-thumbnail img-responsive"
+                                        <img class="img-circle user-mini-photo-tweet"
                                              src="/files/${t.photoMin}">
                                     </a>
                                 </div>
@@ -59,7 +59,7 @@
                                     <div class="media-body">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                @${t.username}
+                                                <a href="/${t.username}">@${t.username}</a>
 
                                             </div>
                                         </div>
