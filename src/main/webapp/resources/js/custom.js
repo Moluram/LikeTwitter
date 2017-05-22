@@ -453,7 +453,7 @@ function more(username, hideButton, showButton) {
                         "</div>" +
                         "</div>" +
 
-                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",'" + username + "')'" +
+                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",\"" + username + "\")'" +
                         "id='show-comments-btn'>" + showButton +
                         "</button>" +
                         "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
@@ -538,7 +538,7 @@ function updateNews(username, hideButton, showButton) {
                         "</div>" +
                         "</div>" +
 
-                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",'" + username + "')'" +
+                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",\"" + username + "\")'" +
                         "id='show-comments-btn'>" + showButton +
                         "</button>" +
                         "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +

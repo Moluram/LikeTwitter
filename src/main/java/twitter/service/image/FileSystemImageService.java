@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import twitter.entity.User;
 import twitter.entity.UserProfile;
-import twitter.service.storage.ImageNamingService;
 import twitter.service.storage.StorageService;
 import twitter.service.userprofile.UserProfileService;
 
@@ -38,7 +37,7 @@ public class FileSystemImageService implements ImageService {
     String originalName = file.getOriginalFilename();
     String newNameOriginal= imageNamingService.generateNewFileName(originalName,user.getUsername());
     userProfile.setPhotoUrl(newNameOriginal);
-    String newNameMini= imageNamingService.generateNewFileName(originalName,user.getUsername());
+    String newNameMini= imageNamingService.generateNewFileNameForMini(originalName,user.getUsername());
     userProfile.setMiniPhoto(newNameMini);
     storeOriginalImage(file,newNameOriginal);
     storeOriginalImage(file,newNameMini);

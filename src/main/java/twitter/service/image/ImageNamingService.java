@@ -1,4 +1,4 @@
-package twitter.service.storage;
+package twitter.service.image;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import twitter.service.storage.StorageProperties;
 
 /**
  * Created by Nikolay on 17.04.2017.
@@ -25,6 +26,10 @@ public class ImageNamingService {
 
   public String generateNewFileName(String originalName,String username){
     return genarateUniqueFileName(username)+"."+getFileFormat(originalName);
+  }
+
+  public String generateNewFileNameForMini(String originalName,String username){
+    return genarateUniqueFileName(username)+"-mini."+getFileFormat(originalName);
   }
 
   public String getFileFormat(String fileName){

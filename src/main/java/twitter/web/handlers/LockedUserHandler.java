@@ -1,5 +1,6 @@
 package twitter.web.handlers;
 
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -23,6 +24,10 @@ public class LockedUserHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                         AuthenticationException e) throws IOException, ServletException {
-        redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/locked");
+        if(e instanceof LockedException) {
+            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/locked");
+        }else{
+            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/signin");
+        }
     }
 }
