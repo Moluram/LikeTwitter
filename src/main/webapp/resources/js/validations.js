@@ -77,7 +77,7 @@ function validatePasswords(id, passId, inputDiv, message) {
 
 function validateSubmit(arrayId, message) {
     for (var i in arrayId) {
-        if (document.getElementById(arrayId[i] + ".errors")) {
+        if (document.getElementById(arrayId[i] + ".errors") || document.getElementById(arrayId[i] + "Input").value == "") {
             event.preventDefault();
             alert(message);
             return false;

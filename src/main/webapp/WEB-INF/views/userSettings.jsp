@@ -72,7 +72,7 @@
                 <spring:message code="NotEmpty.String" var="emptyInput"/>
                 <spring:message code="label.user.status" var="var"/>
                 <label class="text-center h3">${var}</label>
-                <div class="form-group" id="status">
+                <div class="form-group" id="statusDiv">
                     <input type="text" id="statusInput"
                            class="form-control" placeholder="${var}"
                            onblur="validate('status', this, '${emptyInput}')"/>
@@ -93,7 +93,7 @@
                 <spring:message code="NotEmpty.String" var="emptyInput"/>
                 <spring:message code="label.user.lastName" var="var"/>
                 <label class="text-center h3">${var}</label>
-                <div class="form-group" id="lastName">
+                <div class="form-group" id="lastNameDiv">
                     <input type="text" id="lastNameInput"
                                 class="form-control" placeholder="${var}"
                                 onblur="validate('lastName', this, '${emptyInput}')"/>
@@ -112,7 +112,7 @@
                 <spring:message code="NotEmpty.String" var="emptyInput"/>
                 <spring:message code="label.user.firstName" var="var"/>
                 <label class="text-center h3">${var}</label>
-                <div class="form-group" id="firstName">
+                <div class="form-group" id="firstNameDiv">
                     <input type="text" name="firstName" id="firstNameInput"
                            class="form-control" placeholder="${var}"
                            onblur="validate('firstName', this, '${emptyInput}')"/>

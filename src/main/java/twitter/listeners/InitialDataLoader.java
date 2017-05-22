@@ -10,13 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import twitter.constants.InitialPhotoSettings;
+import twitter.constants.RolesAndPrivileges;
+import twitter.dao.IUserProfileDAO;
 import twitter.entity.Privilege;
 import twitter.entity.Role;
 import twitter.entity.User;
 import twitter.entity.UserProfile;
-import twitter.constants.InitialPhotoSettings;
-import twitter.constants.RolesAndPrivileges;
-import twitter.dao.IUserProfileDAO;
 import twitter.service.image.ImageService;
 import twitter.service.privilage.PrivilegeService;
 import twitter.service.role.RoleService;
@@ -82,13 +82,10 @@ public class InitialDataLoader implements
         if (alreadySetup) {
             return;
         }
-        Privilege readPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.READ_PRIVILEGE);
-        Privilege changePasswordPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.CHANGE_PASSWORD_PRIVILEGE);
-        Privilege writePrivilege = createPrivilegeIfNotFound(RolesAndPrivileges.WRITE_PRIVILEGE);
         Privilege viewPagesPrivilege = createPrivilegeIfNotFound(RolesAndPrivileges
                 .VIEW_PAGES_PRIVILEGE);
         List<Privilege> userPrivileges = Arrays
-                .asList(readPrivilege, writePrivilege, viewPagesPrivilege, changePasswordPrivilege);
+                .asList(viewPagesPrivilege);
         createRoleIfNotFound(RolesAndPrivileges.ROLE_ADMIN, userPrivileges);
         createRoleIfNotFound(RolesAndPrivileges.ROLE_USER, userPrivileges);
         createAdminIfNotExists();

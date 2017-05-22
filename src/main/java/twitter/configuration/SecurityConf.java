@@ -74,7 +74,6 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
                 .successForwardUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
-                //.failureUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
                 .failureHandler(lockedUserHandler)
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
