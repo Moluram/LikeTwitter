@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
                 console.log("SUCCESS: ", data);
                 form[0].reset();
                 hideComments(data.tweetId);
-                loadComments(data.tweetId);
+                loadComments(data.tweetId,data.publisher);
                 form.find("button").prop("disabled", true);
             },
             error: function (e) {
