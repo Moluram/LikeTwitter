@@ -5,9 +5,6 @@ package twitter.constants;
  */
 public class RolesAndPrivileges {
   public static final String VIEW_PAGES_PRIVILEGE = "VIEW_PAGES_PRIVILEGE";
-  public static final String WRITE_PRIVILEGE = "WRITE_PRIVILEGE";
-  public static final String READ_PRIVILEGE = "READ_PRIVILEGE";
   public static final String ROLE_ADMIN = "ROLE_ADMIN";
   public static final String ROLE_USER = "ROLE_USER";
-  public static final String CHANGE_PASSWORD_PRIVILEGE = "CHANGE_PASSWORD_PRIVILEGE";
 }
