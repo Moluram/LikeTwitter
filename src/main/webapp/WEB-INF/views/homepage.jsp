@@ -45,10 +45,10 @@
             <div class="col-md-4">
                 <div class='row animated fadeInUp'>
                     <a class="pull-left" href="#">
-                        <img class='user-photo img-circle'
+                        <img class='user-mini-photo-tweet img-circle'
                              src='/files/${owner.photoMin}'/>
                     </a>
-                    <h2>@${owner.username}</h2>
+                    <a class="h2" href="/${owner.username}">@${owner.username}</a>
                     <c:if test="${!isOwner}">
                         <button id="subscribe${owner.username}" onclick="subscribe('${owner.username}')"
                                 class="btn btn-success <c:if test="${isSubscribes}"> hidden </c:if>  pull-left">
@@ -63,12 +63,24 @@
                 <div class='row animated fadeInUp'>
                     <p class="lead"><spring:message code="label.information.title"/></p>
                     <div class="list-group" style="margin-right: 20px">
+                        <c:if test="${profile.status!=''}">
                             <div class="list-group-item row">
-
+                                <label class="h4"><spring:message code="label.user.status"/></label>
+                                <label>${profile.status}</label>
                             </div>
+                        </c:if>
+                        <c:if test="${profile.firstName!=''}">
                             <div class="list-group-item row">
-
+                                <label class="h4"><spring:message code="label.user.firstName"/></label>
+                                <label>${profile.firstName}</label>
                             </div>
+                        </c:if>
+                        <c:if test="${profile.lastName!=''}">
+                            <div class="list-group-item row">
+                                <label class="h4"><spring:message code="label.user.lastName"/></label> :
+                                <label>${profile.lastName}</label>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -102,14 +114,14 @@
                             <div class="media">
                                 <div class="col-md-3">
                                     <a class="pull-left" href="#">
-                                    <img class="user-photo img-circle"
+                                    <img class="user-mini-photo-tweet img-circle"
                                          src="/files/${t.photoMin}">
                                 </a>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">
                                         <div class="col-md-2">
-                                            @${t.ownerUsername}
+                                            <a href="/${t.ownerUsername}">@${t.ownerUsername}</a>
                                         </div>
                                         <div class="col-md-10">|
                                             <span><i class="glyphicon glyphicon-calendar"></i>

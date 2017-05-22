@@ -17,6 +17,7 @@ import twitter.service.subscribe.SubscribeService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
 import twitter.web.constants.AttributeNamesConstants;
+import twitter.web.dto.ProfileDto;
 import twitter.web.dto.TweetDto;
 import twitter.web.dto.UserDto;
 
@@ -86,6 +87,7 @@ public class UserController {
     }
 
     session.setAttribute(AttributeNamesConstants.IS_ENABLED, sessionUser.isEnabled());
+    model.addObject("profile", new ProfileDto(user.getUserProfile()));
     model.addObject("tweets", listOfDto(tweet_service.getUserTweets(username), user));
     model.setViewName("homepage");
     return model;

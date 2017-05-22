@@ -43,41 +43,40 @@
         </div>
         <hr class="colorgraph">
         <div class="row">
-                <c:forEach items="${users}" var="t">
-                    <div id="${t.username}" class="row animated fadeInUp delay">
-                        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
+            <c:forEach items="${users}" var="t">
+                <div id="${t.username}" class="row animated fadeInUp delay">
+                    <link rel="stylesheet"
+                          href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
+                    <div class="well">
+                        <div class="media">
+                            <div class="col-md-3">
+                                <a class="pull-left" href="#">
+                                    <img class="img-circle user-mini-photo-tweet"
+                                         src="/files/${t.photoMin}">
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <a href="/${t.username}">@${t.username}</a>
 
-                        <div class="well">
-                            <div class="media">
-                                <div class="col-md-3">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object img-rounded img-thumbnail img-responsive"
-                                             src="/files/${t.photoMin}">
-                                    </a>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="media-body">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                @${t.username}
-
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                        <button onclick="unsubscribe('${t.username}', '<c:url value="subscribe/${t.username}"/>')" class="btn btn-default pull-left">
-                                            <spring:message code="label.button.unsubscribe"/>
-                                        </button>
-                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                    <button onclick="unsubscribe('${t.username}', '<c:url value="subscribe/${t.username}"/>')" class="btn btn-default pull-left">
+                                        <spring:message code="label.button.unsubscribe"/>
+                                    </button>
                             </div>
                         </div>
                     </div>
-                </c:forEach>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </section>
-
 
 <script src="${pageContext.request.contextPath}/resources/web/assets/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>

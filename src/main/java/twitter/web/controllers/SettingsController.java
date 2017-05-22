@@ -112,17 +112,6 @@ public class SettingsController {
     return PageNamesConstants.USER_SETTINGS;
   }
 
-  @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.SETTING_USERNAME, method = RequestMethod.POST)
-  public @ResponseBody Boolean setUsername(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String username,
-                                           @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
-    if (userService.getUserByUsername(username) != null) {
-      return false;
-    }
-    user.setUsername(username);
-    userService.saveRegisteredUser(user);
-    return true;
-  }
-
   @RequestMapping(value = WebConstants.SLASH + AttributeNamesConstants.EMAIL, method = RequestMethod.POST)
   public @ResponseBody Boolean setEmail(@RequestParam(AttributeNamesConstants.SETTING_VALUE) String email,
                                            @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
