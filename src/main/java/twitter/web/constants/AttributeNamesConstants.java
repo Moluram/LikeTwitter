@@ -25,4 +25,5 @@ public class AttributeNamesConstants {
     public static final String SETTING_STATUS = "status";
     public static final String SETTING_USERNAME = USERNAME;
   public static final String SETTING_VALUE = "value";
+  public static final String PROFILE = "profile";
 }

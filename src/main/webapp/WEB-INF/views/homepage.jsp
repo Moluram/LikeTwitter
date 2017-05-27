@@ -50,16 +50,13 @@
                     </a>
                     <a class="h2" href="/${owner.username}">@${owner.username}</a>
                     <c:if test="${!isOwner}">
-                        <button id="unsubscribe${owner.username}" onclick="subscribe('${owner.username}')"
+                        <button id="subscribe${owner.username}" onclick="subscribe('${owner.username}')"
                                 class="btn btn-default pull-left">
-                        <c:choose>
-                            <c:when test="${isSubscribes}">
-                                <spring:message code="label.button.unsubscribe"/>
-                            </c:when>
-                            <c:otherwise>
-                                <spring:message code="label.button.subscribe"/>
-                            </c:otherwise>
-                        </c:choose>
+                            <spring:message code="label.button.subscribe"/>
+                        </button>
+                        <button id="unsubscribe${owner.username}" onclick="subscribe('${owner.username}')"
+                                class="btn btn-default pull-left hidden">
+                            <spring:message code="label.button.unsubscribe"/>
                         </button>
                     </c:if>
                 </div>

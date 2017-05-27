@@ -34,9 +34,9 @@
     <div class="mbr-section__container mbr-section__container--std-padding container" style="padding-top: 50px; padding-bottom: 93px;">
         <div class="row text-center">
             <h2><spring:message code="title.news"/></h2>
-            <button onclick="updateNews('${sessionScope.get('user').getUsername()}', '<spring:message code="label.button.comments.hide"/>',
+            <a onclick="updateNews('${sessionScope.get('user').getUsername()}', '<spring:message code="label.button.comments.hide"/>',
             '<spring:message code="label.button.comments.show"/>')" class="mbr-buttons__link btn btn-default text-white">
-            <spring:message code="button.news.update"/></button>
+            <spring:message code="button.news.update"/></a>
         </div>
         <hr class="colorgraph">
         <div class="row" id="news" >
@@ -103,9 +103,9 @@
             </c:forEach>
         </div>
         <div class="row text-center">
-            <button onclick="more('${sessionScope.get('user').getUsername()}', '<spring:message code="label.button.comments.hide"/>',
+            <a onclick="more('${sessionScope.get('user').getUsername()}', '<spring:message code="label.button.comments.hide"/>',
                     '<spring:message code="label.button.comments.show"/>')" class="mbr-buttons__link btn btn-default text-white">
-                <spring:message code="button.news.more"/></button>
+                <spring:message code="button.news.more"/></a>
         </div>
     </div>
 </section>

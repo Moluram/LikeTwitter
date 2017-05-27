@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
                 console.log("SUCCESS: ", data);
                 form[0].reset();
                 hideComments(data.tweetId);
-                loadComments(data.tweetId,data.publisher);
+                loadComments(data.tweetId,data.author);
                 form.find("button").prop("disabled", true);
             },
             error: function (e) {
@@ -364,7 +364,7 @@ function resetPassword(message, username) {
             timeout: 100000,
             success: function insertComments(answer) {
                 if (answer) {
-                    document.getElementById("resetPasswordLabel").textContent = message;
+                    document.getElementById("resetPassword").textContent = message;
                 }
             },
             error: function (e) {
@@ -407,7 +407,6 @@ function postUsername(messageTrue, messageFalse) {
 var pageNumber = 0;
 function more(username, hideButton, showButton) {
     jQuery(document).ready(function ($) {
-        pageNumber += 1;
         $.ajax({
             type: "GET",
             url: "/news/get",
@@ -417,66 +416,73 @@ function more(username, hideButton, showButton) {
             timeout: 100000,
             success: function insertTweets(data) {
                 var text = document.getElementById("news");
-                for (var i in data) {
-                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id + "'>" +
-                        "<link rel='stylesheet'" +
-                        "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
-                        "<div class='well'>" +
-                        "<div class='media'>" +
-                        "<div class='col-md-3'>" +
-                        "<a class='pull-left' href='#'>" +
-                        "<img class='img-circle user-mini-photo-tweet'" +
-                        "src='/files/" + data[i].photoMin + "'>" +
-                        "</a>" +
-                        "</div>" +
-                        "<div class='col-md-9'>" +
-                        "<div class='row'>" +
-                        "<div class='col-md-2'>" +
-                        "<a href='" + data[i].ownerUsername + "'@" + data[i].ownerUsername +
-                        "</div>" +
-                        "<div class='col-md-10'>|" +
-                        "<span><i class='glyphicon glyphicon-calendar'></i>" +
-                        data[i] +
-                        "</span>" +
-                        "</div>" +
-                        "</div>" +
-                        "<div class='row'>" +
-                        data[i].text +
-                        "</div>" +
-                        "<div class='row'>" +
-                        "<button class='btn btn-sm btn-success'" +
-                        "onclick='like(" + data[i].id + ",'" + username + "')'>" +
-                        "<span id='likes${data[i].id}' class='glyphicon glyphicon-thumbs-up'>" +
-                        data[i].numberOfLikes +
-                        "</span>" +
-                        "</button>" +
-                        "</div>" +
-                        "</div>" +
+                var tweets = data;
+                if (tweets.length !== 0) {
+                    pageNumber += 1;
+                    for (var i in tweets) {
+                            text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + tweets[i].id + "'>" +
+                                "<link rel='stylesheet'" +
+                                "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
+                                "<div class='well'>" +
+                                "<div class='media'>" +
+                                "<div class='col-md-3'>" +
+                                "<a class='pull-left' href='#'>" +
+                                "<img class='user-mini-photo-tweet img-circle'" +
+                                "src='/files/" + tweets[i].photoMin + "'>" +
+                                "</a>" +
+                                "</div>" +
+                                "<div class='col-md-9'>" +
+                                "<div class='row'>" +
+                                "<div class='col-md-2'>" +
+                                "<a href='" + tweets[i].ownerUsername + "'>@" + tweets[i].ownerUsername + "</a>" +
+                                "</div>" +
+                                "<div class='col-md-10'>|" +
+                                "<span><i class='glyphicon glyphicon-calendar'></i>" +
+                                 date.getFullYear() + "." +  date.getMonth() + "." +  date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
+                                "</span>" +
+                                "</div>" +
+                                "</div>" +
+                                "<div class='row'>" +
+                                tweets[i].text +
+                                "</div>" +
+                                "<div class='row'>" +
+                                "<button class='btn btn-sm btn-success'" +
+                                "onclick='like(" + tweets[i].id + ",'" + username + "')'>" +
+                                "<span id='likes" + tweets[i].id + "' class='glyphicon glyphicon-thumbs-up'>" +
+                                tweets[i].numberOfLikes +
+                                "</span>" +
+                                "</button>" +
+                                "</div>" +
+                                "</div>" +
 
-                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",\"" + username + "\")'" +
-                        "id='show-comments-btn'>" + showButton +
-                        "</button>" +
-                        "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
-                        "id='hide-comments-btn'>" + hideButton +
-                        "</button>" +
-                        "<div class='row'></div>" +
-                        "<div id='comments'></div>" +
-                        "<div class='add-new-comment'>" +
-                        "<form action='/comments' method='POST'" +
-                        "class='add-comment-form hidden'>" +
-                        "<input type='text' name='text' placeholder='Input comment'" +
-                        "class='new-comment-text' autocomplete='off'>" +
-                        "<input type='hidden' name='author' value='" + username + "'>" +
-                        "<input type='hidden' name='tweetId' value='" + data[i].id + "'>" +
-                        "<input type='hidden' name='parentId' value=''>" +
-                        "<button type='submit' class='btn btn-success'>Add</button>" +
-                        "</form>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>"
+                                "<button class='btn btn-default' onclick='loadComments(" + tweets[i].id + ",\"" + username + "\")'" +
+                                "id='show-comments-btn'>" + showButton +
+                                "</button>" +
+                                "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
+                                "id='hide-comments-btn'>" + hideButton +
+                                "</button>" +
+                                "<div class='row'></div>" +
+                                "<div id='comments'></div>" +
+                                "<div class='add-new-comment'>" +
+                                "<form action='/comments' method='POST'" +
+                                "class='add-comment-form hidden'>" +
+                                "<input type='text' name='text' placeholder='Input comment'" +
+                                "class='new-comment-text' autocomplete='off'>" +
+                                "<input type='hidden' name='author' value='" + username + "'>" +
+                                "<input type='hidden' name='tweetId' value='" + data[i].id + "'>" +
+                                "<input type='hidden' name='parentId' value=''>" +
+                                "<button type='submit' class='btn btn-success'>Add</button>" +
+                                "</form>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>"
+                        }
+                } else {
+                    if (!document.getElementById('nothingToShow')) {
+                        text.innerHTML += "<h3 id='nothingToShow' class='text-center'>Nothing to show!</h3>";
+                    }
                 }
-                ;
 
             },
             error: function (e) {
@@ -499,69 +505,74 @@ function updateNews(username, hideButton, showButton) {
                 'page': pageNumber
             },
             timeout: 100000,
-            success: function insertComments(data) {
+            success: function insertComments(tweets) {
                 var text = document.getElementById("news");
                 text.innerHTML = "";
-                for (var i in data) {
-                    text.innerHTML += "<div class='row animated fadeInUp delay tweet' id='tweet_" + data[i].id + "'>" +
-                        "<link rel='stylesheet'" +
-                        "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
-                        "<div class='well'>" +
-                        "<div class='media'>" +
-                        "<div class='col-md-3'>" +
-                        "<a class='pull-left' href='#'>" +
-                        "<img class='media-object img-rounded img-thumbnail img-responsive'" +
-                        "src='/files/" + data[i].photoOwner + "'>" +
-                        "</a>" +
-                        "</div>" +
-                        "<div class='col-md-9'>" +
-                        "<div class='row'>" +
-                        "<div class='col-md-2'>" +
-                        "<a href='" + data[i].ownerUsername + "'@" + data[i].ownerUsername +
-                        "</div>" +
-                        "<div class='col-md-10'>|" +
-                        "<span><i class='glyphicon glyphicon-calendar'></i>" +
-                        data[i] +
-                        "</span>" +
-                        "</div>" +
-                        "</div>" +
-                        "<div class='row'>" +
-                        data[i].text +
-                        "</div>" +
-                        "<div class='row'>" +
-                        "<button class='btn btn-sm btn-success'" +
-                        "onclick='like(" + data[i].id + ",'" + username + "')'>" +
-                        "<span id='likes${data[i].id}' class='glyphicon glyphicon-thumbs-up'>" +
-                        data[i].numberOfLikes +
-                        "</span>" +
-                        "</button>" +
-                        "</div>" +
-                        "</div>" +
+                if (tweets.length !== 0) {
+                    for (var i in tweets) {
+                        var date = new Date(tweets[i].date);
+                        text.innerHTML +=
+                            "<div class='row animated fadeInUp delay tweet' id='tweet_" + tweets[i].id + "'>" +
+                                "<link rel='stylesheet'" +
+                                    "href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>" +
+                                "<div class='well'>" +
+                                    "<div class='media'>" +
+                                        "<div class='col-md-3'>" +
+                                            "<a class='pull-left' href='#'>" +
+                                                "<img class='user-mini-photo-tweet img-circle'" +
+                                                "src='/files/" + tweets[i].photoMin + "'>" +
+                                            "</a>" +
+                                        "</div>" +
+                                        "<div class='col-md-9'>" +
+                                            "<div class='row'>" +
+                                                "<div class='col-md-2'>" +
+                                                    "<a href='/" + tweets[i].ownerUsername + "'>@" + tweets[i].ownerUsername + "</a>" +
+                                                "</div>" +
+                                            "<div class='col-md-10'>|" +
+                                                "<span><i class='glyphicon glyphicon-calendar'></i>" +
+                                                date.getFullYear() + "." +  date.getMonth() + "." +  date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
+                                                "</span>" +
+                                            "</div>" +
+                                        "</div>" +
+                                        "<div class='row'>" +
+                                            tweets[i].text +
+                                        "</div>" +
+                                        "<div class='row'>" +
+                                            "<button class='btn btn-sm btn-success'" +
+                                            "onclick='like(" + tweets[i].id + ",'" + username + "')'>" +
+                                            "<span id='likes" + tweets[i].id + "' class='glyphicon glyphicon-thumbs-up'>" +
+                                            tweets[i].numberOfLikes +
+                                            "</span>" +
+                                            "</button>" +
+                                            "</div>" +
+                                        "</div>" +
 
-                        "<button class='btn btn-default' onclick='loadComments(" + data[i].id + ",\"" + username + "\")'" +
-                        "id='show-comments-btn'>" + showButton +
-                        "</button>" +
-                        "<button class='btn btn-default hidden' onclick='hideComments(" + data[i].id + ")'" +
-                        "id='hide-comments-btn'>" + hideButton +
-                        "</button>" +
-                        "<div class='row'></div>" +
-                        "<div id='comments'></div>" +
-                        "<div class='add-new-comment'>" +
-                        "<form action='/comments' method='POST'" +
-                        "class='add-comment-form hidden'>" +
-                        "<input type='text' name='text' placeholder='Input comment'" +
-                        "class='new-comment-text' autocomplete='off'>" +
-                        "<input type='hidden' name='author' value='" + username + "'>" +
-                        "<input type='hidden' name='tweetId' value='" + data[i].id + "'>" +
-                        "<input type='hidden' name='parentId' value=''>" +
-                        "<button type='submit' class='btn btn-success'>Add</button>" +
-                        "</form>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>"
+                                        "<button class='btn btn-default' onclick='loadComments(" + tweets[i].id + ",\"" + username + "\")'" +
+                                        "id='show-comments-btn'>" + showButton +
+                                        "</button>" +
+                                        "<button class='btn btn-default hidden' onclick='hideComments(" + tweets[i].id + ")'" +
+                                        "id='hide-comments-btn'>" + hideButton +
+                                        "</button>" +
+                                        "<div class='row'></div>" +
+                                        "<div id='comments'></div>" +
+                                        "<div class='add-new-comment'>" +
+                                        "<form action='/comments' method='POST'" +
+                                        "class='add-comment-form hidden'>" +
+                                        "<input type='text' name='text' placeholder='Input comment'" +
+                                        "class='new-comment-text' autocomplete='off'>" +
+                                        "<input type='hidden' name='author' value='" + username + "'>" +
+                                        "<input type='hidden' name='tweetId' value='" + tweets[i].id + "'>" +
+                                        "<input type='hidden' name='parentId' value=''>" +
+                                        "<button type='submit' class='btn btn-success'>Add</button>" +
+                                        "</form>" +
+                                        "</div>" +
+                                    "</div>" +
+                                "</div>" +
+                            "</div>"
+                    }
+                } else {
+                  text.innerHTML = "<h3 class='text-center'>Nothing to show!</h3>"
                 }
-                ;
 
             },
             error: function (e) {

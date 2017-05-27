@@ -32,7 +32,11 @@
                         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                             <spring:message code="error.exist" var="errorExist"/>
                             <form name="f" onsubmit="validateSubmit(['password', 'username'], '${errorExist}');" method="POST" href="<c:url value="/signin"/>" role="form">
-                                <h1>${error}</h1>
+                                <c:if test="hasError">
+                                    <div class="alert alert-danger alert-dismissable">
+                                        ${error}
+                                    </div>
+                                </c:if>
                                 <font color="white"><h1 align="center"><spring:message code="label.signin.title"/></h1></font>
                                 <hr class="colorgraph">
                                 <div class="form-group animated fadeInUp delay" id="usernameDiv">

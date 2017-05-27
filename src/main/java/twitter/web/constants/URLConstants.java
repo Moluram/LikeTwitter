@@ -21,4 +21,5 @@ public class URLConstants {
   public static final String GET_NEWS = "get";
   public static final String SEARCH = "search";
   public static final String TEST_USERNAME = "test-username";
+  public static final String CHANGE_PASSWORD = "change-password";
 }

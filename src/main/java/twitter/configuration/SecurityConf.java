@@ -63,7 +63,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
                 .disable();
 
         http.authorizeRequests()
-                .antMatchers("/resources/**", "/about", "/contact", "/settings/**", "/locked",
+                .antMatchers("/resources/**", "/about", "/contact", "/settings" +  WebConstants.SLASH + URLConstants.CHANGE_PASSWORD,
+                    "/locked",
                         WebConstants.SLASH + URLConstants.SIGNUP_PAGE + WebConstants.SLASH + "**").permitAll()
                 .antMatchers(WebConstants.SLASH + URLConstants.SIGNIN_PAGE,
                         WebConstants.SLASH, WebConstants.SLASH + URLConstants.SIGNUP_PAGE).anonymous()
@@ -73,7 +74,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 
         http.formLogin()
                 .loginPage(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
-                .successForwardUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)
+                .successForwardUrl(WebConstants.SLASH +     URLConstants.SIGNIN_PAGE)
                 .failureHandler(lockedUserHandler)
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl(WebConstants.SLASH + URLConstants.SIGNIN_PAGE)

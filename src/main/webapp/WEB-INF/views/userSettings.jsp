@@ -41,98 +41,59 @@
         <div class="row text-center">
             <h2><spring:message code="title.settings"/></h2>
         </div>
-        <div class="row">
+        <%boolean row = true;%>
+        <c:forEach items="${settings}" var="setting">
+            <c:if test="<%=row%>">
+                <div class="row">
+            </c:if>
             <spring:message code="error.exist" var="errorExist"/>
-            <form onsubmit="if (validateSubmit('email', '${errorExist}'))
-                    send('email', '<spring:message code="settings.email.success"/>')"
-                  class="animated fadeInUp delay col-md-6">
+            <div class="animated fadeInUp delay col-md-6">
                 <hr class="colorgraph">
-                <spring:message code="email.not.valid" var="notValidEmail"/>
-                <spring:message code="NotEmpty.email" var="notEmptyEmail"/>
-                <spring:message code="label.user.email" var="email"/>
-                <label class="text-center h3">${email}</label>
-                <div class="form-group animated fadeInUp delay" id="emailDiv">
-                    <input type="text" name="email" id="emailInput"
-                                class="form-control" placeholder="${email}"
-                                onblur="if (validate('email', this, '${notEmptyEmail}')) {
-                                                 validateEmail('email', this, '${notValidEmail}') }"
-                                tabindex="2"/>
+                <c:if test="${setting == 'email'}">
+                    <spring:message code="email.not.valid" var="notValidEmail"/>
+                </c:if>
+                <spring:message code="NotEmpty.commentDto.text" var="notEmptySetting"/>
+                <spring:message code="label.user.${setting.id}" var="${setting.id}Label"/>
+                <label class="text-center h3">
+                    <spring:message code="label.user.${setting.id}"/></label>
+                <div class="form-group animated fadeInUp delay" id="${setting.id}Div">
+                    <input type="text" name="${setting.id}" id="${setting.id}Input"
+                           class="form-control" placeholder="<spring:message code="label.user.${setting.id}"/>"
+                           onblur="if (validate('${setting.id}', this, '${notEmptySetting}')) {
+                               <c:if test="${setting == 'email'}">
+                                   validateEmail('${setting.id}', this, '${notValidEmail}');
+                               </c:if>
+                           }" value="${setting.value}" tabindex="2"/>
                 </div>
                 <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
-                    <button type="submit" id="emailBtn"
+                    <button id="${setting.id}Btn" onclick="if (validateSubmit(['${setting.id}'], '${errorExist}')) {
+                            send('${setting.id}', '<spring:message code="settings.${setting.id}.success"/>');}"
                             class="btn btn-success animated fadeInUp delay" tabindex="5">
                         <spring:message code="label.form.submit"/>
                     </button>
                 </div>
-            </form>
-            <form onsubmit="if (validateSubmit('status', '${errorExist}'))
-                    send('status', '<spring:message code="settings.status.success"/>')"
-                  class="animated fadeInUp delay col-md-6">
-                <hr class="colorgraph">
-                <spring:message code="NotEmpty.String" var="emptyInput"/>
-                <spring:message code="label.user.status" var="var"/>
-                <label class="text-center h3">${var}</label>
-                <div class="form-group" id="statusDiv">
-                    <input type="text" id="statusInput"
-                           class="form-control" placeholder="${var}"
-                           onblur="validate('status', this, '${emptyInput}')"/>
-                </div>
-                <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
-                    <button type="submit" id="statusBtn"
-                            class="btn btn-success animated fadeInUp delay" tabindex="5">
-                        <spring:message code="label.form.submit"/>
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <form onsubmit="if (validateSubmit('lastName', '${errorExist}'))
-                    send('lastName', '<spring:message code="settings.lastName.success"/>')"
-                  class="animated fadeInUp delay col-md-6">
-                <hr class="colorgraph">
-                <spring:message code="NotEmpty.String" var="emptyInput"/>
-                <spring:message code="label.user.lastName" var="var"/>
-                <label class="text-center h3">${var}</label>
-                <div class="form-group" id="lastNameDiv">
-                    <input type="text" id="lastNameInput"
-                                class="form-control" placeholder="${var}"
-                                onblur="validate('lastName', this, '${emptyInput}')"/>
-                </div>
-                <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
-                    <button type="submit" id="lastNameBtn"
-                            class="btn btn-success animated fadeInUp delay" tabindex="5">
-                        <spring:message code="label.form.submit"/>
-                    </button>
-                </div>
-            </form>
-            <form onsubmit="if (validateSubmit('firstName', '${errorExist}'))
-                    send('firstName', '<spring:message code="settings.firstName.success"/>')"
-                  class="animated fadeInUp delay col-md-6">
-                <hr class="colorgraph">
-                <spring:message code="NotEmpty.String" var="emptyInput"/>
-                <spring:message code="label.user.firstName" var="var"/>
-                <label class="text-center h3">${var}</label>
-                <div class="form-group" id="firstNameDiv">
-                    <input type="text" name="firstName" id="firstNameInput"
-                           class="form-control" placeholder="${var}"
-                           onblur="validate('firstName', this, '${emptyInput}')"/>
-                </div>
-                <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
-                    <button type="submit" id="firstNameBtn"
-                            class="btn btn-success animated fadeInUp delay" tabindex="5">
-                        <spring:message code="label.form.submit"/>
-                    </button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <c:choose>
+                <c:when test="<%=row%>">
+                    <%row = false;%>
+                </c:when>
+                <c:otherwise>
+                    </div>
+                    <%row = true;%>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="<%=!row%>">
+            </div>
+        </c:if>
         <div class="row">
             <div class="animated fadeInUp delay col-md-6">
                 <hr class="colorgraph">
-                <div class="row">
+                <div class="form-group animated fadeInUp delay">
                     <label id="resetPasswordLabel" class="h3" for="resetPassword"> <spring:message
                             code="label.form.title.reset"/></label>
                 </div>
-                <div class="row">
+                <div class="row mbr-buttons btn-inverse mbr-buttons--left ">
                     <a class="btn btn btn-success" id="resetPassword" onclick="resetPassword('<spring:message
                             code="label.form.title.reset.success"/>', '${user.username}')">
                         <spring:message code="label.form.reset"/>

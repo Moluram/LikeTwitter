@@ -15,11 +15,14 @@ import twitter.service.user.UserService;
 import twitter.service.userprofile.UserProfileService;
 import twitter.web.constants.AttributeNamesConstants;
 import twitter.web.constants.PageNamesConstants;
+import twitter.web.constants.URLConstants;
 import twitter.web.constants.WebConstants;
 import twitter.web.dto.PasswordDto;
+import twitter.web.dto.SettingDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -82,7 +85,7 @@ public class SettingsController {
     return true;
   }
 
-  @RequestMapping(value = "/change-password", method = RequestMethod.GET)
+  @RequestMapping(value =  WebConstants.SLASH + URLConstants.CHANGE_PASSWORD, method = RequestMethod.GET)
   public String changePassword(HttpServletRequest request, @RequestParam("id") long id,
                                @RequestParam("token") String token, Model model,
                                @RequestParam("username") String username) {
@@ -96,7 +99,7 @@ public class SettingsController {
     return "updatePassword";
   }
 
-  @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.CHANGE_PASSWORD, method = RequestMethod.POST)
   public String changePassword(@ModelAttribute("passwords") @Valid PasswordDto passwordDto, BindingResult result,
       HttpServletRequest request, Model model) {
     if (result.hasErrors()) {
@@ -108,7 +111,13 @@ public class SettingsController {
   }
 
   @RequestMapping(method = RequestMethod.GET)
-  public String getPage() {
+  public String getPage(Model model, @SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    model.addAttribute(AttributeNamesConstants.PROFILE, user.getUserProfile());
+    model.addAttribute(AttributeNamesConstants.SETTINGS, Arrays.asList(
+        new SettingDto(AttributeNamesConstants.EMAIL, user.getEmail()),
+        new SettingDto(AttributeNamesConstants.SETTING_STATUS, user.getUserProfile().getStatus()),
+        new SettingDto(AttributeNamesConstants.SETTING_FIRST_NAME, user.getUserProfile().getFirstName()),
+        new SettingDto(AttributeNamesConstants.SETTING_LAST_NAME, user.getUserProfile().getLastName())));
     return PageNamesConstants.USER_SETTINGS;
   }
 
@@ -144,13 +153,18 @@ public class SettingsController {
     return true;
   }
 
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.TEST_USERNAME, method = RequestMethod.GET)
+  public @ResponseBody Boolean testUsername(@RequestParam(AttributeNamesConstants.USERNAME) String username) {
+    return userService.getUserByUsername(username) == null;
+  }
+
 
   private SimpleMailMessage constructResetTokenEmail(
       HttpServletRequest request, String token, User user) {
     String url = "http://" + request.getServerName() + ':' + request.getServerPort() + request.getContextPath()
         + "/settings/change-password?id=" + user.getId() + "&token=" + token + "&username=" + user.getUsername();
     String message = messages.getMessage("message.resetPassword",null, request.getLocale());
-    return constructEmail("Reset Password", message + " \r\n" + url, user);
+    return constructEmail("Reset Password", message + " \r\n " + url, user);
   }
 
   private SimpleMailMessage constructEmail(String subject, String body,

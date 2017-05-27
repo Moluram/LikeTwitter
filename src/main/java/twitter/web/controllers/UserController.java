@@ -3,7 +3,6 @@ package twitter.web.controllers;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -93,16 +92,6 @@ public class UserController {
     return model;
   }
 
-  private List<TweetDto> listOfDto(List<Tweet> userTweets, User user) {
-    List<TweetDto> tweetDtos = new ArrayList<>();
-    for ( Tweet tweet: userTweets) {
-      tweetDtos.add(new TweetDto(tweet, user));
-    }
-    return Lists.reverse(tweetDtos);
-  }
-
-
-  @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
   @RequestMapping(method = POST)
   public String addTweet(@PathVariable String username,
       @ModelAttribute(TWEET_DTO_NAME) @Valid TweetDto tweetDto,
@@ -127,5 +116,13 @@ public class UserController {
       imageService.storeImage(file, sessionUser);
     }
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
+  }
+
+  private List<TweetDto> listOfDto(List<Tweet> userTweets, User user) {
+    List<TweetDto> tweetDtos = new ArrayList<>();
+    for ( Tweet tweet: userTweets) {
+      tweetDtos.add(new TweetDto(tweet, user));
+    }
+    return Lists.reverse(tweetDtos);
   }
 }

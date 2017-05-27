@@ -44,7 +44,7 @@ function validateUsername(id, inputDiv, message) {
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: '/signup/test-username',
+        url: '/settings/test-username',
         data: "username=" + inputDiv.value,
         dataType: 'json',
         async: false,

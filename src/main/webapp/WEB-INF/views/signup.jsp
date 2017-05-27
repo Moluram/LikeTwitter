@@ -33,7 +33,8 @@
                     <div class="row animated fadeInUp">
                         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                             <spring:message code="error.exist" var="errorExist"/>
-                            <form:form id="f" onsubmit="validateSubmit(['username', 'password', 'email', 'confirmPass'], '${errorExist}');" modelAttribute="user" method="POST" enctype="utf8" role="form">
+                            <form:form id="f"
+                                       onsubmit="validateSubmit(['username', 'password', 'email', 'confirmPass'], '${errorExist}');" modelAttribute="user" method="POST" enctype="utf8" role="form">
                                 <span style="color: white; "><h1 align="center"><spring:message code="label.signup"/></h1></span>
                                 <hr class="colorgraph">
                                 <div class="form-group animated fadeInUp delay" id="usernameDiv">
@@ -68,12 +69,13 @@
                                                 tabindex="3"/>
                                 </div>
                                 <div class="form-group animated fadeInUp delay" id="confirmPassDiv">
+                                    <spring:message code="NotEmpty.password" var="notEmptyPassword"/>
                                     <spring:message code="passwords.not.matches" var="notMatchesPassword"/>
                                     <spring:message code="label.user.confirmPass" var="confirmPass"/>
                                     <form:errors cssClass="alert alert-danger" path="matchingPassword" element="div"/>
                                     <form:input path="matchingPassword" type="password" name="confirmPass" id="confirmPassInput"
                                                 class="form-control input-lg" placeholder="${confirmPass}"
-                                                onblur="validatePasswords('confirmPass', 'password', this, '${notMatchesPassword}')"
+                                                onblur="if (validate('confirmPass', this, '${notEmptyPassword}')) validatePasswords('confirmPass', 'password', this, '${notMatchesPassword}')"
                                                 tabindex="4"/>
                                 </div>
 
