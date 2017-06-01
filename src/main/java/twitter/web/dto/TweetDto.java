@@ -14,7 +14,7 @@ import java.util.Date;
 public class TweetDto {
   @NotNull
   @NotEmpty
-  @Length(min = 5, max = 249)
+  @Length(min = 1, max = 249)
   private String text;
   private String ownerUsername;
   private String photoMin;

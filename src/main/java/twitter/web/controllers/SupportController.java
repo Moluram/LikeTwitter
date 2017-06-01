@@ -68,9 +68,9 @@ public class SupportController {
   }
 
   private SimpleMailMessage constructResendVerificationToken(ContactDto contactDto, Locale locale) {
-    String message = contactDto.getName() + messages.getMessage(MessagesConstant.SOMEONE_SEND_A_MESSAGE, null, locale)
+    String message = contactDto.getName() + " " + messages.getMessage(MessagesConstant.SOMEONE_SEND_A_MESSAGE, null, locale) + " "
         + contactDto.getEmail() + "\n\t"
-        + messages.getMessage(MessagesConstant.SOMEONE_SEND_A_MESSAGE_PART_2, null, locale) + contactDto.getText();
+        + messages.getMessage(MessagesConstant.SOMEONE_SEND_A_MESSAGE_PART_2, null, locale) + " " + contactDto.getText();
     SimpleMailMessage email = new SimpleMailMessage();
     email.setSubject(contactDto.getName());
     email.setText(message);
