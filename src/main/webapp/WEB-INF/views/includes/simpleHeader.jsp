@@ -18,11 +18,11 @@
                         <div class="mbr-navbar__column">
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
                                 <li class="mbr-navbar__item">
-                                    <a href="/?lang=ru_RU"><img src='
+                                    <a href="?lang=ru_RU"><img src='
                                         ${pageContext.request.contextPath}/resources/images/russia-flag-16x16.png'/></a>
                                 </li>
                                 <li class="mbr-navbar__item">
-                                    <a href="/?lang=en_EN">
+                                    <a href="?lang=en_EN">
                                         <img src="${pageContext.request.contextPath}/resources/images/united-kingdom-flag-16x16.png"alt="LikeTwitter"></a>
                                 </li>
                                 <li class="mbr-navbar__item">
