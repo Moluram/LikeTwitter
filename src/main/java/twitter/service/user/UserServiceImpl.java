@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import twitter.entity.PasswordResetToken;
 import twitter.entity.User;
 import twitter.entity.UserProfile;
@@ -25,6 +26,7 @@ import java.util.UUID;
  */
 @Service("userService")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+@Transactional
 public class UserServiceImpl implements UserService {
 
   private IUserDAO userDAO;

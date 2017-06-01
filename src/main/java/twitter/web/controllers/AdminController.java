@@ -22,17 +22,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class  AdminController {
 
-    private static final Long LIMIT_USERS_ON_PAGE = 2L;
+    private static final Long LIMIT_USERS_ON_PAGE = 5L;
 
     private UserService userService;
-    private CommentService commentServie;
-    private TweetService tweetService;
 
     @Autowired
-    public AdminController(UserService userService, CommentService commentServie, TweetService tweetService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
-        this.commentServie = commentServie;
-        this.tweetService = tweetService;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)

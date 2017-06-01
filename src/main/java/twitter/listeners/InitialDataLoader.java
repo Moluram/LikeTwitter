@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import twitter.constants.InitialPhotoSettings;
+import twitter.constants.InitialSettings;
 import twitter.constants.RolesAndPrivileges;
 import twitter.dao.IUserProfileDAO;
 import twitter.entity.Privilege;
@@ -89,7 +89,7 @@ public class InitialDataLoader implements
         createRoleIfNotFound(RolesAndPrivileges.ROLE_ADMIN, userPrivileges);
         createRoleIfNotFound(RolesAndPrivileges.ROLE_USER, userPrivileges);
         createAdminIfNotExists();
-        createDefaultImgIfDoesNotExist(InitialPhotoSettings.DEFAULT_IMG_PATH);
+        createDefaultImgIfDoesNotExist(InitialSettings.DEFAULT_IMG_PATH);
         alreadySetup = true;
     }
 
@@ -115,15 +115,15 @@ public class InitialDataLoader implements
 
     @Transactional
     private void createAdminIfNotExists() {
-        User user = userService.getUserByUsername("admin");
+        User user = userService.getUserByUsername(InitialSettings.DEFAULT_ADMIN_USERNAME);
         if (user == null) {
             user = new User();
             UserProfile userProfile = new UserProfile();
             userProfileDAO.create(userProfile);
             user.setUserProfile(userProfile);
-            user.setEmail("liketwidsftter.admdfsdfsdin@gmail.com");
-            user.setPassword(passwordEncoder.encode("admin"));
-            user.setUsername("admin");
+            user.setEmail(InitialSettings.DEFAULT_ADMIN_EMAIL);
+            user.setPassword(passwordEncoder.encode(InitialSettings.DEFAULT_ADMIN_PASSWORD));
+            user.setUsername(InitialSettings.DEFAULT_ADMIN_USERNAME);
             user.setRole(roleService.findByName(RolesAndPrivileges.ROLE_ADMIN));
             userService.addUser(user);
         }
@@ -134,9 +134,9 @@ public class InitialDataLoader implements
         try {
             InputStream input = getClass().getResourceAsStream(pathToFile);
             MultipartFile multipartFile = new MockMultipartFile("mock", IOUtils.toByteArray(input));
-            imageService.storeOriginalImage(multipartFile, InitialPhotoSettings.DEFAULT_IMG_NAME);
-            imageService.storeResizedImage(multipartFile, InitialPhotoSettings.DEFAULT_MINI_IMG_NAME
-                    , InitialPhotoSettings.MINI_IMG_WIDTH, InitialPhotoSettings.MINI_IMG_HEIGHT);
+            imageService.storeOriginalImage(multipartFile, InitialSettings.DEFAULT_IMG_NAME);
+            imageService.storeResizedImage(multipartFile, InitialSettings.DEFAULT_MINI_IMG_NAME
+                    , InitialSettings.MINI_IMG_WIDTH, InitialSettings.MINI_IMG_HEIGHT);
         } catch (StorageException e) {
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Default image not found for path:" + pathToFile, e);
