@@ -121,4 +121,6 @@
 <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-filestyle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/typeahead.js"></script>
 </body>
+
+<c:import url="includes/footer.jsp"/>
 </html>

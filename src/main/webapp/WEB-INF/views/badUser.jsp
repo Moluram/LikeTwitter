@@ -23,7 +23,6 @@
 <c:import url="includes/simpleHeader.jsp"/>
 <section class="mbr-section mbr-section--relative mbr-section--fixed-size mbr-parallax-background mbr-after-navbar" id="form1-9" >
     <div class="container text-white">
-        <!-- Introduction Row -->
         <div class="row ">
             <div class="col-lg-12">
                 <h1 class="page-header"><spring:message code="label.error.page"/></h1>
@@ -43,4 +42,5 @@
 
 
 </body>
+
 </html>

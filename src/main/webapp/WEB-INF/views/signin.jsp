@@ -55,15 +55,19 @@
                                 </div>
                                 <hr class="colorgraph">
                                 <div class="row mbr-buttons btn-inverse mbr-buttons--left">
-                                    <div class="col-xs-4 col-md-4"><a href="<c:url value="/signup"/>"
-                                                                      class="btn btn-default btn-md animated fadeInUp delay"
-                                                                      tabindex="6"><spring:message code="button.signup"/> </a></div>
-                                    <div class="col-xs-4 col-md-4"><a href="<c:url value="/settings/reset-password"/>"
-                                                                      class="btn btn-default btn-md animated fadeInUp delay"
-                                                                      tabindex="6"><spring:message code="button.forgotPassword"/> </a></div>
-                                    <div class="col-xs-4 col-md-4"><input type="submit" value="<spring:message code="button.signin"/>"
-                                                                          class="btn btn-success btn-block btn-md animated fadeInUp delay"
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-6"><a href="<c:url value="/signup"/>"
+                                                                          class="btn btn-default btn-md animated fadeInUp delay"
+                                                                          tabindex="4"><spring:message code="button.signup"/> </a></div>
+                                        <div class="col-xs-6 col-md-6"><input type="submit" value="<spring:message code="button.signin"/>"
+                                                                              class="btn btn-success pull-right btn-md animated fadeInUp delay"
                                                                           tabindex="5"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4 col-md-4"><a href="<c:url value="/settings/reset-password"/>"
+                                                                          class="btn btn-default btn-md animated fadeInUp delay"
+                                                                          tabindex="6"><spring:message code="button.forgotPassword"/> </a></div>
+                                    </div>
                                 </div>
                             </form>
                         </div>

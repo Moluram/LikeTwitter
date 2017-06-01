@@ -103,4 +103,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/typeahead.js"></script>
 
 </body>
+
+<c:import url="includes/footer.jsp"/>
 </html>

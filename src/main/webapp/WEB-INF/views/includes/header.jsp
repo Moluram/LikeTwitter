@@ -25,7 +25,7 @@
                                     <li class="mbr-navbar__item input-group typeahead">
                                         <form method="post" action="/search">
                                                 <input type="search" id="search_username" name="search_username"
-                                                       placeholder="Search for user"
+                                                       placeholder="<spring:message code="navbar.button.search"/>"
                                                        autocomplete="off"
                                                        class="input-sm">
                                                 <button type="submit" class="glyphicon hidden glyphicon-search"></button>
@@ -61,13 +61,13 @@
                                             href="<c:url value="/contact"/>"><spring:message
                                             code="navbar.button.contact"/></a></li>
                                     <c:if test="${!isEnabled}">
-                                    <li class="mbr-navbar__item"><a
-                                        class="mbr-buttons__link btn btn-warning" id="resendEmail"
-                                        onclick="resendEmail('<spring:message code="navbar.text.resendEmail"/>')">
-                                        <spring:message code="navbar.email.resendEmail"/></a></li>
+                                        <li class="mbr-navbar__item"><a
+                                            class="mbr-buttons__link btn btn-warning" id="resendEmail"
+                                            onclick="resendEmail('<spring:message code="navbar.text.resendEmail"/>')">
+                                            <spring:message code="navbar.email.resendEmail"/></a></li>
                                     </c:if>
                                     <li class="mbr-navbar__item"><a
-                                            class="mbr-buttons__link btn btn-default text-white"
+                                            class="mbr-buttons__link btn text-white"
                                             href="<c:url value="/logout"/>"><spring:message
                                             code="navbar.button.logout"/></a></li>
                                 </ul>

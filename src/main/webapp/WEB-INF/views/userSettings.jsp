@@ -130,4 +130,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/validations.js"></script>
 
 </body>
+
+<c:import url="includes/footer.jsp"/>
 </html>
