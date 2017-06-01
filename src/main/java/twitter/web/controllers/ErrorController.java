@@ -1,32 +1,45 @@
 package twitter.web.controllers;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import twitter.entity.User;
+import twitter.web.constants.AttributeNamesConstants;
+import twitter.web.constants.PageNamesConstants;
+import twitter.web.constants.URLConstants;
+import twitter.web.constants.WebConstants;
 
 /**
- * Created by Moluram on 3/29/2017.
+ * Represent an error page
+ *
+ * @author Aliaksei Chorny
  */
 @Controller
 public class ErrorController {
-  @RequestMapping(value = "/emailError", method = RequestMethod.GET)
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.EMAIL_ERROR, method = RequestMethod.GET)
   public String emailError() {
-    return "emailError";
+    return PageNamesConstants.EMAIL_ERROR_PAGE_NAME;
   }
 
-  @RequestMapping(value = "/404", method = RequestMethod.GET)
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.NOT_FOUND, method = RequestMethod.GET)
   public String notFound() {
-    return "errors/404error";
+    return PageNamesConstants.NOT_FOUND;
   }
 
-  @RequestMapping(value = "/accessDenied")
-  public String accessDenied(WebRequest request) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    return "redirect:/" + auth.getName() + "?lang=" + request.getLocale().getCountry();
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.ACCESS_DENIED)
+  public String accessDenied(@SessionAttribute(AttributeNamesConstants.USER_ATTRIBUTE_NAME) User user) {
+    return WebConstants.REDIRECT + user.getUsername();
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.BAD_USER,method = RequestMethod.GET)
+  public String badUser() {
+    return PageNamesConstants.BAD_USER;
+  }
+
+  @RequestMapping(value = WebConstants.SLASH + URLConstants.LOCKED_USER,method = RequestMethod.GET)
+  public String lockedUser() {
+    return PageNamesConstants.LOCKED_USER;
   }
 }
 

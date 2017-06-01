@@ -5,15 +5,11 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import twitter.beans.Comment;
-import twitter.beans.Role;
-import twitter.beans.User;
-import twitter.beans.UserProfile;
-import twitter.dao.ICommentDAO;
+import twitter.entity.Comment;
+import twitter.entity.User;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
-import twitter.dao.exception.DAOException;
 import twitter.dao.utils.DateUtils;
 
 /**

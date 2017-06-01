@@ -1,9 +1,7 @@
 package twitter.service;
 
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,13 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import twitter.beans.Privilege;
-import twitter.beans.Role;
-import twitter.beans.User;
-import twitter.service.role.RoleService;
+import twitter.entity.Privilege;
+import twitter.entity.Role;
+import twitter.entity.User;
 import twitter.service.user.UserService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,7 +45,7 @@ public class MyUserDetailsService implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(
               user.getUsername(), user.getPassword(), true,
               true, true,
-              true, getAuthorities(Arrays.asList(user.getRole())));
+              !user.getBaned(), getAuthorities(Arrays.asList(user.getRole())));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

@@ -1,6 +1,6 @@
 package twitter.dao;
 
-import twitter.beans.UserProfile;
+import twitter.entity.UserProfile;
 
 /**
  * Created by Nikolay on 16.04.2017.

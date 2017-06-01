@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import twitter.beans.Privilege;
+import twitter.entity.Privilege;
 import twitter.dao.IPrivilegeDAO;
 
 import java.util.List;

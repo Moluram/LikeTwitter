@@ -8,22 +8,26 @@ import org.springframework.stereotype.Component;
 import twitter.service.login.LoginAttemptService;
 
 /**
- * Created by berthold on 29.03.2017.
+ * Establishes that login failed
+ *
+ * @author berthold
  */
 @Component
 public class AuthenticationFailureListener
     implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
+  private final LoginAttemptService loginAttemptService;
+
   @Autowired
-  private LoginAttemptService loginAttemptService;
+  public AuthenticationFailureListener(LoginAttemptService loginAttemptService) {
+    this.loginAttemptService = loginAttemptService;
+  }
 
   @Override
   public void onApplicationEvent(
       AuthenticationFailureBadCredentialsEvent event) {
     WebAuthenticationDetails auth = (WebAuthenticationDetails)
         event.getAuthentication().getDetails();
-
     loginAttemptService.loginFailed(auth.getRemoteAddress());
-
   }
 }

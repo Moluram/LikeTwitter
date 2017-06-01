@@ -5,9 +5,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import twitter.beans.PasswordResetToken;
-import twitter.beans.User;
-import twitter.beans.VerificationToken;
+import twitter.entity.PasswordResetToken;
+import twitter.entity.User;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
@@ -31,10 +30,10 @@ public class PasswordResetRowMapper extends EntityRowMapper<PasswordResetToken> 
     PasswordResetToken passwordResetToken = new PasswordResetToken();
     Long id = resultSet.getLong(EntityColumn.COLUMN_ID);
     passwordResetToken.setId(id);
-    passwordResetToken.setToken(resultSet.getString(EntityColumn.COLUMN_USERNAME));
+    passwordResetToken.setToken(resultSet.getString(EntityColumn.COLUMN_PASSWORD_RESET_TOKEN));
     Date expireDate = null;
     try {
-      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_PASSWORD));
+      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_EXPIRE_DATE));
     } catch (ParseException e) {
       throw new SQLException("Can't parse expire date!");
     }

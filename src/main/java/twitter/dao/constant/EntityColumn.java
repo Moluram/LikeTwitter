@@ -12,6 +12,7 @@ public class EntityColumn {
   public static final String COLUMN_EMAIL = "email";
   public static final String COLUMN_ENABLED = "enabled";
   public static final String COLUMN_TOKEN_EXPIRED = "token_expired";
+  public static final String COLUMN_IS_BANED="is_baned";
 
   public static final String COLUMN_FIRST_NAME="first_name";
   public static final String COLUMN_LAST_NAME="last_name";
@@ -31,5 +32,8 @@ public class EntityColumn {
   public static final String COLUMN_OWNER_USERNAME="owner_username";
 
   public static final String COLUMN_OWNER_TWEET_ID="owner_tweet_id";
+
+  public static final String COLUMN_SUBSCRIBES="subscribes";
+  public static final String COLUMN_USERNAMES_OF_WHO_LIKES="username_who_likes";
 
 }

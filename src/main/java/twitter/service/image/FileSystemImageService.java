@@ -1,21 +1,16 @@
 package twitter.service.image;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import twitter.beans.UserProfile;
-import twitter.service.storage.FileNamingService;
+import twitter.entity.User;
+import twitter.entity.UserProfile;
 import twitter.service.storage.StorageService;
 import twitter.service.userprofile.UserProfileService;
-
-import static twitter.constants.InitialPhotoSettings.MINI_IMG_HEIGHT;
-import static twitter.constants.InitialPhotoSettings.MINI_IMG_WIDTH;
 
 /**
  * Created by Nikolay on 24.04.2017.
@@ -24,24 +19,25 @@ import static twitter.constants.InitialPhotoSettings.MINI_IMG_WIDTH;
 public class FileSystemImageService implements ImageService {
 
   private final StorageService storageService;
-  private final FileNamingService fileNamingService;
+  private final ImageNamingService imageNamingService;
   private final UserProfileService userProfileService;
 
 
   @Autowired
   public FileSystemImageService(StorageService storageService,
-      FileNamingService fileNamingService, UserProfileService userProfileService) {
+                                ImageNamingService imageNamingService, UserProfileService userProfileService) {
     this.storageService = storageService;
-    this.fileNamingService = fileNamingService;
+    this.imageNamingService = imageNamingService;
     this.userProfileService = userProfileService;
   }
 
   @Override
-  public void storeImage(MultipartFile file,UserProfile userProfile){
+  public void storeImage(MultipartFile file,User user){
+    UserProfile userProfile=user.getUserProfile();
     String originalName = file.getOriginalFilename();
-    String newNameOriginal=fileNamingService.generateNewFileName(originalName);
+    String newNameOriginal= imageNamingService.generateNewFileName(originalName,user.getUsername());
     userProfile.setPhotoUrl(newNameOriginal);
-    String newNameMini=fileNamingService.generateNewFileName(originalName);
+    String newNameMini= imageNamingService.generateNewFileNameForMini(originalName,user.getUsername());
     userProfile.setMiniPhoto(newNameMini);
     storeOriginalImage(file,newNameOriginal);
     storeOriginalImage(file,newNameMini);

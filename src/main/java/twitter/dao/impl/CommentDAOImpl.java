@@ -1,15 +1,14 @@
 package twitter.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import twitter.beans.Comment;
+import org.springframework.stereotype.Repository;
+import twitter.entity.Comment;
 import twitter.dao.ICommentDAO;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;
@@ -21,7 +20,7 @@ import twitter.dao.utils.DateUtils;
 /**
  * Created by Nikolay on 27.04.2017.
  */
-@Component
+@Repository
 public class CommentDAOImpl extends AbstractGenericDAOImpl<Comment> implements ICommentDAO {
 
   private IUserDAO userDAO;
@@ -36,7 +35,7 @@ public class CommentDAOImpl extends AbstractGenericDAOImpl<Comment> implements I
 
   protected void initialize() {
     setObjectType(EntityType.TYPE_COMMENT);
-    setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
+    setColumnIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new CommentRowMapper(userDAO, dateUtils));
     super.initialize();
   }

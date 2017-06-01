@@ -5,14 +5,13 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import twitter.beans.*;
+import org.springframework.transaction.annotation.Transactional;
+import twitter.entity.PasswordResetToken;
+import twitter.entity.User;
+import twitter.entity.UserProfile;
+import twitter.entity.VerificationToken;
 import twitter.constants.RolesAndPrivileges;
-import twitter.dao.IUserProfileDAO;
-import twitter.dao.IPasswordResetDAO;
-import twitter.dao.IRoleDAO;
-import twitter.dao.IUserDAO;
-import twitter.dao.IVerificationTokenDAO;
+import twitter.dao.*;
 import twitter.service.image.ImageService;
 import twitter.web.dto.SignUpDto;
 import twitter.web.exceptions.EmailExistsException;
@@ -27,6 +26,7 @@ import java.util.UUID;
  */
 @Service("userService")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+@Transactional
 public class UserServiceImpl implements UserService {
 
   private IUserDAO userDAO;
@@ -99,24 +99,32 @@ public class UserServiceImpl implements UserService {
     List<User> users = userDAO.getAll();
     int counter = 0;
     for (User user: users) {
-      if (user.getUsername().startsWith(username)) {
+      if (user.getUsername().toLowerCase().startsWith(username.toLowerCase())) {
         list.add(user.getUsername());
+        counter++;
       }
       if (counter >= maxSuggestions) {
         break;
       }
-      counter++;
     }
     return list;
   }
 
   @Override
-  public List<String> getUsernames() {
-    List<String> users = new ArrayList<>();
-    for (User user : userDAO.getAll()) {
-      users.add(user.getUsername());
+  public List<String> getUsernamesContains(String username, Integer maxSuggestions) {
+    List<String> list = new ArrayList<>();
+    List<User> users = userDAO.getAll();
+    int counter = 0;
+    for (User user: users) {
+      if (user.getUsername().contains(username)) {
+        list.add(user.getUsername());
+        counter++;
+      }
+      if (counter >= maxSuggestions) {
+        break;
+      }
     }
-    return users;
+    return list;
   }
 
   public void removeUser(Long id) {
@@ -125,6 +133,11 @@ public class UserServiceImpl implements UserService {
 
   public List<User> listUser() {
     return userDAO.getAll();
+  }
+
+  @Override
+  public List<User> listUser(Long limit, Long offset) {
+    return userDAO.getAll(limit,offset);
   }
 
   @Override
@@ -169,10 +182,10 @@ public class UserServiceImpl implements UserService {
   public VerificationToken generateNewVerificationToken(String existingToken) {
     VerificationToken token = verificationTokenDAO.findByTokenName(existingToken);
     if (token == null) {
-      return token;
+      return null;
     }
     token.setToken(UUID.randomUUID().toString());
-    return token; // null if not found pls
+    return token;
   }
 
   @Override
@@ -188,7 +201,29 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void changeUserPassword(User user, String password) {
-    user.setPassword(password);
+    user.setPassword(passwordEncoder.encode(password));
+    userDAO.update(user);
+  }
+
+  @Override
+  public Long count() {
+    return userDAO.count();
+  }
+
+  @Override
+  public Long count(String attr, String value) {
+    return userDAO.count(attr,value);
+  }
+
+  @Override
+  public User getById(Long id) {
+    return userDAO.read(id);
+  }
+
+  @Override
+  public void updateUserBan(Long id,Boolean newValue) {
+    User user=userDAO.read(id);
+    user.setBaned(newValue);
     userDAO.update(user);
   }
 }

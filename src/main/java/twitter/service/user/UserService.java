@@ -4,13 +4,13 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import twitter.beans.User;
-import twitter.beans.VerificationToken;
+import twitter.entity.User;
+import twitter.entity.VerificationToken;
 import twitter.web.dto.SignUpDto;
-
-import java.util.List;
 import twitter.web.exceptions.EmailExistsException;
 import twitter.web.exceptions.UsernameExistsException;
+
+import java.util.List;
 
 /**
  * Represents an interface to work with users in app
@@ -30,6 +30,9 @@ public interface UserService {
    * @return List<User> - list of User's
    */
   List<User> listUser();
+
+
+  List<User> listUser(Long limit, Long offset);
 
   /**
    * Removes user from app
@@ -63,5 +66,13 @@ public interface UserService {
 
   List<String> getUsernamesStartsWith(String username, Integer maxSuggestions);
 
-  List<String> getUsernames();
+  List<String> getUsernamesContains(String username, Integer maxSuggestions);
+
+  Long count();
+
+  Long count(String attr,String value);
+
+  User getById(Long id);
+
+  void updateUserBan(Long id,Boolean newValue);
 }

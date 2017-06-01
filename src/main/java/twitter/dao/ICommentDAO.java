@@ -1,7 +1,7 @@
 package twitter.dao;
 
 import java.util.List;
-import twitter.beans.Comment;
+import twitter.entity.Comment;
 
 /**
  * Created by Nikolay on 27.04.2017.

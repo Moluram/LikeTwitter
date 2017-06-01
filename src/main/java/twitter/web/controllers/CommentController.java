@@ -1,21 +1,22 @@
 package twitter.web.controllers;
 
+import org.aspectj.lang.annotation.Pointcut;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import twitter.beans.Comment;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
+import twitter.entity.Comment;
+import twitter.entity.User;
 import twitter.service.comment.CommentService;
 import twitter.web.dto.CommentDto;
 
-import javax.json.JsonValue;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by Nikolay on 01.05.2017.
+ * Serve for working with comments
+ *
+ * @author Nikolay
  */
 @Controller
 @RequestMapping("/comments")
@@ -28,8 +29,11 @@ public class CommentController {
     this.commentService = commentService;
   }
 
+  @Pointcut(value = "execution(* twitter.web.controllers.CommentController.addComment(..))" +
+          "&& args(request, commentDto)", argNames = "request,commentDto")
   @PostMapping
-  public @ResponseBody CommentDto addComment(@RequestBody CommentDto commentDto){
+  public @ResponseBody CommentDto addComment(HttpServletRequest request,
+                                             @RequestBody CommentDto commentDto){
     commentService.addComment(commentDto);
     return commentDto;
   }
@@ -37,5 +41,15 @@ public class CommentController {
   @GetMapping
   public @ResponseBody String loadCommentsForTweet(@RequestParam Long tweetId){
     return commentService.getCommentsByTweetId(tweetId).toString();
+  }
+
+  @PostMapping("/{commentId}/delete")
+  public @ResponseBody Boolean deleteComment(@PathVariable Long commentId, @SessionAttribute("user") User sessionUser){
+    Comment comment=commentService.getById(commentId);
+    if(comment.getUser().equals(sessionUser)){
+      commentService.removeComment(commentId);
+      return true;
+    }
+    return false;
   }
 }

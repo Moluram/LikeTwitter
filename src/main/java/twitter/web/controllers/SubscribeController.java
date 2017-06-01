@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
-import twitter.beans.Subscribe;
-import twitter.beans.User;
+import twitter.entity.Subscribe;
+import twitter.entity.User;
 import twitter.service.subscribe.SubscribeService;
 import twitter.service.user.UserService;
 import twitter.web.dto.UserDto;
@@ -50,7 +50,7 @@ public class SubscribeController {
     } else {
       subscribe.addSubscribe(username);
     }
-    //TODO: save in the database
+    subscribeService.saveSubscribe(subscribe);
     return answer;
   }
 

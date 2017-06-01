@@ -2,9 +2,8 @@ package twitter.service.comment;
 
 import java.util.List;
 import javax.json.JsonArray;
-import javax.json.JsonObject;
-import twitter.beans.Comment;
-import twitter.beans.Role;
+
+import twitter.entity.Comment;
 import twitter.web.dto.CommentDto;
 
 /**

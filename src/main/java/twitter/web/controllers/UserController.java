@@ -1,66 +1,46 @@
 package twitter.web.controllers;
 
 import com.google.common.collect.Lists;
-import javax.json.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.core.env.Environment;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import twitter.beans.Subscribe;
-import twitter.beans.Tweet;
-import twitter.beans.User;
-import twitter.service.comment.CommentService;
+import twitter.entity.Tweet;
+import twitter.entity.User;
 import twitter.service.image.ImageService;
-import twitter.service.storage.FileNamingService;
-import twitter.service.storage.StorageService;
 import twitter.service.subscribe.SubscribeService;
 import twitter.service.tweet.TweetService;
 import twitter.service.user.UserService;
+import twitter.web.constants.AttributeNamesConstants;
+import twitter.web.dto.ProfileDto;
 import twitter.web.dto.TweetDto;
 import twitter.web.dto.UserDto;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
- * Created by Moluram on 3/28/2017.
+ * Controller is used to control user flow
+ *
+ * @author moluram
  */
 @Controller
 @RequestMapping("/{username}")
-
 public class UserController {
-
   private static final String TWEET_DTO_NAME = "tweet";
-  private UserService userService;
-  private MessageSource messages;
-  private Environment env;
 
+  private UserService userService;
   private TweetService tweet_service;
   private ImageService imageService;
   private SubscribeService subscribeService;
-  private CommentService commentService;
-
-  @Autowired
-  public void setCommentService(CommentService commentService) {
-    this.commentService = commentService;
-  }
 
   @Autowired
   public void setSubscribeService(SubscribeService subscribeService) {
@@ -83,17 +63,12 @@ public class UserController {
     this.userService = userService;
   }
 
-  @Autowired
-  public void setMessages(MessageSource messages) {
-    this.messages = messages;
-  }
-
   @RequestMapping(method = RequestMethod.GET)
   public ModelAndView getHomepage(@PathVariable String username, ModelAndView model,
       HttpSession session) {
     User user = userService.getUserByUsername(username);
     if (user == null) {
-      model.setViewName("errors/404error");
+      model.setViewName("404error");
       return model;
     }
     model.addObject("owner" , new UserDto(user));
@@ -110,22 +85,13 @@ public class UserController {
       model.addObject("isSubscribes", isSubscribes);
     }
 
-    model.addObject("isEnabled", sessionUser.isEnabled());
+    session.setAttribute(AttributeNamesConstants.IS_ENABLED, sessionUser.isEnabled());
+    model.addObject("profile", new ProfileDto(user.getUserProfile()));
     model.addObject("tweets", listOfDto(tweet_service.getUserTweets(username), user));
     model.setViewName("homepage");
     return model;
   }
 
-  private List<TweetDto> listOfDto(List<Tweet> userTweets, User user) {
-    List<TweetDto> tweetDtos = new ArrayList<>();
-    for ( Tweet tweet: userTweets) {
-      tweetDtos.add(new TweetDto(tweet, user));
-    }
-    return Lists.reverse(tweetDtos);
-  }
-
-
-  @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
   @RequestMapping(method = POST)
   public String addTweet(@PathVariable String username,
       @ModelAttribute(TWEET_DTO_NAME) @Valid TweetDto tweetDto,
@@ -147,8 +113,16 @@ public class UserController {
   public String uploadFile(@RequestParam("file") MultipartFile file, WebRequest request,
       @SessionAttribute("user") User sessionUser) {
     if (file.getSize() != 0) {
-      imageService.storeImage(file, sessionUser.getUserProfile());
+      imageService.storeImage(file, sessionUser);
     }
     return "redirect:/" + sessionUser.getUsername() + "?lang=" + request.getLocale().getCountry();
+  }
+
+  private List<TweetDto> listOfDto(List<Tweet> userTweets, User user) {
+    List<TweetDto> tweetDtos = new ArrayList<>();
+    for ( Tweet tweet: userTweets) {
+      tweetDtos.add(new TweetDto(tweet, user));
+    }
+    return Lists.reverse(tweetDtos);
   }
 }

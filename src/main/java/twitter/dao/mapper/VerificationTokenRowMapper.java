@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import twitter.beans.Role;
-import twitter.beans.User;
-import twitter.beans.VerificationToken;
+
+import twitter.entity.User;
+import twitter.entity.VerificationToken;
 import twitter.dao.IUserDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
@@ -31,10 +31,10 @@ public class VerificationTokenRowMapper extends EntityRowMapper<VerificationToke
     VerificationToken verificationToken = new VerificationToken();
     Long id = resultSet.getLong(EntityColumn.COLUMN_ID);
     verificationToken.setId(id);
-    verificationToken.setToken(resultSet.getString(EntityColumn.COLUMN_USERNAME));
+    verificationToken.setToken(resultSet.getString(EntityColumn.COLUMN_VERIFICATION_TOKEN));
     Date expireDate = null;
     try {
-      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_PASSWORD));
+      expireDate = dateUtils.strToDate(resultSet.getString(EntityColumn.COLUMN_EXPIRE_DATE));
     } catch (ParseException e) {
       throw new SQLException("Can't parse expire date!");
     }

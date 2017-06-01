@@ -2,8 +2,8 @@ package twitter.web.dto;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import twitter.beans.Tweet;
-import twitter.beans.User;
+import twitter.entity.Tweet;
+import twitter.entity.User;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Date;
 public class TweetDto {
   @NotNull
   @NotEmpty
-  @Length(min = 5, max = 249)
+  @Length(min = 1, max = 249)
   private String text;
   private String ownerUsername;
   private String photoMin;

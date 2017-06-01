@@ -1,17 +1,12 @@
 package twitter.service.userprofile;
 
+import twitter.entity.UserProfile;
+
 import java.util.List;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
-import twitter.beans.Role;
-import twitter.beans.UserProfile;
 
 /**
  * Created by Nikolay on 26.04.2017.
  */
-@Service
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public interface UserProfileService {
 
   void addUserProfile(UserProfile userProfile);

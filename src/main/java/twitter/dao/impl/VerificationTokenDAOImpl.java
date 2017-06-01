@@ -3,16 +3,13 @@ package twitter.dao.impl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import twitter.beans.PasswordResetToken;
-import twitter.beans.Role;
-import twitter.beans.User;
-import twitter.beans.VerificationToken;
+import org.springframework.stereotype.Repository;
+import twitter.entity.User;
+import twitter.entity.VerificationToken;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
 import twitter.dao.mapper.VerificationTokenRowMapper;
@@ -25,7 +22,7 @@ import twitter.dao.exception.DAOException;
 /**
  * Created by Nikolay on 08.04.2017.
  */
-@Component
+@Repository
 public class VerificationTokenDAOImpl extends AbstractGenericDAOImpl<VerificationToken> implements
     IVerificationTokenDAO {
 
@@ -41,8 +38,8 @@ public class VerificationTokenDAOImpl extends AbstractGenericDAOImpl<Verificatio
 
   @PostConstruct
   protected void initialize() {
-    setObjectType(EntityType.TYPE_ROLE);
-    setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
+    setObjectType(EntityType.TYPE_VERIFICATION_TOKEN);
+    setColumnIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new VerificationTokenRowMapper(userDAO, dateUtils));
     super.initialize();
   }

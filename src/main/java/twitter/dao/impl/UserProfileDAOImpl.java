@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import org.springframework.stereotype.Component;
-import twitter.beans.UserProfile;
+
+import org.springframework.stereotype.Repository;
+import twitter.entity.UserProfile;
 import twitter.dao.IUserProfileDAO;
 import twitter.dao.constant.EntityColumn;
 import twitter.dao.constant.EntityType;
@@ -15,7 +16,7 @@ import twitter.dao.query.SqlQuery;
 /**
  * Created by Nikolay on 16.04.2017.
  */
-@Component
+@Repository
 public class UserProfileDAOImpl extends AbstractGenericDAOImpl<UserProfile> implements
     IUserProfileDAO {
 
@@ -26,7 +27,7 @@ public class UserProfileDAOImpl extends AbstractGenericDAOImpl<UserProfile> impl
   @PostConstruct
   protected void initialize() {
     setObjectType(EntityType.TYPE_USER_PROFILE);
-    setColumIdNames(new String[]{EntityColumn.COLUMN_ID});
+    setColumnIdNames(new String[]{EntityColumn.COLUMN_ID});
     setRowMapper(new UserProfileRowMapper());
     super.initialize();
   }

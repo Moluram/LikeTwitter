@@ -3,7 +3,6 @@ package twitter.configuration;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -24,11 +23,13 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @ComponentScan(basePackages = "twitter.web")
 @PropertySource("classpath:mail.properties")
 @Import({SecurityConf.class, DatabaseConf.class})
@@ -98,11 +99,23 @@ public class WebConf extends WebMvcConfigurerAdapter {
     return messageSource;
   }
 
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(localeChangeInterceptor());
+  }
+
+  @Bean
+  public LocaleChangeInterceptor localeChangeInterceptor(){
+    LocaleChangeInterceptor localeChangeInterceptor=new LocaleChangeInterceptor();
+    localeChangeInterceptor.setParamName("lang");
+    return localeChangeInterceptor;
+  }
+
   @Bean
   public LocaleResolver localeResolver() {
     CookieLocaleResolver resolver = new CookieLocaleResolver();
-    resolver.setDefaultLocale(new Locale("en"));
-    resolver.setCookieName("myLocaleCookie");
+    resolver.setDefaultLocale(new Locale("ru", "RU"));
+    resolver.setCookieName("localeCookie");
     resolver.setCookieMaxAge(4800);
     return resolver;
   }
@@ -112,13 +125,6 @@ public class WebConf extends WebMvcConfigurerAdapter {
     CommonsMultipartResolver resolver = new CommonsMultipartResolver();
     resolver.setDefaultEncoding("utf-8");
     return resolver;
-  }
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-    interceptor.setParamName("mylocale");
-    registry.addInterceptor(interceptor);
   }
 
   /**

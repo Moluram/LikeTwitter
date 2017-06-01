@@ -1,12 +1,14 @@
 package twitter.web.events;
 
 import org.springframework.context.ApplicationEvent;
-import twitter.beans.User;
+import twitter.entity.User;
 
 import java.util.Locale;
 
 /**
- * Created by moluram on 25.3.17.
+ * Event serve for notification registration listeners
+ *
+ * @author moluram
  */
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
   private User user;
@@ -16,7 +18,6 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
   public OnRegistrationCompleteEvent(User user, Locale locale,
                                      String appUrl) {
     super(user);
-
     this.user = user;
     this.locale = locale;
     this.appUrl = appUrl;
