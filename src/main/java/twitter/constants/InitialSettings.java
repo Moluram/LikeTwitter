@@ -5,7 +5,7 @@ package twitter.constants;
  */
 public class InitialSettings {
     public static final String DEFAULT_ADMIN_USERNAME = "Admin";
-    public static final String DEFAULT_ADMIN_PASSWORD = "Admin";
+    public static final String DEFAULT_ADMIN_PASSWORD = "QWRtaW4=";
     public static final String DEFAULT_ADMIN_EMAIL = "admin@gmail.com";
 
     public static final String DEFAULT_IMG_PATH = "/initialdata/img/default.png";

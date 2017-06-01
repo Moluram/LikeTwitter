@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -122,7 +123,11 @@ public class InitialDataLoader implements
             userProfileDAO.create(userProfile);
             user.setUserProfile(userProfile);
             user.setEmail(InitialSettings.DEFAULT_ADMIN_EMAIL);
-            user.setPassword(passwordEncoder.encode(InitialSettings.DEFAULT_ADMIN_PASSWORD));
+
+            Base64.Decoder passwordDecoder = Base64.getDecoder();
+            String password = new String(passwordDecoder.decode(InitialSettings.DEFAULT_ADMIN_PASSWORD));
+
+            user.setPassword(passwordEncoder.encode(password));
             user.setUsername(InitialSettings.DEFAULT_ADMIN_USERNAME);
             user.setRole(roleService.findByName(RolesAndPrivileges.ROLE_ADMIN));
             userService.addUser(user);
