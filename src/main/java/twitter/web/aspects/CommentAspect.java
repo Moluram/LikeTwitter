@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import twitter.entity.User;
 import twitter.service.tweet.TweetService;
@@ -63,7 +62,6 @@ public class CommentAspect {
    * @param request - request in which comment was added
    * @param commentDto - added comment
    */
-  @Async
   @After(value = "twitter.web.controllers.CommentController.addComment(request, commentDto)",
       argNames = "request,commentDto")
   public void sendMessage(HttpServletRequest request, CommentDto commentDto) {
